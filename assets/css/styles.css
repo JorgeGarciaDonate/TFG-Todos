@@ -1,0 +1,120 @@
+/* styles.css */
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+header {
+    background-color: #fff;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.logo img {
+    max-height: 50px; /* Ajustar según el tamaño del logo */
+}
+
+.profile-button button {
+    background-color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Para Montserrat ExtraBold */
+h1, h2, h3 {
+    font-weight: 800;
+    color: #d370d3;
+}
+
+/* Para Montserrat Regular */
+p, li {
+    font-weight: 400;
+}
+
+.container {
+    display: flex;
+    margin: 20px;
+}
+
+.filters {
+    width: 200px;
+    margin-right: 20px; /* Espacio entre los filtros y el contenido */
+}
+
+.search {
+    flex: 1; /* El contenido ocupa todo el espacio restante */
+}
+
+.search-input input {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.map {
+    height: 300px; /* Ajustar según el tamaño deseado */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+footer {
+    background-color: #d370d3;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+footer ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+footer ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+footer ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+
+.view-toggle {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.view-toggle button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #d370d3;
+    color: #fff;
+    cursor: pointer;
+}
+
+  /* Estilo para ocultar el menú desplegable por defecto */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Estilo para el botón de perfil */
+.profile-button {
+    position: relative;
+    display: inline-block;
+}
