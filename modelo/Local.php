@@ -210,6 +210,32 @@ class Local
         }
     }
 
+    //Metodo para obtener el nombre, latitud y longitud de los locales
+    public function coordenadasLocales(){
+        $consulta = "SELECT l.nombre_local, u.latitud, u.longitud 
+                    FROM locales as l 
+                    INNER JOIN ubicaciones as u ON l.ubicacion_id = u.ubicacion_id ORDER BY l.nombre_local";
+        if($this->_db->query($consulta)){
+            // Array para almacenar las coordenadas de los locales
+            $locales = [];
+            foreach ($this->_db->results() as $local) {
+                $nombre_local=$local->nombre_local;
+                $latitud=$local->latitud;
+                $longitud=$local->longitud;
+                
+                $locales[] = array(
+                    'ubicacion'=>[
+                        'latitud' => $latitud,
+                        'longitud' => $longitud
+                    ],
+                    'nombre_local' => $nombre_local
+                );
+            }
+            return $locales;
+        }
+        
+    }
+
 
 
     // Método para obtener una lista de locales con opciones de filtrado y ordenación

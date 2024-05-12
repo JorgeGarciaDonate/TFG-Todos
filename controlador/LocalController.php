@@ -7,6 +7,12 @@ require_once(__DIR__ . '/../modelo/Local.php');
     $listLocales=(new Local())->allLocales();
     return $listLocales;
  }
+
+ public function coordLocales(){
+   $coordLocales=(new Local())->coordenadasLocales();
+   return $coordLocales;
+ }
+ 
 }
 if (isset($_POST['list-view'])) {
    $controller = new LocalController();

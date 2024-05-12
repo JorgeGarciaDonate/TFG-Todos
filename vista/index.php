@@ -3,7 +3,9 @@ define("DS", DIRECTORY_SEPARATOR);
 define("ROOT", dirname(__DIR__) . DS);
 require_once (ROOT . DS . "core" . DS . "init.php");
 $LocalController = new LocalController();
-/* $locales = $LocalController->allLocales(); */
+/*$locales = $LocalController->allLocales(); */
+$locales= $LocalController->coordLocales();
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -18,6 +20,7 @@ $LocalController = new LocalController();
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+
 
     <!-- Agrega el script de Leaflet Control Geocoder -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
@@ -52,7 +55,7 @@ $LocalController = new LocalController();
     </header>
 
     <style>
-
+      
     </style>
 
     <script>
@@ -189,117 +192,118 @@ $LocalController = new LocalController();
 
             <div class="view-toggle">
                 <button id="map-view">Mapa</button>
-                <button id="list-view" name="list-view">Listado</button>
+                <button id="list-view">Listado</button>
+
+                <script src="../assets/js/verLocales.js"></script>    
+                <script src="../assets/js/jquery-3.6.0.minundle.js"></script>
+                <script src="../assets/js/jquery-3.6.0.min.js"></script>
+                <script src="../assets/js/bundle.js"></script> 
+
+                <script>
+                    // document.addEventListener('DOMContentLoaded', function () {
+                    //     const mapViewButton = document.getElementById('map-view');
+                    //     const listViewButton = document.getElementById('list-view');
+                    //     const mapContainer = document.getElementById('map');
+                    //     const listContainer = document.getElementById('list-container'); // Añadir el ID correcto
+
+                    //     // Función para mostrar el mapa y ocultar el listado
+                    //     function showMapView() {
+                    //         mapContainer.style.display = 'block';
+                    //         listContainer.style.display = 'none';
+                    //     }
+
+                    //     // Función para mostrar el listado y ocultar el mapa
+                    //     function showListView() {
+                    //         mapContainer.style.display = 'none';
+                    //         listContainer.style.display = 'block'; // Mostrar el contenedor del listado
+                    //     }
+
+                    //     // Configurar eventos de clic para los botones
+                    //     mapViewButton.addEventListener('click', showMapView);
+                    //     listViewButton.addEventListener('click', showListView);
+
+                    //     // Mostrar el mapa por defecto al cargar la página
+                    //     showMapView(); // Opcional si quieres que el mapa sea el predeterminado
+                    // });
+
+                </script>
             </div>
 
-           
-            <script src="../assets/js/verLocales.js"></script>    
-            <script src="../assets/js/jquery-3.6.0.minundle.js"></script>
-            <script src="../assets/js/jquery-3.6.0.min.js"></script>
-            <script src="../assets/js/bundle.js"></script>
 
-
-<!-- 
+            <div id="map" class="map"></div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+            <script
+                src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
             <script>
+                // Espera a que el DOM esté completamente cargado
                 document.addEventListener('DOMContentLoaded', function () {
-                    const mapViewButton = document.getElementById('map-view');
-                    const listViewButton = document.getElementById('list-view');
-                    const mapContainer = document.getElementById('map');
-                    const listContainer = document.getElementById('list-container'); // Añadir el ID correcto
+                    var map = L.map('map');
 
-                    // Función para mostrar el mapa y ocultar el listado
-                    function showMapView() {
-                        mapContainer.style.display = 'block';
-                        listContainer.style.display = 'none';
+                    // Obtén la ubicación actual del usuario
+                    if ('geolocation' in navigator) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            var lat = position.coords.latitude;
+                            var lon = position.coords.longitude;
+
+                            // Establece la vista del mapa en la ubicación actual del usuario
+                            map.setView([lat, lon], 13);
+
+                            // Añade una capa de mapa base de OpenStreetMap
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '© OpenStreetMap contributors'
+                            }).addTo(map);
+
+                            // Añade un marcador en la ubicación actual del usuario
+                            L.marker([lat, lon]).addTo(map)
+                                .bindPopup('¡Estás aquí!')
+                                .openPopup();
+
+                            // Array de ubicaciones de locales (latitud, longitud, nombre)
+                            /*var locations = [
+                                { lat: 40.435731, lon: -3.691698, name: 'Bonded' },
+                                { lat: 40.436122, lon: -3.691836, name: 'Panthera' },
+                                { lat: 40.435089, lon: -3.690175, name: 'Maddock' },
+                                { lat: 40.423269, lon: -3.713214, name: 'Fitz Club' },
+                                { lat: 40.406399, lon: -3.690660, name: 'Kapital' },
+                                { lat: 40.42, lon: -3.69, name: 'Vandido' },
+                                { lat: 40.42, lon: -3.69, name: 'Joy Eslava' }
+                            ];*/
+
+                            // Función para calcular la ruta desde la ubicación actual hasta el local
+                            function calcularRuta(destLat, destLon) {
+                                L.Routing.control({
+                                    waypoints: [
+                                        L.latLng(lat, lon),  // Ubicación actual del usuario
+                                        L.latLng(destLat, destLon)  // Ubicación del local seleccionado
+                                    ],
+                                    routeWhileDragging: true
+                                }).addTo(map);
+                            }
+
+                            // Itera sobre cada ubicación y agrega un marcador al mapa
+                            var locations = <?php echo json_encode($locales) ?>
+
+                            //recorre el array de los locales
+                             locations.forEach(function (location) {
+                                var marker = L.marker([location.ubicacion.latitud, location.ubicacion.longitud]).addTo(map)
+                                    .bindPopup(location.nombre_local)
+                                    .on('click', function () {
+                                        // Al hacer clic en el marcador, calcula la ruta desde la ubicación actual
+                                        calcularRuta(location.ubicacion.latitud, location.ubicacion.longitud);
+                                    });
+                            });
+
+                        });
+                    } else {
+                        // Si la geolocalización no está disponible, muestra un mensaje de error
+                        alert('Geolocalización no disponible');
                     }
-
-                    // Función para mostrar el listado y ocultar el mapa
-                    function showListView() {
-                        mapContainer.style.display = 'none';
-                        listContainer.style.display = 'block'; // Mostrar el contenedor del listado
-                    }
-
-                    // Configurar eventos de clic para los botones
-                    mapViewButton.addEventListener('click', showMapView);
-                    listViewButton.addEventListener('click', showListView);
-
-                    // Mostrar el mapa por defecto al cargar la página
-                    showMapView(); // Opcional si quieres que el mapa sea el predeterminado
                 });
 
-            </script> -->
+
+            </script>
+
         </div>
-
-
-        <div id="map" class="map"></div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
-        <!-- <script>
-            // Espera a que el DOM esté completamente cargado
-            document.addEventListener('DOMContentLoaded', function () {
-                var map = L.map('map');
-
-                // Obtén la ubicación actual del usuario
-                if ('geolocation' in navigator) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        var lat = position.coords.latitude;
-                        var lon = position.coords.longitude;
-
-                        // Establece la vista del mapa en la ubicación actual del usuario
-                        map.setView([lat, lon], 13);
-
-                        // Añade una capa de mapa base de OpenStreetMap
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            attribution: '© OpenStreetMap contributors'
-                        }).addTo(map);
-
-                        // Añade un marcador en la ubicación actual del usuario
-                        L.marker([lat, lon]).addTo(map)
-                            .bindPopup('¡Estás aquí!')
-                            .openPopup();
-
-                        // Array de ubicaciones de locales (latitud, longitud, nombre)
-                        var locations = [
-                            { lat: 40.435731, lon: -3.691698, name: 'Bonded' },
-                            { lat: 40.436122, lon: -3.691836, name: 'Panthera' },
-                            { lat: 40.435089, lon: -3.690175, name: 'Maddock' },
-                            { lat: 40.423269, lon: -3.713214, name: 'Fitz Club' },
-                            { lat: 40.406399, lon: -3.690660, name: 'Kapital' },
-                            { lat: 40.42, lon: -3.69, name: 'Vandido' },
-                            { lat: 40.42, lon: -3.69, name: 'Joy Eslava' }
-                        ];
-
-                        // Función para calcular la ruta desde la ubicación actual hasta el local
-                        function calcularRuta(destLat, destLon) {
-                            L.Routing.control({
-                                waypoints: [
-                                    L.latLng(lat, lon),  // Ubicación actual del usuario
-                                    L.latLng(destLat, destLon)  // Ubicación del local seleccionado
-                                ],
-                                routeWhileDragging: true
-                            }).addTo(map);
-                        }
-
-                        // Itera sobre cada ubicación y agrega un marcador al mapa
-                        locations.forEach(function (location) {
-                            var marker = L.marker([location.lat, location.lon]).addTo(map)
-                                .bindPopup(location.name)
-                                .on('click', function () {
-                                    // Al hacer clic en el marcador, calcula la ruta desde la ubicación actual
-                                    calcularRuta(location.lat, location.lon);
-                                });
-                        });
-
-                    });
-                } else {
-                    // Si la geolocalización no está disponible, muestra un mensaje de error
-                    alert('Geolocalización no disponible');
-                }
-            });
-        </script> -->
-
-    </div>
     </div>
 
     <footer>
