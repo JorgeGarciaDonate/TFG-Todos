@@ -27,9 +27,10 @@
                 <div class="nk-content ">
                     <div class="nk-block nk-block-middle nk-auth-body wide-xs">
                         <div class="brand-logo pb-4 text-center">
-                            <a href="html/index.html" class="logo-link">
-                            <img class="logo-light logo-img logo-img-lg" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1.png" srcset="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1.png" alt="logo">
-                                <img class="logo-dark logo-img logo-img-lg" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1.png" srcset="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1.png" alt="logo-dark">
+                            <!-- <a href="html/index.html" class="logo-link"> -->
+                            <a href="./index.php" class="logo-link">
+                            <img class="logo-light logo-img logo-img-lg" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png" srcset="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1.png" alt="logo">
+                                <img class="logo-dark logo-img logo-img-lg" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png" srcset="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1.png" alt="logo-dark">
                             </a>
                         </div>
                         <div class="card card-bordered">

@@ -3006,13 +3006,13 @@ div.dataTables_wrapper div.dataTables_filter .form-floating > input:not(:placeho
 
 .btn-primary {
   color: #fff;
-  background-color: #6576ff;
-  border-color: #6576ff;
+  background-color: #d370d3;
+  border-color: #974c97;
 }
 .btn-primary:hover {
   color: #fff;
-  background-color: #5664d9;
-  border-color: #515ecc;
+  background-color: #d370d3;
+  border-color: #974c97;
 }
 .btn-check:focus + .btn-primary, .btn-primary:focus {
   color: #fff;

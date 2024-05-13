@@ -1,10 +1,10 @@
 <?php
 define("DS", DIRECTORY_SEPARATOR);
 define("ROOT", dirname(__DIR__) . DS);
-require_once (ROOT . DS . "core" . DS . "init.php");
+require_once(ROOT . DS . "core" . DS . "init.php");
 $LocalController = new LocalController();
 /*$locales = $LocalController->allLocales(); */
-$locales= $LocalController->coordLocales();
+$locales = $LocalController->coordLocales();
 
 ?>
 <!DOCTYPE html>
@@ -19,7 +19,7 @@ $locales= $LocalController->coordLocales();
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
     <!-- Agrega el script de Leaflet Control Geocoder -->
@@ -31,13 +31,12 @@ $locales= $LocalController->coordLocales();
     <header>
         <div class="logo">
             <a href="index.php">
-                <h2>Cheersy</h2>
+                <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png" alt="logo">
             </a>
         </div>
         <div class="profile-button">
             <button id="profile-dropdown-btn">
-                <img src="perfil-icono.png" alt="Perfil">
-                Mi Perfil
+                <img src="../assets/img/png/Iconos/Logo-Iconos_Mesa de trabajo 1 copia 11.png" alt="logo">
             </button>
             <div class="dropdown-content" id="profile-dropdown">
                 <!-- Formulario para registrarse -->
@@ -52,47 +51,40 @@ $locales= $LocalController->coordLocales();
                 </form>
             </div>
         </div>
-    </header>
 
-    <style>
-      
-    </style>
-
-    <script>
-        // Función para mostrar u ocultar el menú desplegable
-        function toggleDropdown() {
-            const dropdownContent = document.getElementById('profile-dropdown');
-            dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Asignar evento al botón de perfil para mostrar/ocultar el menú
-        document.getElementById('profile-dropdown-btn').addEventListener('click', function () {
-            toggleDropdown();
-        });
-
-        // Restaurar el estado del menú desplegable al cargar la página
-        window.addEventListener('load', function () {
-            const dropdownContent = document.getElementById('profile-dropdown');
-            // Comprobar si el menú estaba abierto (usando una cookie o localStorage)
-            const isDropdownOpen = localStorage.getItem('dropdownOpen') === 'true';
-            if (isDropdownOpen) {
-                dropdownContent.style.display = 'block';
-            } else {
-                dropdownContent.style.display = 'none';
+        <script>
+            // Función para mostrar u ocultar el menú desplegable
+            function toggleDropdown() {
+                const dropdownContent = document.getElementById('profile-dropdown');
+                dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
             }
-        });
 
-        // Guardar el estado del menú desplegable al navegar lejos del index.php
-        window.addEventListener('beforeunload', function () {
-            const dropdownContent = document.getElementById('profile-dropdown');
-            const isDropdownOpen = dropdownContent.style.display === 'block';
-            localStorage.setItem('dropdownOpen', isDropdownOpen ? 'true' : 'false');
-        });
-    </script>
+            // Asignar evento al botón de perfil para mostrar/ocultar el menú
+            document.getElementById('profile-dropdown-btn').addEventListener('click', function() {
+                toggleDropdown();
+            });
 
+            // Restaurar el estado del menú desplegable al cargar la página
+            window.addEventListener('load', function() {
+                const dropdownContent = document.getElementById('profile-dropdown');
+                // Comprobar si el menú estaba abierto (usando una cookie o localStorage)
+                const isDropdownOpen = localStorage.getItem('dropdownOpen') === 'true';
+                if (isDropdownOpen) {
+                    dropdownContent.style.display = 'block';
+                } else {
+                    dropdownContent.style.display = 'none';
+                }
+            });
 
+            // Guardar el estado del menú desplegable al navegar lejos del index.php
+            window.addEventListener('beforeunload', function() {
+                const dropdownContent = document.getElementById('profile-dropdown');
+                const isDropdownOpen = dropdownContent.style.display === 'block';
+                localStorage.setItem('dropdownOpen', isDropdownOpen ? 'true' : 'false');
+            });
+        </script>
 
-
+    </header>
 
     <h1></h1>
     <div class="container">
@@ -194,54 +186,24 @@ $locales= $LocalController->coordLocales();
                 <button id="map-view">Mapa</button>
                 <button id="list-view">Listado</button>
 
-                <script src="../assets/js/verLocales.js"></script>    
+                <script src="../assets/js/verLocales.js"></script>
                 <script src="../assets/js/jquery-3.6.0.minundle.js"></script>
                 <script src="../assets/js/jquery-3.6.0.min.js"></script>
-                <script src="../assets/js/bundle.js"></script> 
-
-                <script>
-                    // document.addEventListener('DOMContentLoaded', function () {
-                    //     const mapViewButton = document.getElementById('map-view');
-                    //     const listViewButton = document.getElementById('list-view');
-                    //     const mapContainer = document.getElementById('map');
-                    //     const listContainer = document.getElementById('list-container'); // Añadir el ID correcto
-
-                    //     // Función para mostrar el mapa y ocultar el listado
-                    //     function showMapView() {
-                    //         mapContainer.style.display = 'block';
-                    //         listContainer.style.display = 'none';
-                    //     }
-
-                    //     // Función para mostrar el listado y ocultar el mapa
-                    //     function showListView() {
-                    //         mapContainer.style.display = 'none';
-                    //         listContainer.style.display = 'block'; // Mostrar el contenedor del listado
-                    //     }
-
-                    //     // Configurar eventos de clic para los botones
-                    //     mapViewButton.addEventListener('click', showMapView);
-                    //     listViewButton.addEventListener('click', showListView);
-
-                    //     // Mostrar el mapa por defecto al cargar la página
-                    //     showMapView(); // Opcional si quieres que el mapa sea el predeterminado
-                    // });
-
-                </script>
+                <script src="../assets/js/bundle.js"></script>
             </div>
 
 
             <div id="map" class="map"></div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-            <script
-                src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
             <script>
                 // Espera a que el DOM esté completamente cargado
-                document.addEventListener('DOMContentLoaded', function () {
+                document.addEventListener('DOMContentLoaded', function() {
                     var map = L.map('map');
 
                     // Obtén la ubicación actual del usuario
                     if ('geolocation' in navigator) {
-                        navigator.geolocation.getCurrentPosition(function (position) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
                             var lat = position.coords.latitude;
                             var lon = position.coords.longitude;
 
@@ -273,8 +235,8 @@ $locales= $LocalController->coordLocales();
                             function calcularRuta(destLat, destLon) {
                                 L.Routing.control({
                                     waypoints: [
-                                        L.latLng(lat, lon),  // Ubicación actual del usuario
-                                        L.latLng(destLat, destLon)  // Ubicación del local seleccionado
+                                        L.latLng(lat, lon), // Ubicación actual del usuario
+                                        L.latLng(destLat, destLon) // Ubicación del local seleccionado
                                     ],
                                     routeWhileDragging: true
                                 }).addTo(map);
@@ -284,10 +246,10 @@ $locales= $LocalController->coordLocales();
                             var locations = <?php echo json_encode($locales) ?>
 
                             //recorre el array de los locales
-                             locations.forEach(function (location) {
+                            locations.forEach(function(location) {
                                 var marker = L.marker([location.ubicacion.latitud, location.ubicacion.longitud]).addTo(map)
                                     .bindPopup(location.nombre_local)
-                                    .on('click', function () {
+                                    .on('click', function() {
                                         // Al hacer clic en el marcador, calcula la ruta desde la ubicación actual
                                         calcularRuta(location.ubicacion.latitud, location.ubicacion.longitud);
                                     });
@@ -299,19 +261,22 @@ $locales= $LocalController->coordLocales();
                         alert('Geolocalización no disponible');
                     }
                 });
-
-
             </script>
 
         </div>
     </div>
 
-    <footer>
-        <ul>
-            <li><a href="https://www.instagram.com/cheersy.app/">Instagram - @cheersy.app</a></li>
-            <li><a href="https://www.facebook.com/profile.php?id=61553869796205">Facebook - Cheersy App</a></li>
-        </ul>
-    </footer>
 </body>
+
+<footer>
+    <ul class="Redes">
+        <li>
+            <a href="https://www.instagram.com/cheersy.app/"><img class="" src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 15.png" alt="logo"></a>
+        </li>
+        <li>
+            <a href="https://www.facebook.com/profile.php?id=61553869796205"><img class="" src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 16.png" alt="logo"></a>
+        </li>
+    </ul>
+</footer>
 
 </html>
