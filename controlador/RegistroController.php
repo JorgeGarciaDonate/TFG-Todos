@@ -91,6 +91,47 @@ if (isset($_POST['botonCreate'])) {
 }
 
 
+if (isset($_POST['botonAlta'])) {
+    $nombre = $_POST['nombre'];
+    $tipoLocal = $_POST['tipo_local'];
+    $generos = implode(', ', $_POST['generos']); 
+    $precioRango = $_POST['precio_rango'];
+    $horaApertura = $_POST['hora_apertura'];
+    $horaCierre = $_POST['hora_cierre'];
+    $diasApertura = implode(', ', $_POST['dias_apertura']); 
+    $calle = $_POST['calle'];
+    $numero = $_POST['num_calle'];
+    $codigoPostal = $_POST['cod_postal'];
+    $ciudad = $_POST['ciudad'];
+    $barrio = $_POST['barrio'];
+
+    $localmodel = new Local();
+    $ubicacionModel = new Ubicacion();
+    $altaUbicacion = $ubicacionModel -> create(array(
+        'calle' => $calle,
+        'num_calle' => $numero,
+        'cod_postal' => $codigoPostal,
+        'ciudad' => $ciudad,
+        'barrio' => $barrio
+    ));
+    $ubicacionId=$ubicacionModel->getUbicacionId($altaUbicacion);
+    $altaLocalSuccessful = $localmodel->create(array(
+        'nombre' => $nombre,
+        'tipo_local' => $tipoLocal,
+        'generos' => $generos,
+        'precio_rango' => $precioRango,
+        'hora_apertura' => $horaApertura,
+        'hora_cierre' => $horaCierre,
+        'dias_apertura' => $diasApertura,
+        'ubicacion_id' => $ubicacionId      
+    ));
+
+    if ($altaLocalSuccessful && $altaUbicacion) {
+        echo json_encode(array('success' => true));
+    } else {
+        echo json_encode(array('success' => false, 'message' => 'Error creating the local.'));
+    }
+}
 
 
 ?>
