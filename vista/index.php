@@ -176,94 +176,79 @@ $locales = $LocalController->coordLocales();
         </div>
 
         <div class="search">
-            <div class="search-input">
-                <h3>Introduce la zona/barrio/estación de metro:</h3>
-                <!--  <label for="search-input">Introduce la zona/barrio/estación de metro:</label> -->
-                <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
-            </div>
+    <div class="search-input">
+        <h3>Introduce la zona/barrio/estación de metro:</h3>
+        <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
+    </div>
 
-            <div class="view-toggle">
-                <button id="map-view">Mapa</button>
-                <button id="list-view">Listado</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
+    <script src="../assets/js/jquery-3.6.0.minundle.js"></script>
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/verLocales.js"></script>
+    <script src="../assets/js/bundle.js"></script>
 
-                <script src="../assets/js/verLocales.js"></script>
-                <script src="../assets/js/jquery-3.6.0.minundle.js"></script>
-                <script src="../assets/js/jquery-3.6.0.min.js"></script>
-                <script src="../assets/js/bundle.js"></script>
-            </div>
+    <div class="view-toggle">
+        <button id="map-view">Mapa</button>
+        <button id="list-view">Listado</button>
+    </div>
 
+    <div id="map" class="map"></div>
 
-            <div id="map" class="map"></div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
-            <script>
-                // Espera a que el DOM esté completamente cargado
-                document.addEventListener('DOMContentLoaded', function() {
-                    var map = L.map('map');
+   
 
-                    // Obtén la ubicación actual del usuario
-                    if ('geolocation' in navigator) {
-                        navigator.geolocation.getCurrentPosition(function(position) {
-                            var lat = position.coords.latitude;
-                            var lon = position.coords.longitude;
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var map = L.map('map');
+            var locations = <?php echo json_encode($locales) ?>;
 
-                            // Establece la vista del mapa en la ubicación actual del usuario
-                            map.setView([lat, lon], 13);
+            function initMap() {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var lat = position.coords.latitude;
+                    var lon = position.coords.longitude;
 
-                            // Añade una capa de mapa base de OpenStreetMap
-                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                attribution: '© OpenStreetMap contributors'
-                            }).addTo(map);
+                    // Establece la vista del mapa en la ubicación actual del usuario
+                    map.setView([lat, lon], 13);
 
-                            // Añade un marcador en la ubicación actual del usuario
-                            L.marker([lat, lon]).addTo(map)
-                                .bindPopup('¡Estás aquí!')
-                                .openPopup();
+                    // Añade una capa de mapa base de OpenStreetMap
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
 
-                            // Array de ubicaciones de locales (latitud, longitud, nombre)
-                            /*var locations = [
-                                { lat: 40.435731, lon: -3.691698, name: 'Bonded' },
-                                { lat: 40.436122, lon: -3.691836, name: 'Panthera' },
-                                { lat: 40.435089, lon: -3.690175, name: 'Maddock' },
-                                { lat: 40.423269, lon: -3.713214, name: 'Fitz Club' },
-                                { lat: 40.406399, lon: -3.690660, name: 'Kapital' },
-                                { lat: 40.42, lon: -3.69, name: 'Vandido' },
-                                { lat: 40.42, lon: -3.69, name: 'Joy Eslava' }
-                            ];*/
+                    // Añade un marcador en la ubicación actual del usuario
+                    L.marker([lat, lon]).addTo(map)
+                        .bindPopup('¡Estás aquí!')
+                        .openPopup();
 
-                            // Función para calcular la ruta desde la ubicación actual hasta el local
-                            function calcularRuta(destLat, destLon) {
-                                L.Routing.control({
-                                    waypoints: [
-                                        L.latLng(lat, lon), // Ubicación actual del usuario
-                                        L.latLng(destLat, destLon) // Ubicación del local seleccionado
-                                    ],
-                                    routeWhileDragging: true
-                                }).addTo(map);
-                            }
-
-                            // Itera sobre cada ubicación y agrega un marcador al mapa
-                            var locations = <?php echo json_encode($locales) ?>
-
-                            //recorre el array de los locales
-                            locations.forEach(function(location) {
-                                var marker = L.marker([location.ubicacion.latitud, location.ubicacion.longitud]).addTo(map)
-                                    .bindPopup(location.nombre_local)
-                                    .on('click', function() {
-                                        // Al hacer clic en el marcador, calcula la ruta desde la ubicación actual
-                                        calcularRuta(location.ubicacion.latitud, location.ubicacion.longitud);
-                                    });
-                            });
-
-                        });
-                    } else {
-                        // Si la geolocalización no está disponible, muestra un mensaje de error
-                        alert('Geolocalización no disponible');
-                    }
+                    // Agrega marcadores para cada ubicación en el mapa
+                    locations.forEach(function(location) {
+                        L.marker([location.ubicacion.latitud, location.ubicacion.longitud]).addTo(map)
+                            .bindPopup(location.nombre_local);
+                    });
                 });
-            </script>
+            }
 
-        </div>
+            // Inicializar el mapa al cargar la página
+            initMap();
+
+            // Manejar el cambio de vista al hacer clic en los botones
+            document.getElementById('map-view').addEventListener('click', function() {
+                document.getElementById('map').style.display = 'block';
+                // Aquí puedes mostrar el mapa y ocultar la lista si es necesario
+                // Por ejemplo, ocultar un elemento de lista
+                // document.getElementById('lista-locales').style.display = 'none';
+            });
+
+            document.getElementById('list-view').addEventListener('click', function() {
+                document.getElementById('map').style.display = 'none';
+                // Aquí puedes mostrar la lista y ocultar el mapa si es necesario
+                // Por ejemplo, mostrar un elemento de lista
+                // document.getElementById('lista-locales').style.display = 'block';
+            });
+        });
+    </script>
+</div>
+
     </div>
 
 </body>
