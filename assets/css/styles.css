@@ -33,6 +33,7 @@ header {
 
 /* Para Montserrat ExtraBold */
 h1, h2, h3 {
+    margin-left: 20px;
     font-weight: 800;
     color: #d370d3;
 }
@@ -44,12 +45,21 @@ p, li {
 
 .container {
     display: flex;
+    flex: 1;
     margin: 20px;
 }
 
 .filters {
     width: 200px;
     margin-right: 20px; /* Espacio entre los filtros y el contenido */
+}
+
+.filter-item {
+    border: 1px solid rgb(161, 161, 161);
+    padding: 0.5em;
+    border-radius: 7px;
+    margin-bottom: 1em; /* Espacio entre los elementos de filtro */
+    margin-top: 1em; /* Espacio entre los elementos de filtro */
 }
 
 .search {

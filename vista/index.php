@@ -103,22 +103,38 @@ $locales = $LocalController->coordLocales();
 
             <div class="filter-item">
                 <label>Días Abierto:</label>
+                <div>
                 <input type="checkbox" id="lunes" name="dias_abierto" value="LUNES">
                 <label for="lunes">Lunes</label>
+                </div>
+                <div>
                 <input type="checkbox" id="martes" name="dias_abierto" value="MARTES">
                 <label for="martes">Martes</label>
+                </div>
+                <div>
                 <input type="checkbox" id="miercoles" name="dias_abierto" value="MIERCOLES">
                 <label for="miercoles">Miércoles</label>
+                </div>
+                <div>
                 <input type="checkbox" id="jueves" name="dias_abierto" value="JUEVES">
                 <label for="jueves">Jueves</label>
+                </div>
+                <div>
                 <input type="checkbox" id="viernes" name="dias_abierto" value="VIERNES">
                 <label for="viernes">Viernes</label>
+                </div>
+                <div>
                 <input type="checkbox" id="sabado" name="dias_abierto" value="SABADO">
                 <label for="sabado">Sábado</label>
+                </div>
+                <div>
                 <input type="checkbox" id="domingo" name="dias_abierto" value="DOMINGO">
                 <label for="domingo">Domingo</label>
+                </div>
+                <div>
                 <input type="checkbox" id="todos" name="dias_abierto" value="TODOS">
                 <label for="todos">Todos</label>
+                </div>
             </div>
 
             <div class="filter-item">
