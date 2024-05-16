@@ -86,7 +86,7 @@ $locales = $LocalController->coordLocales();
 
     </header>
 
-    <h1></h1>
+    <h1>Inicio</h1>
     <div class="container">
 
         <div class="filters">
@@ -176,7 +176,7 @@ $locales = $LocalController->coordLocales();
         </div>
 
         <div class="search">
-    <div class="search-input">
+    <div class="search-input" alt="formulario búsqueda">
         <h3>Introduce la zona/barrio/estación de metro:</h3>
         <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
     </div>

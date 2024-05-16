@@ -29,7 +29,7 @@ $(document).ready(function() {
             success: function(response) {
                 //console.log (response);
                 if (response.success) {
-                    window.location.href = '../index.html';
+                    window.location.href = '../vista/index.php';
                 } else {
                     $('#error-msg').text('Usuario o contraseña incorrectos.');
                 }
