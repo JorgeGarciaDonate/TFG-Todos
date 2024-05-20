@@ -1,4 +1,3 @@
-/* styles.css */
 body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
@@ -6,7 +5,6 @@ body {
 
 header {
     background-color: #fff;
-    color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,14 +12,12 @@ header {
 }
 
 .logo img {
-    max-height: 50px; /* Ajustar según el tamaño del logo */
+    max-height: 5em;
 }
 
 .profile-button img {
-    width: 8em; /* Cambia este valor según lo que necesites */
+    width: 10em;
 }
-
-
 
 .profile-button button {
     background-color: #fff;
@@ -31,14 +27,18 @@ header {
     cursor: pointer;
 }
 
-/* Para Montserrat ExtraBold */
-h1, h2, h3 {
-    margin-left: 20px;
+h1 {
+    margin-left: 0.6em;
     font-weight: 800;
     color: #d370d3;
 }
 
-/* Para Montserrat Regular */
+h2, h3 {
+    margin-left: 0em;
+    font-weight: 800;
+    color: #d370d3;
+}
+
 p, li {
     font-weight: 400;
 }
@@ -51,19 +51,18 @@ p, li {
 
 .filters {
     width: 200px;
-    margin-right: 20px; /* Espacio entre los filtros y el contenido */
+    margin-right: 20px;
 }
 
 .filter-item {
     border: 1px solid rgb(161, 161, 161);
     padding: 0.5em;
     border-radius: 7px;
-    margin-bottom: 1em; /* Espacio entre los elementos de filtro */
-    margin-top: 1em; /* Espacio entre los elementos de filtro */
+    margin-bottom: 1em;
 }
 
 .search {
-    flex: 1; /* El contenido ocupa todo el espacio restante */
+    flex: 1;
 }
 
 .search-input input {
@@ -75,7 +74,7 @@ p, li {
 }
 
 .map {
-    height: 300px; /* Ajustar según el tamaño deseado */
+    height: 600px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -85,15 +84,16 @@ footer {
     color: #fff;
     text-align: center;
     padding: 20px;
-  
 }
 
 .Redes {
     display: inline-block;
 }
+
 .Redes img {
-    width: 8em; /* Cambia este valor según lo que necesites */
+    width: 8em;
 }
+
 footer ul {
     list-style-type: none;
     padding: 0;
@@ -108,7 +108,6 @@ footer ul li a {
     color: #fff;
     text-decoration: none;
 }
-
 
 .view-toggle {
     display: flex;
@@ -126,8 +125,7 @@ footer ul li a {
     cursor: pointer;
 }
 
-  /* Estilo para ocultar el menú desplegable por defecto */
-  .dropdown-content {
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
@@ -136,7 +134,10 @@ footer ul li a {
     z-index: 1;
 }
 
-/* Estilo para el botón de perfil */
+.dropdown-content.show {
+    display: block;
+}
+
 .profile-button {
     position: relative;
     display: inline-block;
