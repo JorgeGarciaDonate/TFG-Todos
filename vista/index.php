@@ -5,6 +5,7 @@ require_once(ROOT . DS . "core" . DS . "init.php");
 $LocalController = new LocalController();
 /*$locales = $LocalController->allLocales(); */
 $locales = $LocalController->coordLocales();
+$usuarioController = new UsuarioController();
 
 ?>
 <!DOCTYPE html>
@@ -15,6 +16,7 @@ $locales = $LocalController->coordLocales();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tu Página</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/dashlite.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
 
@@ -26,65 +28,86 @@ $locales = $LocalController->coordLocales();
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 </head>
-
 <body>
-    <header>
-        <div class="logo">
-            <a href="index.php">
-                <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png" alt="logo">
-            </a>
-        </div>
-        <div class="profile-button">
-            <button id="profile-dropdown-btn">
-                <img src="../assets/img/png/Iconos/Logo-Iconos_Mesa de trabajo 1 copia 11.png" alt="logo">
-            </button>
-            <div class="dropdown-content" id="profile-dropdown">
-                <!-- Formulario para registrarse -->
-                <form method="POST" action="../controlador/indexController.php">
-                    <input type="hidden" name="redireccion" value="registro">
-                    <button type="submit" id="registroButton" name="redireccion" value="registro">Registrarme</button>
-                </form>
-                <!-- Formulario para iniciar sesión -->
-                <form method="POST" action="../controlador/indexController.php">
-                    <input type="hidden" name="redireccion" value="login">
-                    <button type="submit" id="loginButton" name="redireccion" value="login">Iniciar Sesión</button>
-                </form>
-            </div>
-        </div>
-
-        <script>
-            // Función para mostrar u ocultar el menú desplegable
-            function toggleDropdown() {
-                const dropdownContent = document.getElementById('profile-dropdown');
-                dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-            }
-
-            // Asignar evento al botón de perfil para mostrar/ocultar el menú
-            document.getElementById('profile-dropdown-btn').addEventListener('click', function() {
-                toggleDropdown();
-            });
-
-            // Restaurar el estado del menú desplegable al cargar la página
-            window.addEventListener('load', function() {
-                const dropdownContent = document.getElementById('profile-dropdown');
-                // Comprobar si el menú estaba abierto (usando una cookie o localStorage)
-                const isDropdownOpen = localStorage.getItem('dropdownOpen') === 'true';
-                if (isDropdownOpen) {
-                    dropdownContent.style.display = 'block';
-                } else {
-                    dropdownContent.style.display = 'none';
-                }
-            });
-
-            // Guardar el estado del menú desplegable al navegar lejos del index.php
-            window.addEventListener('beforeunload', function() {
-                const dropdownContent = document.getElementById('profile-dropdown');
-                const isDropdownOpen = dropdownContent.style.display === 'block';
-                localStorage.setItem('dropdownOpen', isDropdownOpen ? 'true' : 'false');
-            });
-        </script>
-
-    </header>
+    <?php if(isset($_SESSION['user']) && $_SESSION['user']){?>
+    <div class="nk-header nk-header-fixed is-light">
+        <div class="container-fluid">
+            <div class="nk-header-wrap">                            
+                
+                <div class="nk-header-news d-none d-xl-block">
+                    <div class="nk-news-list">
+                        <a href="#" class="logo">
+                            <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png" srcset="./assets/img/logo2x.png 2x" alt="logo">
+                        </a>                                    
+                    </div>
+                </div><!-- .nk-header-news -->
+                <div class="nk-header-tools">
+                    <ul class="nk-quick-nav">
+                        <!-- .dropdown -->
+                        <li class="dropdown user-dropdown">
+                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                                <div class="user-toggle">
+                                    <div class="user-avatar sm">
+                                        <em class="icon ni ni-user-alt"></em>
+                                    </div>
+                                    <div class="user-info d-none d-md-block">
+                                        <div class="user-name dropdown-indicator"><span><?php echo $usuarioController->getNombreById($_SESSION['user']);?></span></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-end dropdown-menu-s1">
+                                <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                    <div class="user-card">
+                                        <div class="user-avatar">
+                                            <span><i class="bi bi-person"></i></span>
+                                        </div>
+                                        <div class="user-info">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-inner">
+                                    <ul class="link-list">
+                                        <li><a href="../Login/view/user/viewProfile.php"><i class="bi bi-person"></i><span>View Profile</span></a></li>
+                                        <li><a href="#"><i class="bi bi-gear"></i><span>Account Setting</span></a></li>
+                                        <li><a href="#"><i class="bi bi-activity"></i><span>Login Activity</span></a></li>
+                                        <li><a class="dark-switch" href="#"><i class="bi bi-moon-fill"></i><span>Dark Mode</span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown-inner">
+                                    <ul class="link-list">
+                                        <li><a href="./registro/logout.php"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li><!-- .dropdown -->                                    
+                    </ul><!-- .nk-quick-nav -->
+                </div><!-- .nk-header-tools -->
+            </div><!-- .nk-header-wrap -->
+        </div><!-- .container-fluid -->
+    </div>
+    <?php } else { ?>
+    <div class="nk-header nk-header-fixed is-light">
+        <div class="container-fluid">
+            <div class="nk-header-wrap">                         
+                
+                <div class="nk-header-news d-none d-xl-block">
+                    <div class="nk-news-list">
+                        <a href="#" class="logo">
+                            <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png" srcset="./assets/img/logo2x.png 2x" alt="logo">
+                        </a>                                    
+                    </div>
+                </div><!-- .nk-header-news -->
+                <div class="nk-header-tools">
+                    <div class="nk-news-list">
+                        <a href="registro/registro.php" class="btn btn-icon" ><span>Registrarse</span></a>
+                        <a href="registro/login.php" class="btn btn-icon" ><span>Iniciar Sesión</span></a>                        
+                    </div>                   
+                </div><!-- .nk-header-tools -->
+            </div><!-- .nk-header-wrap -->
+        </div><!-- .container-fluid -->
+    </div> 
+    <?php } ?>
 
     <h1>Inicio</h1>
     <div class="container">
@@ -263,9 +286,9 @@ $locales = $LocalController->coordLocales();
             });
         });
     </script>
-</div>
+<!-- </div>
 
-    </div>
+    </div> -->
 
 </body>
 

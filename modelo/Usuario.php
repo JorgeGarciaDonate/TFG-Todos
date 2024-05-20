@@ -86,7 +86,7 @@ class Usuario {
     public function login($nombre_usuario = null, $password = null, $remember = false) {
         // Si no se proporciona un nombre de usuario y contraseña y el usuario ya está logueado, se renueva la sesión
         if (!$nombre_usuario && !$password && $this->exists()) {
-            Session::put($this->_sessionName, $this->data()->id);
+            Session::put($this->_sessionName, $this->data()->usuario_id);
         } else {
             // Si se proporciona un nombre de usuario y contraseña, se intenta iniciar sesión
             $usuario = $this->find($nombre_usuario);
@@ -102,7 +102,20 @@ class Usuario {
 
         return false;
     }
-
+    // Método para obtener el nombre de usuario a partir de un ID de usuario
+    public function getNombreById($usuario_id) {
+        if (!empty($usuarioId)) {
+            $tabla =  "usuarios";
+            $nombre = $this->_db->get($tabla, array('usuario_id', '=', $usuario_id));
+            if ($nombre->count() > 0) {
+                return $nombre->first()->nombre;
+            } else {
+                return false; 
+            }
+        } else {
+            return false;
+        }
+    }
     // Método para obtener el ID de usuario a partir de un array de datos de usuario
     public function getusuarioId($usuarioArray) {
         if (!empty($usuarioArray['nombre_usuario'])) {
@@ -118,21 +131,7 @@ class Usuario {
         }
     }
 
-    // Método para obtener el nombre de usuario a partir de un ID de usuario
-    public function getNombre_usuarioById($usuarioId) {
-        if (!empty($usuarioId)) {
-            $tabla =  "usuarios";
-            $usuario = $this->_db->get($tabla, array('usuario_id', '=', $usuarioId));
-            if ($usuario->count() > 0) {
-                return $usuario->first()->nombre_usuario;
-            } else {
-                return false; 
-            }
-        } else {
-            return false;
-        }
-    }
-
+    
     // Método para obtener el correo electrónico a partir de un ID de usuario
     public function getEmailById($usuarioId) {
         if (!empty($usuarioId)) {
@@ -188,8 +187,7 @@ class Usuario {
 
     // Método para cerrar sesión de usuario
     public function logout() {
-        // Se elimina la entrada correspondiente a la sesión de usuario de la base de datos y se eliminan la sesión y la cookie
-        $this->_db->delete('sesiones', array('usuario_id', '=', $this->data()->usuario_id));
+        // Se eliminan la sesión y la cookie
         Session::delete($this->_sessionName);
         Cookie::delete($this->_cookieName);
         return true;
