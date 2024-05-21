@@ -246,6 +246,9 @@ $usuarioController = new UsuarioController();
             </div>
 
             <div id="map" class="map"></div>
+            <div id="list-container" style="display: none;"></div>
+
+            
 
 </body>
 

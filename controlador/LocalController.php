@@ -14,15 +14,16 @@ require_once(__DIR__ . '/../modelo/Local.php');
  }
  
 }
-if (isset($_POST['list-view'])) {
-   $controller = new LocalController();
-    $locales = $controller->allLocales();
-    
-   if ($locales) {
-      echo json_encode($locales); 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+   if (isset($_POST['action']) && $_POST['action'] === 'allLocales') {
+       $controller = new LocalController();
+       $locales = $controller->allLocales();
        
+       if ($locales) {
+           echo json_encode($locales);
+       }
    }
-}
+ }
 
 /* require_once(__DIR__ . '/../modelo/Local.php');
 
