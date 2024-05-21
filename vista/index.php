@@ -36,7 +36,7 @@ $usuarioController = new UsuarioController();
                 
                 <div class="nk-header-news d-none d-xl-block">
                     <div class="nk-news-list">
-                        <a href="#" class="logo">
+                        <a href="index.php" class="logo">
                             <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png" srcset="./assets/img/logo2x.png 2x" alt="logo">
                         </a>                                    
                     </div>
@@ -45,7 +45,7 @@ $usuarioController = new UsuarioController();
                     <ul class="nk-quick-nav">
                         <!-- .dropdown -->
                         <li class="dropdown user-dropdown">
-                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                            <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown">
                                 <div class="user-toggle">
                                     <div class="user-avatar sm">
                                         <em class="icon ni ni-user-alt"></em>
@@ -93,7 +93,7 @@ $usuarioController = new UsuarioController();
                 
                 <div class="nk-header-news d-none d-xl-block">
                     <div class="nk-news-list">
-                        <a href="#" class="logo">
+                        <a href="index.php" class="logo">
                             <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png" srcset="./assets/img/logo2x.png 2x" alt="logo">
                         </a>                                    
                     </div>
