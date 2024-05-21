@@ -22,6 +22,8 @@ $usuarioController = new UsuarioController();
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../assets/js/mapaApi.js" defer></script>
+    <script src="../assets/js/verLocales.js" defer></script>
 
 
     <!-- Agrega el script de Leaflet Control Geocoder -->
@@ -233,62 +235,10 @@ $usuarioController = new UsuarioController();
     </div>
 
     <div id="map" class="map"></div>
-
-   
-
+    <!-- declaro aquí la variable porque en el js no se puede -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var map = L.map('map');
-            var locations = <?php echo json_encode($locales) ?>;
-
-            function initMap() {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var lat = position.coords.latitude;
-                    var lon = position.coords.longitude;
-
-                    // Establece la vista del mapa en la ubicación actual del usuario
-                    map.setView([lat, lon], 13);
-
-                    // Añade una capa de mapa base de OpenStreetMap
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '© OpenStreetMap contributors'
-                    }).addTo(map);
-
-                    // Añade un marcador en la ubicación actual del usuario
-                    L.marker([lat, lon]).addTo(map)
-                        .bindPopup('¡Estás aquí!')
-                        .openPopup();
-
-                    // Agrega marcadores para cada ubicación en el mapa
-                    locations.forEach(function(location) {
-                        L.marker([location.ubicacion.latitud, location.ubicacion.longitud]).addTo(map)
-                            .bindPopup(location.nombre_local);
-                    });
-                });
-            }
-
-            // Inicializar el mapa al cargar la página
-            initMap();
-
-            // Manejar el cambio de vista al hacer clic en los botones
-            document.getElementById('map-view').addEventListener('click', function() {
-                document.getElementById('map').style.display = 'block';
-                // Aquí puedes mostrar el mapa y ocultar la lista si es necesario
-                // Por ejemplo, ocultar un elemento de lista
-                // document.getElementById('lista-locales').style.display = 'none';
-            });
-
-            document.getElementById('list-view').addEventListener('click', function() {
-                document.getElementById('map').style.display = 'none';
-                // Aquí puedes mostrar la lista y ocultar el mapa si es necesario
-                // Por ejemplo, mostrar un elemento de lista
-                // document.getElementById('lista-locales').style.display = 'block';
-            });
-        });
+        var locations = <?php echo json_encode($locales); ?>;
     </script>
-<!-- </div>
-
-    </div> -->
 
 </body>
 
