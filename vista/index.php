@@ -1,12 +1,11 @@
 <?php
 define("DS", DIRECTORY_SEPARATOR);
 define("ROOT", dirname(__DIR__) . DS);
-require_once(ROOT . DS . "core" . DS . "init.php");
+require_once (ROOT . DS . "core" . DS . "init.php");
 $LocalController = new LocalController();
 /*$locales = $LocalController->allLocales(); */
 $locales = $LocalController->coordLocales();
 $usuarioController = new UsuarioController();
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -23,92 +22,110 @@ $usuarioController = new UsuarioController();
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../assets/js/mapaApi.js" defer></script>
-    <script src="../assets/js/verLocales.js" defer></script>
-
+    <!-- <script src="../assets/js/verLocales.js" defer></script> -->
+    <script>var locations = <?php echo json_encode($locales); ?>; </script>
+    <script> var data = <?php echo json_encode($data); ?>; </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/lsrc-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
+    <script src="../assets/js/jquery-3.6.0.minundle.js"></script>
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/mapaApi.js"></script>
+    <!--  <script src="../assets/js/verLocales.js"></script> -->
+    <script src="../assets/js/bundle.js"></script>
 
     <!-- Agrega el script de Leaflet Control Geocoder -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 </head>
+
 <body>
-    <?php if(isset($_SESSION['user']) && $_SESSION['user']){?>
-    <div class="nk-header nk-header-fixed is-light">
-        <div class="container-fluid">
-            <div class="nk-header-wrap">                            
-                
-                <div class="nk-header-news d-none d-xl-block">
-                    <div class="nk-news-list">
-                        <a href="index.php" class="logo">
-                            <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png" srcset="./assets/img/logo2x.png 2x" alt="logo">
-                        </a>                                    
-                    </div>
-                </div><!-- .nk-header-news -->
-                <div class="nk-header-tools">
-                    <ul class="nk-quick-nav">
-                        <!-- .dropdown -->
-                        <li class="dropdown user-dropdown">
-                            <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown">
-                                <div class="user-toggle">
-                                    <div class="user-avatar sm">
-                                        <em class="icon ni ni-user-alt"></em>
-                                    </div>
-                                    <div class="user-info d-none d-md-block">
-                                        <div class="user-name dropdown-indicator"><span><?php echo $usuarioController->getNombreById($_SESSION['user']);?></span></div>
-                                    </div>
-                                </div>
+    <?php if (isset($_SESSION['user']) && $_SESSION['user']) { ?>
+        <div class="nk-header nk-header-fixed is-light">
+            <div class="container-fluid">
+                <div class="nk-header-wrap">
+
+                    <div class="nk-header-news d-none d-xl-block">
+                        <div class="nk-news-list">
+                            <a href="index.php" class="logo">
+                                <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png"
+                                    srcset="./assets/img/logo2x.png 2x" alt="logo">
                             </a>
-                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-end dropdown-menu-s1">
-                                <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
-                                    <div class="user-card">
-                                        <div class="user-avatar">
-                                            <span><i class="bi bi-person"></i></span>
+                        </div>
+                    </div><!-- .nk-header-news -->
+                    <div class="nk-header-tools">
+                        <ul class="nk-quick-nav">
+                            <!-- .dropdown -->
+                            <li class="dropdown user-dropdown">
+                                <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown">
+                                    <div class="user-toggle">
+                                        <div class="user-avatar sm">
+                                            <em class="icon ni ni-user-alt"></em>
                                         </div>
-                                        <div class="user-info">
-                                            
+                                        <div class="user-info d-none d-md-block">
+                                            <div class="user-name dropdown-indicator">
+                                                <span><?php echo $usuarioController->getNombreById($_SESSION['user']); ?></span>
+                                            </div>
                                         </div>
                                     </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-md dropdown-menu-end dropdown-menu-s1">
+                                    <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                        <div class="user-card">
+                                            <div class="user-avatar">
+                                                <span><i class="bi bi-person"></i></span>
+                                            </div>
+                                            <div class="user-info">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-inner">
+                                        <ul class="link-list">
+                                            <li><a href="../Login/view/user/viewProfile.php"><i
+                                                        class="bi bi-person"></i><span>View Profile</span></a></li>
+                                            <li><a href="#"><i class="bi bi-gear"></i><span>Account Setting</span></a></li>
+                                            <li><a href="#"><i class="bi bi-activity"></i><span>Login Activity</span></a>
+                                            </li>
+                                            <li><a class="dark-switch" href="#"><i class="bi bi-moon-fill"></i><span>Dark
+                                                        Mode</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropdown-inner">
+                                        <ul class="link-list">
+                                            <li><a href="./registro/logout.php"><em
+                                                        class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="dropdown-inner">
-                                    <ul class="link-list">
-                                        <li><a href="../Login/view/user/viewProfile.php"><i class="bi bi-person"></i><span>View Profile</span></a></li>
-                                        <li><a href="#"><i class="bi bi-gear"></i><span>Account Setting</span></a></li>
-                                        <li><a href="#"><i class="bi bi-activity"></i><span>Login Activity</span></a></li>
-                                        <li><a class="dark-switch" href="#"><i class="bi bi-moon-fill"></i><span>Dark Mode</span></a></li>
-                                    </ul>
-                                </div>
-                                <div class="dropdown-inner">
-                                    <ul class="link-list">
-                                        <li><a href="./registro/logout.php"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li><!-- .dropdown -->                                    
-                    </ul><!-- .nk-quick-nav -->
-                </div><!-- .nk-header-tools -->
-            </div><!-- .nk-header-wrap -->
-        </div><!-- .container-fluid -->
-    </div>
+                            </li><!-- .dropdown -->
+                        </ul><!-- .nk-quick-nav -->
+                    </div><!-- .nk-header-tools -->
+                </div><!-- .nk-header-wrap -->
+            </div><!-- .container-fluid -->
+        </div>
     <?php } else { ?>
-    <div class="nk-header nk-header-fixed is-light">
-        <div class="container-fluid">
-            <div class="nk-header-wrap">                         
-                
-                <div class="nk-header-news d-none d-xl-block">
-                    <div class="nk-news-list">
-                        <a href="index.php" class="logo">
-                            <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png" srcset="./assets/img/logo2x.png 2x" alt="logo">
-                        </a>                                    
-                    </div>
-                </div><!-- .nk-header-news -->
-                <div class="nk-header-tools">
-                    <div class="nk-news-list">
-                        <a href="registro/registro.php" class="btn btn-icon" ><span>Registrarse</span></a>
-                        <a href="registro/login.php" class="btn btn-icon" ><span>Iniciar Sesión</span></a>                        
-                    </div>                   
-                </div><!-- .nk-header-tools -->
-            </div><!-- .nk-header-wrap -->
-        </div><!-- .container-fluid -->
-    </div> 
+        <div class="nk-header nk-header-fixed is-light">
+            <div class="container-fluid">
+                <div class="nk-header-wrap">
+
+                    <div class="nk-header-news d-none d-xl-block">
+                        <div class="nk-news-list">
+                            <a href="index.php" class="logo">
+                                <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png"
+                                    srcset="./assets/img/logo2x.png 2x" alt="logo">
+                            </a>
+                        </div>
+                    </div><!-- .nk-header-news -->
+                    <div class="nk-header-tools">
+                        <div class="nk-news-list">
+                            <a href="registro/registro.php" class="btn btn-icon"><span>Registrarse</span></a>
+                            <a href="registro/login.php" class="btn btn-icon"><span>Iniciar Sesión</span></a>
+                        </div>
+                    </div><!-- .nk-header-tools -->
+                </div><!-- .nk-header-wrap -->
+            </div><!-- .container-fluid -->
+        </div>
     <?php } ?>
 
     <h1>Inicio</h1>
@@ -129,36 +146,36 @@ $usuarioController = new UsuarioController();
             <div class="filter-item">
                 <label>Días Abierto:</label>
                 <div>
-                <input type="checkbox" id="lunes" name="dias_abierto" value="LUNES">
-                <label for="lunes">Lunes</label>
+                    <input type="checkbox" id="lunes" name="dias_abierto" value="LUNES">
+                    <label for="lunes">Lunes</label>
                 </div>
                 <div>
-                <input type="checkbox" id="martes" name="dias_abierto" value="MARTES">
-                <label for="martes">Martes</label>
+                    <input type="checkbox" id="martes" name="dias_abierto" value="MARTES">
+                    <label for="martes">Martes</label>
                 </div>
                 <div>
-                <input type="checkbox" id="miercoles" name="dias_abierto" value="MIERCOLES">
-                <label for="miercoles">Miércoles</label>
+                    <input type="checkbox" id="miercoles" name="dias_abierto" value="MIERCOLES">
+                    <label for="miercoles">Miércoles</label>
                 </div>
                 <div>
-                <input type="checkbox" id="jueves" name="dias_abierto" value="JUEVES">
-                <label for="jueves">Jueves</label>
+                    <input type="checkbox" id="jueves" name="dias_abierto" value="JUEVES">
+                    <label for="jueves">Jueves</label>
                 </div>
                 <div>
-                <input type="checkbox" id="viernes" name="dias_abierto" value="VIERNES">
-                <label for="viernes">Viernes</label>
+                    <input type="checkbox" id="viernes" name="dias_abierto" value="VIERNES">
+                    <label for="viernes">Viernes</label>
                 </div>
                 <div>
-                <input type="checkbox" id="sabado" name="dias_abierto" value="SABADO">
-                <label for="sabado">Sábado</label>
+                    <input type="checkbox" id="sabado" name="dias_abierto" value="SABADO">
+                    <label for="sabado">Sábado</label>
                 </div>
                 <div>
-                <input type="checkbox" id="domingo" name="dias_abierto" value="DOMINGO">
-                <label for="domingo">Domingo</label>
+                    <input type="checkbox" id="domingo" name="dias_abierto" value="DOMINGO">
+                    <label for="domingo">Domingo</label>
                 </div>
                 <div>
-                <input type="checkbox" id="todos" name="dias_abierto" value="TODOS">
-                <label for="todos">Todos</label>
+                    <input type="checkbox" id="todos" name="dias_abierto" value="TODOS">
+                    <label for="todos">Todos</label>
                 </div>
             </div>
 
@@ -217,38 +234,30 @@ $usuarioController = new UsuarioController();
         </div>
 
         <div class="search">
-    <div class="search-input" alt="formulario búsqueda">
-        <h3>Introduce la zona/barrio/estación de metro:</h3>
-        <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
-    </div>
+            <div class="search-input" alt="formulario búsqueda">
+                <h3>Introduce la zona/barrio/estación de metro:</h3>
+                <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
+            </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
-    <script src="../assets/js/jquery-3.6.0.minundle.js"></script>
-    <script src="../assets/js/jquery-3.6.0.min.js"></script>
-    <script src="../assets/js/verLocales.js"></script>
-    <script src="../assets/js/bundle.js"></script>
 
-    <div class="view-toggle">
-        <button id="map-view">Mapa</button>
-        <button id="list-view">Listado</button>
-    </div>
+            <div class="view-toggle">
+                <button id="map-view">Mapa</button>
+                <button id="list-view">Listado</button>
+            </div>
 
-    <div id="map" class="map"></div>
-    <!-- declaro aquí la variable porque en el js no se puede -->
-    <script>
-        var locations = <?php echo json_encode($locales); ?>;
-    </script>
+            <div id="map" class="map"></div>
 
 </body>
 
 <footer>
     <ul class="Redes">
         <li>
-            <a href="https://www.instagram.com/cheersy.app/"><img class="" src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 15.png" alt="logo"></a>
+            <a href="https://www.instagram.com/cheersy.app/"><img class=""
+                    src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 15.png" alt="logo"></a>
         </li>
         <li>
-            <a href="https://www.facebook.com/profile.php?id=61553869796205"><img class="" src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 16.png" alt="logo"></a>
+            <a href="https://www.facebook.com/profile.php?id=61553869796205"><img class=""
+                    src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 16.png" alt="logo"></a>
         </li>
     </ul>
 </footer>

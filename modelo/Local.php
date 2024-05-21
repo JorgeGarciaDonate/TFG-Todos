@@ -203,7 +203,7 @@ class Local
                 ];
             }
             return $data;
-            /*   echo json_encode($data); */
+             /*  return json_encode($data); */
         } else {
             // Si ocurre un error al ejecutar la consulta, lanzar una excepción
             throw new Exception("Error al obtener los locales.");
