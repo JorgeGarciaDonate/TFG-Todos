@@ -4,9 +4,9 @@ class Local
 {
 
     private $_db, // Objeto de la clase DB
-    $_data, // Datos del local
-    $_sessionName, // Nombre de la sesión
-    $_cookieName; // Nombre de la cookie
+        $_data, // Datos del local
+        $_sessionName, // Nombre de la sesión
+        $_cookieName; // Nombre de la cookie
 
 
     // Constructor de la clase
@@ -93,55 +93,8 @@ class Local
         }
     }
 
-    // Método para obtener una lista de todos los locales
-    /* public function allLocales() {
-        $tabla = "locales";
-        $data = [];
-        // Se ejecuta una consulta para obtener todos los locales de la base de datos
-        if ($this->_db->query("SELECT * FROM " . $tabla)) {
-            if($this->_db->query("SELECT * FROM " . $tabla)){
-                foreach ($this->_db->results() as $result) {   
-                    $local_id = $result -> local_id;
-                    $hora_apertura = $result -> hora_apertura;
-                    $hora_cierre = $result -> hora_cierre;
-                    $dias_abierto = $result -> dias_abierto;
-                    $nombre_local = $result -> nombre_local;
-                    $tipo_local = $result -> tipo_local; 
-                    $ubicacion_id = $result ->ubicacion_id;
-                    $musica_en_vivo = $result -> musica_en_vivo; 
-                    $descripcion = $result ->descripcion;
-                    $genero_musical	= $result ->genero_musical;
-                    $edad_recomendada = $result ->edad_recomendada;
-                    $precio_rango = $result ->precio_rango;
-                    $usuario_id = $result ->usuario_id;
-                    $data[] = [
-                        'local_id' => $local_id,
-                        'hora_apertura' => $hora_apertura,
-                        'hora_cierre' => $hora_cierre,
-                        'dias_abierto' => $dias_abierto,
-                        'nombre_local' => $nombre_local,
-                        'tipo_local' => $tipo_local,
-                        'ubicacion_id' => $ubicacion_id,
-                        'musica_en_vivo' => $musica_en_vivo,
-                        'descripcion' => $descripcion,
-                        'genero_musical' => $genero_musical,
-                        'edad_recomendada' => $edad_recomendada,
-                        'precio_rango' => $precio_rango,
-                        'usuario_id' => $usuario_id
-                    ];                      
-                }
-                return $data;
-            }
-        }
-        // Si ocurre un error al ejecutar la consulta, se lanza una excepción
-        if ($this->_db->query("SELECT * FROM " . $tabla)) {
-            throw new Exception("Oops! Algo ha ido mal.");
-        }
-    } */
-
-
     // Método para obtener una lista de todos los locales con sus ubicaciones
-    public function allLocales()
+    /*    public function allLocales()
     {
         $query = "SELECT * 
               FROM locales l
@@ -203,28 +156,87 @@ class Local
                 ];
             }
             return $data;
-             /*  return json_encode($data); */
         } else {
             // Si ocurre un error al ejecutar la consulta, lanzar una excepción
             throw new Exception("Error al obtener los locales.");
         }
+    } */
+
+
+    public function allLocales()
+    {
+        $query = "SELECT l.*, u.*, f.foto_id, f.nombre_foto
+              FROM locales l
+              LEFT JOIN ubicaciones u ON l.ubicacion_id = u.ubicacion_id
+              LEFT JOIN fotos f ON l.local_id = f.local_id";
+
+        if ($this->_db->query($query)) {
+            $data = [];
+            $localesMap = [];
+
+            foreach ($this->_db->results() as $result) {
+                $local_id = $result->local_id;
+
+                if (!isset($localesMap[$local_id])) {
+                    $localesMap[$local_id] = [
+                        'local_id' => $result->local_id,
+                        'hora_apertura' => $result->hora_apertura,
+                        'hora_cierre' => $result->hora_cierre,
+                        'dias_abierto' => $result->dias_abierto,
+                        'nombre_local' => $result->nombre_local,
+                        'tipo_local' => $result->tipo_local,
+                        'ubicacion' => [
+                            'ubicacion_id' => $result->ubicacion_id,
+                            'calle' => $result->calle,
+                            'num_calle' => $result->num_calle,
+                            'zona' => $result->zona,
+                            'ciudad' => $result->ciudad,
+                            'cod_postal' => $result->cod_postal,
+                            'latitud' => $result->latitud,
+                            'longitud' => $result->longitud
+                        ],
+                        'musica_en_vivo' => $result->musica_en_vivo,
+                        'descripcion' => $result->descripcion,
+                        'genero_musical' => $result->genero_musical,
+                        'edad_recomendada' => $result->edad_recomendada,
+                        'precio_rango' => $result->precio_rango,
+                        'usuario_id' => $result->usuario_id,
+                        'fotos' => []
+                    ];
+                }
+
+                if ($result->foto_id) {
+                    $localesMap[$local_id]['fotos'][] = [
+                        'foto_id' => $result->foto_id,
+                        'nombre_foto' => $result->nombre_foto
+                    ];
+                }
+            }
+
+            $data = array_values($localesMap);
+            return $data;
+        } else {
+            throw new Exception("Error al obtener los locales.");
+        }
     }
 
+
     //Metodo para obtener el nombre, latitud y longitud de los locales
-    public function coordenadasLocales(){
+    public function coordenadasLocales()
+    {
         $consulta = "SELECT l.nombre_local, u.latitud, u.longitud 
                     FROM locales as l 
                     INNER JOIN ubicaciones as u ON l.ubicacion_id = u.ubicacion_id ORDER BY l.nombre_local";
-        if($this->_db->query($consulta)){
+        if ($this->_db->query($consulta)) {
             // Array para almacenar las coordenadas de los locales
             $locales = [];
             foreach ($this->_db->results() as $local) {
-                $nombre_local=$local->nombre_local;
-                $latitud=$local->latitud;
-                $longitud=$local->longitud;
-                
+                $nombre_local = $local->nombre_local;
+                $latitud = $local->latitud;
+                $longitud = $local->longitud;
+
                 $locales[] = array(
-                    'ubicacion'=>[
+                    'ubicacion' => [
                         'latitud' => $latitud,
                         'longitud' => $longitud
                     ],
@@ -233,7 +245,6 @@ class Local
             }
             return $locales;
         }
-        
     }
 
 
@@ -270,6 +281,4 @@ class Local
     {
         return $this->_data;
     }
-
 }
-?>

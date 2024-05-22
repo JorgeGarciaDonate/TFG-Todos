@@ -43,6 +43,13 @@ p, li {
     font-weight: 400;
 }
 
+
+/* revisar en dashlite la línea 12847 
+porque esto aquí no funciona*/
+img {
+  max-width: 6em;
+}
+
 .container {
     display: flex;
     flex: 1;
@@ -78,6 +85,19 @@ p, li {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
+.foto-local {
+    width: 4em; /* Establecer el ancho de la imagen a 4 em */
+    height: auto;  /* Mantener la proporción de la imagen */
+    display: block;
+    margin: 10px 0;
+}
+.fotos-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
 
 footer {
     background-color: #d370d3;

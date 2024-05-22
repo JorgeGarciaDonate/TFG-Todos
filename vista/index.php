@@ -49,7 +49,7 @@ $usuarioController = new UsuarioController();
                         <div class="nk-news-list">
                             <a href="index.php" class="logo">
                                 <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png"
-                                    srcset="./assets/img/logo2x.png 2x" alt="logo">
+                                     alt="logo">
                             </a>
                         </div>
                     </div><!-- .nk-header-news -->
@@ -113,7 +113,7 @@ $usuarioController = new UsuarioController();
                         <div class="nk-news-list">
                             <a href="index.php" class="logo">
                                 <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png"
-                                    srcset="./assets/img/logo2x.png 2x" alt="logo">
+                                     alt="logo">
                             </a>
                         </div>
                     </div><!-- .nk-header-news -->

@@ -47,40 +47,50 @@ document.addEventListener('DOMContentLoaded', function() {
         // Ocultar mapa y mostrar listado
         document.getElementById('map').style.display = 'none';
         document.getElementById('list-container').style.display = 'block';
-
+    
         // Realizar una solicitud AJAX para obtener los datos de los locales
         $.ajax({
-            type: 'POST', // Cambiar a POST
+            type: 'POST',
             url: '../controlador/LocalController.php',
             data: { action: 'allLocales' }, // Aquí envías la acción 'allLocales' al controlador
             dataType: 'json',
             success: function(response) {
                 // Limpiar el contenedor antes de mostrar nuevos datos
                 $('#list-container').empty();
-
+    
                 // Iterar sobre los locales recibidos y mostrar la información
                 response.forEach(function(local) {
                     var localItem = $('<div>').addClass('local-item');
                     localItem.append($('<h4>').text(local.nombre_local));
-                    /* Hay que añadir las fotos.  */
+    
+                    // Añadir fotos
+                    if (local.fotos.length > 0) {
+                        var fotosContainer = $('<div>').addClass('fotos-container');
+                        local.fotos.forEach(function(foto) {
+                            var fotoPath = 'http://localhost/TFG-Todos/TFG-Todos/assets/img/locales/' + foto.nombre_foto + ".jpg"; // Ajusta esta ruta
+                            var fotoElement = $('<img>').attr('src', fotoPath).addClass('foto-local');
+                           /*  var fotoPath = 'http://localhost/TFG-Todos/TFG-Todos/assets/img/locales/Foto1.jpg'; */
+                            fotosContainer.append(fotoElement);
+                        });
+                        localItem.append(fotosContainer);
+                    }
+    
                     localItem.append($('<p>').text('Tipo: ' + local.tipo_local));
                     localItem.append($('<p>').text('Descripción: ' + local.descripcion));
-
-                    localItem.append($('<p>').text('Hora de apertura: ' + local.hora_apertura + ' - Hora de cierre: ' + local.hora_cierre ));
+                    localItem.append($('<p>').text('Hora de apertura: ' + local.hora_apertura + ' - Hora de cierre: ' + local.hora_cierre));
                     localItem.append($('<p>').text('Abierto: ' + local.dias_abierto));
                     localItem.append($('<p>').text('Tipo de música: ' + local.genero_musical));
                     localItem.append($('<p>').text('Edad media: ' + local.edad_recomendada));
                     localItem.append($('<p>').text('Precio medio: ' + local.precio_rango + " €"));
-
+    
                     localItem.append($('<h6>').text('Ubicación:'));
-
-                    localItem.append($('<p>').text('Tipo: ' + local.ubicacion.calle + ' ' + local.ubicacion.num_calle));
+                    localItem.append($('<p>').text('Calle: ' + local.ubicacion.calle + ' ' + local.ubicacion.num_calle));
                     localItem.append($('<p>').text('Ciudad: ' + local.ubicacion.ciudad + ' Zona: ' + local.ubicacion.zona));
                     localItem.append($('<p>').text('Código postal: ' + local.ubicacion.cod_postal));
-
+    
                     $('#list-container').append(localItem);
                 });
-
+    
                 // Mostrar el contenedor de listado y ocultar el mapa
                 $('#map').hide();
                 $('#list-container').show();
@@ -90,5 +100,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 $('#list-container').text('Error al cargar los locales. Inténtalo de nuevo más tarde.');
             }
         });
-    });
+    });    
 });
