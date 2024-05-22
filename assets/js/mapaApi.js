@@ -62,8 +62,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 response.forEach(function(local) {
                     var localItem = $('<div>').addClass('local-item');
                     localItem.append($('<h4>').text(local.nombre_local));
+                    /* Hay que añadir las fotos.  */
                     localItem.append($('<p>').text('Tipo: ' + local.tipo_local));
                     localItem.append($('<p>').text('Descripción: ' + local.descripcion));
+
+                    localItem.append($('<p>').text('Hora de apertura: ' + local.hora_apertura + ' - Hora de cierre: ' + local.hora_cierre ));
+                    localItem.append($('<p>').text('Abierto: ' + local.dias_abierto));
+                    localItem.append($('<p>').text('Tipo de música: ' + local.genero_musical));
+                    localItem.append($('<p>').text('Edad media: ' + local.edad_recomendada));
+                    localItem.append($('<p>').text('Precio medio: ' + local.precio_rango + " €"));
+
+                    localItem.append($('<h6>').text('Ubicación:'));
+
+                    localItem.append($('<p>').text('Tipo: ' + local.ubicacion.calle + ' ' + local.ubicacion.num_calle));
+                    localItem.append($('<p>').text('Ciudad: ' + local.ubicacion.ciudad + ' Zona: ' + local.ubicacion.zona));
+                    localItem.append($('<p>').text('Código postal: ' + local.ubicacion.cod_postal));
 
                     $('#list-container').append(localItem);
                 });
