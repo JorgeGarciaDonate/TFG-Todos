@@ -249,7 +249,62 @@ $usuarioController = new UsuarioController();
 
             <div id="map" class="map"></div>
             <div id="list-container" style="display: none;"></div>
+<style>
+    
+/*     #list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
 
+.local-item {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    width: 100%;
+    max-width: 600px;
+    background-color: #fff;
+}
+
+.fotos-container {
+    width: 10%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f8f8;
+}
+
+.foto-local {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.local-content {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-column, .right-column {
+    width: 48%;
+}
+
+.left-column h4 {
+    color: #d370d3;
+}
+
+.left-column p, .right-column p {
+    margin: 5px 0;
+    color: #333;
+}
+ */
+
+</style>
             
 
 </body>
