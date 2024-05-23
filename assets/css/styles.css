@@ -47,7 +47,7 @@ p, li {
 /* revisar en dashlite la línea 12847 
 porque esto aquí no funciona*/
 img {
-  max-width: 6em;
+  max-width: 10em;
 }
 
 .container {
