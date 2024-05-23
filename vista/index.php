@@ -44,12 +44,10 @@ $usuarioController = new UsuarioController();
         <div class="nk-header nk-header-fixed is-light">
             <div class="container-fluid">
                 <div class="nk-header-wrap">
-
                     <div class="nk-header-news d-none d-xl-block">
                         <div class="nk-news-list">
                             <a href="index.php" class="logo">
-                                <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png"
-                                    srcset="./assets/img/logo2x.png 2x" alt="logo">
+                                <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png" srcset="./assets/img/logo2x.png 2x" alt="logo">
                             </a>
                         </div>
                     </div><!-- .nk-header-news -->
@@ -73,28 +71,25 @@ $usuarioController = new UsuarioController();
                                     <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                         <div class="user-card">
                                             <div class="user-avatar">
-                                                <span><i class="bi bi-person"></i></span>
+                                                <span><?php echo strtoupper(substr($usuarioController->getNombreById($_SESSION['user']), 0, 2)); ?></span>
                                             </div>
                                             <div class="user-info">
-
+                                                <span class="lead-text"><?php echo $usuarioController->getNombreById($_SESSION['user']); ?></span>
+                                                <span class="sub-text"><?php echo $usuarioController->getEmailById($_SESSION['user']); ?></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="dropdown-inner">
                                         <ul class="link-list">
-                                            <li><a href="../Login/view/user/viewProfile.php"><i
-                                                        class="bi bi-person"></i><span>View Profile</span></a></li>
-                                            <li><a href="#"><i class="bi bi-gear"></i><span>Account Setting</span></a></li>
-                                            <li><a href="#"><i class="bi bi-activity"></i><span>Login Activity</span></a>
+                                            <li><a href="../vista/usuario/vistaPerfil.php"><span> Perfil</span></a></li>
+                                            <li><a href="../vista/usuario/vistaLocal.php"><span>Local</span></a></li>
+                                            <li><a href="#"><em class="icon bi bi-activity"></em><span>Login Activity</span></a>
                                             </li>
-                                            <li><a class="dark-switch" href="#"><i class="bi bi-moon-fill"></i><span>Dark
-                                                        Mode</span></a></li>
                                         </ul>
                                     </div>
                                     <div class="dropdown-inner">
                                         <ul class="link-list">
-                                            <li><a href="./registro/logout.php"><em
-                                                        class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                            <li><a href="./registro/logout.php"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -247,6 +242,8 @@ $usuarioController = new UsuarioController();
 
             <div id="map" class="map"></div>
             <div id="list-container" style="display: none;"></div>
+        </div>
+    </div>
 
             
 

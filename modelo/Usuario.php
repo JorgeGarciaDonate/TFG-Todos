@@ -56,13 +56,14 @@ class Usuario {
         if (!$this->_db->update('usuarios', $id, $fields)) {
             throw new Exception('Ha habido un problema actualizando el usuario.');
         }
+        return true;
     }
 
     // Método para buscar un usuario por nombre de usuario o correo electrónico
     public function find($usuario = null) {
         if ($usuario) {
             // Se determina si el usuario es un nombre de usuario o un correo electrónico
-            $field = (is_numeric($usuario)) ? 'usuario_id' : 'nombre_usuario' ;
+            $field = (is_numeric($usuario)) ? 'id' : 'nombre_usuario' ;
             // Se busca el usuario en la base de datos
             $data = $this->_db->get('usuarios', array($field, '=', $usuario));
 
@@ -86,7 +87,7 @@ class Usuario {
     public function login($nombre_usuario = null, $password = null, $remember = false) {
         // Si no se proporciona un nombre de usuario y contraseña y el usuario ya está logueado, se renueva la sesión
         if (!$nombre_usuario && !$password && $this->exists()) {
-            Session::put($this->_sessionName, $this->data()->usuario_id);
+            Session::put($this->_sessionName, $this->data()->id);
         } else {
             // Si se proporciona un nombre de usuario y contraseña, se intenta iniciar sesión
             $usuario = $this->find($nombre_usuario);
@@ -94,7 +95,7 @@ class Usuario {
                 // Se verifica la contraseña
                 if ($this->data()->password_hash === Hash::make($password, $this->data()->password_salt)) {
                     
-                    Session::put($this->_sessionName, $this->data()->usuario_id);
+                    Session::put($this->_sessionName, $this->data()->id);
                     return true;
                 }
             } 
@@ -102,11 +103,44 @@ class Usuario {
 
         return false;
     }
-    // Método para obtener el nombre de usuario a partir de un ID de usuario
-    public function getNombreById($usuario_id) {
-        if (!empty($usuarioId)) {
+    // Método para obtener datos del usuario
+    public function getDatosUsuario($id) {
+        $tabla = "usuarios";
+        $datos = $this->_db->get($tabla, array('id', '=', $id));
+        $valores = [];
+        
+        if ($datos) {
+            $valores = $this->arrayDatos($datos->results());
+        } else {
+            throw new Exception("Oops! Something went wrong.");
+        }
+    
+        return $valores;
+    }
+    
+    public function arrayDatos($datos){
+        $valores = [];
+        foreach ($datos as $dato) {           
+
+            $valores[] = [
+                'id' => $dato -> id,
+                'nombre' => $dato -> nombre,
+                'apellido' => $dato -> apellido,
+                'nombre_usuario' => $dato -> nombre_usuario,
+                'email' => $dato -> email,
+                'fecha_de_nacimiento' => $dato -> fecha_de_nacimiento,
+                'telefono' => $dato -> telefono,
+                'es_propietario' => $dato -> es_propietario,
+                'dni' => $dato -> dni
+            ];
+        }
+        return $valores;
+    }
+    
+    public function getNombreById($id) {
+        if (!empty($id)) {
             $tabla =  "usuarios";
-            $nombre = $this->_db->get($tabla, array('usuario_id', '=', $usuario_id));
+            $nombre = $this->_db->get($tabla, array('id', '=', $id));
             if ($nombre->count() > 0) {
                 return $nombre->first()->nombre;
             } else {
@@ -116,27 +150,26 @@ class Usuario {
             return false;
         }
     }
-    // Método para obtener el ID de usuario a partir de un array de datos de usuario
-    public function getusuarioId($usuarioArray) {
-        if (!empty($usuarioArray['nombre_usuario'])) {
-            $tabla = "usuarios";
-            $usuario = $this->_db->get($tabla, array('nombre_usuario', '=', $usuarioArray['nombre_usuario']));
-            if ($usuario->count() > 0) {
-                return $usuario->first()->id;
+    //Metodo para obtener el nombre de usuario a partir del Id
+    public function getNombre_usuarioById($id) {
+        if (!empty($id)) {
+            $tabla =  "usuarios";
+            $nombre = $this->_db->get($tabla, array('id', '=', $id));
+            if ($nombre->count() > 0) {
+                return $nombre->first()->nombre_usuario;
             } else {
                 return false; 
             }
         } else {
-            return false; 
+            return false;
         }
     }
-
-    
+        
     // Método para obtener el correo electrónico a partir de un ID de usuario
-    public function getEmailById($usuarioId) {
-        if (!empty($usuarioId)) {
+    public function getEmailById($id) {
+        if (!empty($id)) {
             $tabla = "usuarios";
-            $usuario = $this->_db->get($tabla, array('usuario_id', '=', $usuarioId));
+            $usuario = $this->_db->get($tabla, array('id', '=', $id));
             if ($usuario->count() > 0) {
                 return $usuario->first()->email;
             } else {

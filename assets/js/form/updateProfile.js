@@ -1,44 +1,36 @@
 $(document).ready(function() {
     $('#botonUpdate').click(function() {
-        var name = $('#name').val().trim();
-        var username = $('#username').val().trim();
-        var phone_number = $('#phone_number').val().trim();
-        var date_birth = $('#date_birth').val();
-        var address = $('#address').val().trim();
-        var id = $('#id').text().trim(); 
+        var nombre = $('#nombre').val().trim();
+        var nombre_usuario = $('#nombre_usuario').val().trim();
+        var telefono = $('#telefono').val().trim();
+        var fecha_nacimiento = $('#fecha_nacimiento').val();
+        var apellido = $('#apellido').val().trim();
+        var dni = $('#dni').val().trim();
+        var usuario_id = $('#usuario_id').text().trim(); 
 
-        console.log(name);
+        console.log(nombre);
 
         $.ajax({
             type: 'POST',
-            url: './controller/ControllerUser.php',
+            url: './controlador/UsuarioController.php',
             data: {
                 botonUpdate: true,
-                username: username,
-                name: name,
-                phone_number: phone_number,
-                date_birth: date_birth,
-                address: address,
-                id: id
+                nombre_usuario: nombre_usuario,
+                nombre: nombre,
+                telefono: telefono,
+                fecha_nacimiento: fecha_nacimiento,
+                apellido: apellido,
+                dni: dni,
+                usuario_id: usuario_id
             },
             dataType: 'json',
             success: function(response) {
-                console.log(data);
-                console.log(response);
                 alert(data);
                 if (!response.success) {
                     $('#error-msg').text('Incorrect data.');
                 }
                 else{
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('GET', window.location.href, true);
-
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            window.location.reload(true);
-                        }
-                    }; 
-                    xhr.send();   
+                    window.location.href = "../vista/usuario/vistaPerfil.php";   
                 }
             },
             error: function() {
