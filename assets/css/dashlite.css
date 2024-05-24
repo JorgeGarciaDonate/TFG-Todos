@@ -12844,9 +12844,9 @@ a:focus {
   outline: none;
 }
 
-img {
+/* img {
   max-width: 10em;
-}
+} */
 
 strong {
   font-weight: 500;
