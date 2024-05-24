@@ -231,7 +231,7 @@ $usuarioController = new UsuarioController();
 
         <div class="search">
             <div class="search-input" alt="formulario búsqueda">
-                <h3>Introduce la zona/barrio/estación de metro:</h3>
+                <h2>Introduce la zona/barrio/estación de metro:</h2>
                 <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
                 <button>Buscar</button>
             </div>

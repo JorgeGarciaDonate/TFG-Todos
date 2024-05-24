@@ -66,6 +66,7 @@ p, li {
 
 .search {
     flex: 1;
+    margin-top: 0;
 }
 
 .search-input input {
