@@ -50,7 +50,7 @@ class Usuario {
     public function update($fields = array(), $id = null) {
         // Si no se proporciona un ID y el usuario está logueado, se usa el ID del usuario actual
         if (!$id && $this->isLoggedIn()) {
-            $id = $this->data()->id;
+            $id = $this->data()->usuario_id;
         }
         // Se intenta actualizar los datos del usuario en la base de datos
         if (!$this->_db->update('usuarios', $id, $fields)) {
@@ -63,7 +63,7 @@ class Usuario {
     public function find($usuario = null) {
         if ($usuario) {
             // Se determina si el usuario es un nombre de usuario o un correo electrónico
-            $field = (is_numeric($usuario)) ? 'id' : 'nombre_usuario' ;
+            $field = (is_numeric($usuario)) ? 'usuario_id' : 'nombre_usuario' ;
             // Se busca el usuario en la base de datos
             $data = $this->_db->get('usuarios', array($field, '=', $usuario));
 
@@ -87,7 +87,7 @@ class Usuario {
     public function login($nombre_usuario = null, $password = null, $remember = false) {
         // Si no se proporciona un nombre de usuario y contraseña y el usuario ya está logueado, se renueva la sesión
         if (!$nombre_usuario && !$password && $this->exists()) {
-            Session::put($this->_sessionName, $this->data()->id);
+            Session::put($this->_sessionName, $this->data()->usuario_id);
         } else {
             // Si se proporciona un nombre de usuario y contraseña, se intenta iniciar sesión
             $usuario = $this->find($nombre_usuario);
@@ -95,7 +95,7 @@ class Usuario {
                 // Se verifica la contraseña
                 if ($this->data()->password_hash === Hash::make($password, $this->data()->password_salt)) {
                     
-                    Session::put($this->_sessionName, $this->data()->id);
+                    Session::put($this->_sessionName, $this->data()->usuario_id);
                     return true;
                 }
             } 
@@ -104,9 +104,9 @@ class Usuario {
         return false;
     }
     // Método para obtener datos del usuario
-    public function getDatosUsuario($id) {
+    public function getDatosUsuario($usuario_id) {
         $tabla = "usuarios";
-        $datos = $this->_db->get($tabla, array('id', '=', $id));
+        $datos = $this->_db->query("SELECT * FROM $tabla WHERE usuario_id = $usuario_id " );
         $valores = [];
         
         if ($datos) {
@@ -123,7 +123,7 @@ class Usuario {
         foreach ($datos as $dato) {           
 
             $valores[] = [
-                'id' => $dato -> id,
+                'usuario_id' => $dato -> id,
                 'nombre' => $dato -> nombre,
                 'apellido' => $dato -> apellido,
                 'nombre_usuario' => $dato -> nombre_usuario,
@@ -140,7 +140,7 @@ class Usuario {
     public function getNombreById($id) {
         if (!empty($id)) {
             $tabla =  "usuarios";
-            $nombre = $this->_db->get($tabla, array('id', '=', $id));
+            $nombre = $this->_db->get($tabla, array('usuario_id', '=', $id));
             if ($nombre->count() > 0) {
                 return $nombre->first()->nombre;
             } else {
@@ -154,7 +154,7 @@ class Usuario {
     public function getNombre_usuarioById($id) {
         if (!empty($id)) {
             $tabla =  "usuarios";
-            $nombre = $this->_db->get($tabla, array('id', '=', $id));
+            $nombre = $this->_db->get($tabla, array('usuario_id', '=', $id));
             if ($nombre->count() > 0) {
                 return $nombre->first()->nombre_usuario;
             } else {
@@ -169,7 +169,7 @@ class Usuario {
     public function getEmailById($id) {
         if (!empty($id)) {
             $tabla = "usuarios";
-            $usuario = $this->_db->get($tabla, array('id', '=', $id));
+            $usuario = $this->_db->get($tabla, array('usuario_id', '=', $id));
             if ($usuario->count() > 0) {
                 return $usuario->first()->email;
             } else {
