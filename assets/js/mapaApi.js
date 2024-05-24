@@ -149,10 +149,4 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-
-    console.log('Total locales:', allLocales.length);
-    console.log('Total pages:', totalPages);
-    console.log('Current page:', currentPage);
-    console.log('Locales on current page:', allLocales.slice(startIndex, endIndex));
-
 });
