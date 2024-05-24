@@ -108,7 +108,7 @@ $usuarioController = new UsuarioController();
                         <div class="nk-news-list">
                             <a href="index.php" class="logo">
                                 <img class="" src="../assets/img/png/Logotipo/Logo-Iconos_Mesa de trabajo 1 copia 7.png"
-                                    srcset="./assets/img/logo2x.png 2x" alt="logo">
+                                     alt="logo">
                             </a>
                         </div>
                     </div><!-- .nk-header-news -->
@@ -226,12 +226,14 @@ $usuarioController = new UsuarioController();
                     <option value="5">5</option>
                 </select>
             </div>
+            <button>Aplicar filtros</button>
         </div>
 
         <div class="search">
             <div class="search-input" alt="formulario búsqueda">
                 <h3>Introduce la zona/barrio/estación de metro:</h3>
                 <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
+                <button>Buscar</button>
             </div>
 
 

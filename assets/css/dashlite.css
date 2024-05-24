@@ -12845,7 +12845,7 @@ a:focus {
 }
 
 img {
-  max-width: 100%;
+  max-width: 10em;
 }
 
 strong {
