@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
         for (var i = startIndex; i < endIndex; i++) {
             var local = allLocales[i];
             var localItem = $('<div>').addClass('local-item');
-
+    
             if (local.fotos.length > 0) {
                 var fotosContainer = $('<div>').addClass('fotos-container');
                 local.fotos.forEach(function (foto) {
@@ -88,11 +88,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 localItem.append(fotosContainer);
             }
-
+    
             var localContent = $('<div>').addClass('local-content');
             var leftColumn = $('<div>').addClass('left-column');
             var rightColumn = $('<div>').addClass('right-column');
-
+    
             leftColumn.append($('<h4>').text(local.nombre_local));
             leftColumn.append($('<p>').text('Tipo: ' + local.tipo_local));
             leftColumn.append($('<p>').text('Descripción: ' + local.descripcion));
@@ -101,16 +101,18 @@ document.addEventListener('DOMContentLoaded', function () {
             leftColumn.append($('<p>').text('Tipo de música: ' + local.genero_musical));
             leftColumn.append($('<p>').text('Edad media: ' + local.edad_recomendada));
             leftColumn.append($('<p>').text('Precio medio: ' + local.precio_rango + " €"));
-
-            rightColumn.append($('<h6>').text('Ubicación:'));
-            rightColumn.append($('<p>').text('Calle: ' + local.ubicacion.calle + ' ' + local.ubicacion.num_calle));
-            rightColumn.append($('<p>').text('Ciudad: ' + local.ubicacion.ciudad + ' Zona: ' + local.ubicacion.zona));
-            rightColumn.append($('<p>').text('Código postal: ' + local.ubicacion.cod_postal));
-
+    
+            var ubicacionContent = $('<div>').addClass('ubicacion-content'); // Nuevo contenedor para los datos de ubicación
+            ubicacionContent.append($('<h6>').text('Ubicación:'));
+            ubicacionContent.append($('<p>').text('Calle: ' + local.ubicacion.calle + ' ' + local.ubicacion.num_calle));
+            ubicacionContent.append($('<p>').text('Ciudad: ' + local.ubicacion.ciudad + ' Zona: ' + local.ubicacion.zona));
+            ubicacionContent.append($('<p>').text('Código postal: ' + local.ubicacion.cod_postal));
+    
             localContent.append(leftColumn);
-            localContent.append(rightColumn);
+            localContent.append(ubicacionContent); // Agregar el bloque de ubicación
             localItem.append(localContent);
-
+            localItem.append(rightColumn); // Añadir rightColumn al final
+    
             $('#list-container').append(localItem);
         }
 
@@ -120,18 +122,18 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderPagination() {
         $('#pagination-container').empty(); // Limpiar la paginación existente
         var totalPages = Math.ceil(allLocales.length / itemsPerPage);
-
+    
         if (totalPages > 1) { // Solo mostrar paginación si hay más de una página
             if (currentPage > 1) {
-                var prevButton = $('<button>').text('Anterior').on('click', function () {
+                var prevButton = $('<button>').text('Anterior').addClass('pagination-button').on('click', function () {
                     loadPage(currentPage - 1);
                 });
                 $('#pagination-container').append(prevButton);
             }
-
+    
             for (var i = 1; i <= totalPages; i++) {
                 (function (pageNum) {
-                    var pageButton = $('<button>').text(pageNum).on('click', function () {
+                    var pageButton = $('<button>').text(pageNum).addClass('pagination-button').on('click', function () {
                         loadPage(pageNum);
                     });
                     if (pageNum === currentPage) {
@@ -140,13 +142,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     $('#pagination-container').append(pageButton);
                 })(i);
             }
-
+    
             if (currentPage < totalPages) {
-                var nextButton = $('<button>').text('Siguiente').on('click', function () {
+                var nextButton = $('<button>').text('Siguiente').addClass('pagination-button').on('click', function () {
                     loadPage(currentPage + 1);
                 });
                 $('#pagination-container').append(nextButton);
             }
         }
     }
+    
 });
