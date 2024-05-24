@@ -244,6 +244,7 @@ $usuarioController = new UsuarioController();
 
             <div id="map" class="map"></div>
             <div id="list-container" style="display: none;"></div>
+            <div id="pagination-container" style="display: none;"></div> <!-- Contenedor de paginación -->
         </div>
     </div>
 
