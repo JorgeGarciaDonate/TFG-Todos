@@ -113,6 +113,21 @@ document.addEventListener('DOMContentLoaded', function () {
             localItem.append(localContent);
             localItem.append(rightColumn); // Añadir rightColumn al final
     
+            if (isLoggedIn) {
+                var saveButton = $('<button>').text('Añadir a favoritos').addClass('save-button').attr('data-local-id', local.local_id);
+
+                // Contenedor para el checkbox y el botón de guardar
+                var actionsContainer = $('<div>').addClass('actions-container');
+                actionsContainer.append(saveButton);
+                
+                localItem.append(actionsContainer);
+
+                saveButton.on('click', function() {
+                    var localId = $(this).attr('data-local-id'); // Obtener el ID del local desde el atributo data-local-id del botón
+                    guardarFav(localId); // Llamar a la función saveFavorite con el ID del local
+                });
+            }
+
             $('#list-container').append(localItem);
         }
 
@@ -152,4 +167,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     
+    function guardarFav(localId) {
+        $.ajax({
+            type: 'POST',
+            url: '../controlador/LocalController.php',
+            data: { action: 'addFavorite', localId: localId },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert('Local guardado como favorito.');
+                } 
+                else {
+                    alert('Este local ya está guardado como favorito.');
+                }
+            },
+            error: function() {
+                console.error('Error al guardar el favorito:');
+            }
+        });
+    }
 });
