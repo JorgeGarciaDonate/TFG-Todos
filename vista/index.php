@@ -6,6 +6,9 @@ $LocalController = new LocalController();
 /*$locales = $LocalController->allLocales(); */
 $locales = $LocalController->coordLocales();
 $usuarioController = new UsuarioController();
+
+$isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -22,6 +25,8 @@ $usuarioController = new UsuarioController();
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../assets/js/mapaApi.js" defer></script>
+    <!--checkbox en listado si hay una sesion-->
+    <script> var isLoggedIn = <?php echo $isLoggedIn; ?>; </script>
     <!-- <script src="../assets/js/verLocales.js" defer></script> -->
     <script>var locations = <?php echo json_encode($locales); ?>; </script>
     <script> var data = <?php echo json_encode($data); ?>; </script>
@@ -85,6 +90,8 @@ $usuarioController = new UsuarioController();
                                             <li><a href="../vista/usuario/vistaLocal.php"><span>Local</span></a></li>
                                             <li><a href="#"><em class="icon bi bi-activity"></em><span>Login Activity</span></a>
                                             </li>
+                                            <li><a href="../vista/usuario/vistaFavoritos.php"><span>Favoritos</span></a></li>
+
                                         </ul>
                                     </div>
                                     <div class="dropdown-inner">
@@ -231,7 +238,7 @@ $usuarioController = new UsuarioController();
 
         <div class="search">
             <div class="search-input" alt="formulario búsqueda">
-                <h3>Introduce la zona/barrio/estación de metro:</h3>
+                <h2>Introduce la zona/barrio/estación de metro:</h2>
                 <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
                 <button>Buscar</button>
             </div>
@@ -244,6 +251,7 @@ $usuarioController = new UsuarioController();
 
             <div id="map" class="map"></div>
             <div id="list-container" style="display: none;"></div>
+            <div id="pagination-container" style="display: none;"></div> <!-- Contenedor de paginación -->
         </div>
     </div>
 

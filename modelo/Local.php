@@ -92,6 +92,20 @@ class Local
             return false;
         }
     }
+    //metodo para obtener la info del local en base a su id
+    public function getLocalById($localId) {
+        if (!empty($localId)) {
+            $tabla = "locales";
+            $local = $this->_db->get($tabla, array('local_id', '=', $localId));
+            if ($local->count() > 0) {
+                return (array) $local->first(); // Convertir el objeto a array asociativo
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
     // Método para obtener una lista de todos los locales con sus ubicaciones   
     public function allLocales()
