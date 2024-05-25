@@ -7,6 +7,10 @@ require_once(__DIR__ . '/../modelo/Local.php');
     $listLocales=(new Local())->allLocales();
     return $listLocales;
  }
+ public function getDatoslocal($local_id){
+    $datos = (new Local())->getDatoslocal($local_id);
+    return $datos; 
+ }
 
  public function coordLocales(){
    $coordLocales=(new Local())->coordenadasLocales();

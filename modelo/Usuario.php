@@ -123,7 +123,7 @@ class Usuario {
         foreach ($datos as $dato) {           
 
             $valores[] = [
-                'usuario_id' => $dato -> id,
+                'usuario_id' => $dato -> usuario_id,
                 'nombre' => $dato -> nombre,
                 'apellido' => $dato -> apellido,
                 'nombre_usuario' => $dato -> nombre_usuario,

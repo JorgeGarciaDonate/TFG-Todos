@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '\DB.php';
-class Local
-{
+class Local{
 
     private $_db, // Objeto de la clase DB
         $_data, // Datos del local
@@ -105,6 +104,43 @@ class Local
         } else {
             return false;
         }
+    }
+    // Método para obtener datos de un local
+    public function getDatoslocal($local_id) {
+        $tabla = "locales";
+        $datos = $this->_db->query("SELECT * FROM $tabla WHERE local_id = $local_id " );
+        $valores = [];
+        
+        if ($datos) {
+            $valores = $this->arrayDatos($datos->results());
+        } else {
+            throw new Exception("Oops! Something went wrong.");
+        }
+        var_dump ($valores);
+        return $valores;
+    }
+    
+    public function arrayDatos($datos){
+        $valores = [];
+        foreach ($datos as $dato) {           
+
+            $valores[] = [
+                'local_id' => $dato -> local_id,
+                'nombre_local' => $dato -> nombre_local,
+                'hora_apertura' => $dato -> hora_apertura,
+                'hora_cierre' => $dato -> hora_cierre,
+                'dias_abierto' => $dato -> dias_abierto,
+                'tipo_local' => $dato -> tipo_local,
+                'musica_en_vivo' => $dato -> musica_en_vivo,
+                'descripcion' => $dato -> descripcion,
+                'genero_musical' => $dato -> genero_musical,
+                'edad_recomendada' => $dato -> edad_recomendada,
+                'precio_rango' => $dato -> precio_rango,
+                'usuario_id' => $dato -> usuario_id,
+                'ubicacion_id' => $dato -> ubicacion_id
+            ];
+        }
+        return $valores;
     }
 
     // Método para obtener una lista de todos los locales con sus ubicaciones   

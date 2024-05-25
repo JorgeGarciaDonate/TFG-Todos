@@ -161,7 +161,6 @@ if (!empty($datos)) {
     </div>
     
     <!-- Editar Perfil Modal -->
-    <!-- Editar Perfil Modal -->
     <div class="modal fade" role="dialog" id="profile-edit">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
