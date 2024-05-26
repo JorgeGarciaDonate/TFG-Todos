@@ -92,19 +92,63 @@ class Local{
         }
     }
     //metodo para obtener la info del local en base a su id
-    public function getLocalById($localId) {
+    public function getLocalById($localId){
         if (!empty($localId)) {
-            $tabla = "locales";
-            $local = $this->_db->get($tabla, array('local_id', '=', $localId));
-            if ($local->count() > 0) {
-                return (array) $local->first(); // Convertir el objeto a array asociativo
+            $query = "SELECT l.*, u.*, f.foto_id, f.nombre_foto
+                    FROM locales l
+                    LEFT JOIN ubicaciones u ON l.ubicacion_id = u.ubicacion_id
+                    LEFT JOIN fotos f ON l.local_id = f.local_id
+                    WHERE l.local_id = ?";
+
+            if ($this->_db->query($query, [$localId])) {
+                $result = $this->_db->first();
+                
+                if ($result) {
+                    $local = [
+                        'local_id' => $result->local_id,
+                        'hora_apertura' => $result->hora_apertura,
+                        'hora_cierre' => $result->hora_cierre,
+                        'dias_abierto' => $result->dias_abierto,
+                        'nombre_local' => $result->nombre_local,
+                        'tipo_local' => $result->tipo_local,
+                        'ubicacion' => [
+                            'ubicacion_id' => $result->ubicacion_id,
+                            'calle' => $result->calle,
+                            'num_calle' => $result->num_calle,
+                            'zona' => $result->zona,
+                            'ciudad' => $result->ciudad,
+                            'cod_postal' => $result->cod_postal,
+                            'latitud' => $result->latitud,
+                            'longitud' => $result->longitud
+                        ],
+                        'musica_en_vivo' => $result->musica_en_vivo,
+                        'descripcion' => $result->descripcion,
+                        'genero_musical' => $result->genero_musical,
+                        'edad_recomendada' => $result->edad_recomendada,
+                        'precio_rango' => $result->precio_rango,
+                        'usuario_id' => $result->usuario_id,
+                        'fotos' => []
+                    ];
+
+                    if ($result->foto_id) {
+                        $local['fotos'][] = [
+                            'foto_id' => $result->foto_id,
+                            'nombre_foto' => $result->nombre_foto
+                        ];
+                    }
+
+                    return $local;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                throw new Exception("Error al obtener el local.");
             }
         } else {
             return false;
         }
     }
+
     // Método para obtener datos de un local
     public function getDatoslocal($local_id) {
         $tabla = "locales";
