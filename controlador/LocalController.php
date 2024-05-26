@@ -78,47 +78,54 @@ require_once(__DIR__ . '/../modelo/Local.php');
  }
  
 }
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-   if (isset($_POST['action']) && $_POST['action'] === 'allLocales') {
-       $controller = new LocalController();
-       $locales = $controller->allLocales();
-       
-       if ($locales) {
+   $controller = new LocalController();
+ 
+   if (isset($_POST['action'])) {
+       if ($_POST['action'] === 'allLocales') {
+           $locales = $controller->allLocales();
            echo json_encode($locales);
        }
-   }
-}
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'addFavorite') {
-   if (isset($_POST['localId'])) {
-       if (session_status() == PHP_SESSION_NONE) {
-         session_start();
-       }
-       $userId = $_SESSION['user'];
-       $localId = $_POST['localId'];
-       $controller = new LocalController();
-       $success = $controller->addFavorito($userId, $localId); 
-       if ($success) {
-         echo json_encode(['success' => true]);
-       } else {
-           echo json_encode(['success' => false]);
-       }
-     } 
- }
  
- if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'removeFavorite') {
-   if (isset($_POST['localId'])) {
-       //lógica para obtener el ID de usuario
-       if (session_status() == PHP_SESSION_NONE) {
-         session_start();
+       if ($_POST['action'] === 'addFavorite') {
+           if (isset($_POST['localId'])) {
+               if (session_status() == PHP_SESSION_NONE) {
+                   session_start();
+               }
+               $userId = $_SESSION['user'];
+               $localId = $_POST['localId'];
+               $success = $controller->addFavorito($userId, $localId);
+               echo json_encode(['success' => $success]);
+           }
        }
-       $userId = $_SESSION['user'];      
-       $localId = $_POST['localId'];
-       $controller = new LocalController();
-       $success = $controller->removeFavorito($userId, $localId);
-       if ($success) {
-           echo json_encode(['success' => true]);
-       } else {
-           echo json_encode(['success' => false]);
+ 
+       if ($_POST['action'] === 'removeFavorite') {
+           if (isset($_POST['localId'])) {
+               if (session_status() == PHP_SESSION_NONE) {
+                   session_start();
+               }
+               $userId = $_SESSION['user'];
+               $localId = $_POST['localId'];
+               $success = $controller->removeFavorito($userId, $localId);
+               echo json_encode(['success' => $success]);
+           }
+       }
+ 
+       if ($_POST['action'] === 'getFavoritos') {
+           if (session_status() == PHP_SESSION_NONE) {
+               session_start();
+           }
+           $userId = $_SESSION['user'];
+           $favoritos = $controller->getFavoritos($userId);
+           $localesFavoritos = [];
+           foreach ($favoritos as $favorito) {
+               $localFavorito = $controller->getLocalById($favorito);
+               if ($localFavorito) {
+                   $localesFavoritos[] = $localFavorito;
+               }
+           }
+           echo json_encode($localesFavoritos);
        }
    }
  }
