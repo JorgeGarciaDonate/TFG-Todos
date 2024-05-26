@@ -30,17 +30,20 @@ class Local{
     }
 
     // Método para actualizar los datos de un local
-    public function update($fields = array(), $id = null)
-    {
-        // Si no se proporciona un ID y el local está logueado, se usa el ID del local actual
-        if ($id) {
-            $id = $this->data()->id;
+    public function update($fields = array(), $local_id = null){
+        // Si no se proporciona un ID, se usa el ID del local actual
+        if (!$local_id) {
+            $local_id = $this->data()->local_id;
         }
         // Se intenta actualizar los datos del local en la base de datos
-        if (!$this->_db->update('locales', $id, $fields)) {
+        if (!$this->_db->update('locales', 'local', $local_id, $fields)) {
             throw new Exception('Ha habido un problema actualizando el local.');
         }
+        else{
+            return true;
+        }
     }
+
 
     // Método para buscar un local por nombre de local 
     public function find($local = null)
@@ -91,6 +94,11 @@ class Local{
             return false;
         }
     }
+    /* public function getTipoLocal(){
+        $tabla = "locales";
+        $tipo_local = $this->_db->query("SELECT tipo_local FROM $tabla");
+        return $tipo_local;
+    } */
     //metodo para obtener la info del local en base a su id
     public function getLocalById($localId) {
         if (!empty($localId)) {
@@ -105,6 +113,26 @@ class Local{
             return false;
         }
     }
+
+    public function getLocalesByUsuario_id($usuario_id) {
+        $tabla = "locales";
+        $datos = $this->_db->query("SELECT local_id, nombre_local FROM $tabla WHERE usuario_id = $usuario_id " );
+        $valores = [];
+        foreach ($datos->results() as $dato) {           
+
+            $valores[] = [
+                'local_id' => $dato -> local_id,
+                'nombre_local' => $dato -> nombre_local
+            ];
+        }
+        if ($valores) {
+            return $valores;
+        } else {
+            throw new Exception("Oops! Something went wrong.");
+        }
+        
+        
+    }
     // Método para obtener datos de un local
     public function getDatoslocal($local_id) {
         $tabla = "locales";
@@ -116,7 +144,7 @@ class Local{
         } else {
             throw new Exception("Oops! Something went wrong.");
         }
-        var_dump ($valores);
+        
         return $valores;
     }
     
@@ -263,3 +291,4 @@ class Local{
         return $this->_data;
     }
 }
+

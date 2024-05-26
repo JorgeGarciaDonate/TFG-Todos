@@ -11,6 +11,19 @@ require_once(__DIR__ . '/../modelo/Local.php');
     $datos = (new Local())->getDatoslocal($local_id);
     return $datos; 
  }
+ public function update($array,$local_id){
+  if((new Local())->update($array,$local_id)){
+    return true;
+  }
+  return false;
+ }
+ public function getLocalesByUsuario_id($usuario_id){
+  $locales = (new Local())->getLocalesByUsuario_id($usuario_id);
+  if($locales){
+    return $locales;
+  }
+  return false;
+ }
 
  public function coordLocales(){
    $coordLocales=(new Local())->coordenadasLocales();
@@ -110,33 +123,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
    }
  }
 
-/* require_once(__DIR__ . '/../modelo/Local.php');
+if (isset($_POST['botonUpdateDatos'])) {
+  $localController = new LocalController();
+  $nombre = $_POST['nombre'];
+  $tipo_local = $_POST['tipo_local'];
+  $genero_musical = $_POST['genero_musical'];
+  $precio_rango = $_POST['precio_rango'];
+  $edad_recomendada = $_POST['edad_recomendada'];
+  $descripcion = $_POST['descripcion'];
+  $local_id = $_POST['local_id'];
 
-class LocalController {
-    public function __construct() {
-        // Obtener todos los locales al inicializar el controlador
-        $this->locales = (new Local())->allLocales();
-    }
-    public function allLocales(){
-      $listLocales=(new Local())->allLocales();
-      return $listLocales;
-   }
+  $localDatos = array(
+      'nombre_local'=> $nombre,
+      'tipo_local' => $tipo_local,
+      'genero_musical' => $genero_musical,
+      'precio_rango' => $precio_rango,
+      'edad_recomendada' => $edad_recomendada,
+      'descripcion' => $descripcion,
+      'local_id' => $local_id
+  );
+  $actualizacion = $localController -> update($localDatos,$local_id);
   
-   public function coordLocales(){
-     $coordLocales=(new Local())->coordenadasLocales();
-     return $coordLocales;
-   }
+  if ($actualizacion) {
+      echo json_encode(['success' => true]);
+  } else {
+      echo json_encode(['success' => false]);
+  }
+
+}
+if (isset($_POST['botonUpdateHorario'])) {
+  $localController = new LocalController();
+  $dias_abierto = $_POST['dias_abierto'];
+  $hora_apertura = $_POST['hora_apertura'];
+  $hora_cierre = $_POST['hora_cierre'];
+  $local_id = $_POST['local_id'];
+
+  $localDatos = array(
+      'dias_abierto'=> $dias_abierto,
+      'hora_apertura' => $hora_apertura,
+      'hora_cierre' => $hora_cierre,
+      'local_id' => $local_id
+  );
+  $actualizacion = $localController -> update($localDatos,$local_id);
+  
+  if ($actualizacion) {
+      echo json_encode(['success' => true]);
+  } else {
+      echo json_encode(['success' => false]);
+  }
+
 }
 
-// Crear una instancia del controlador al iniciar el script
-$controller = new LocalController();
 
-// Manejar solicitudes de listado de locales
-if (isset($_POST['action']) && $_POST['action'] === 'allLocales') {
-   $locales = $controller->allLocales();
-
-   // Devolver los locales como JSON
-   echo json_encode($locales);
-} */
-
-?>

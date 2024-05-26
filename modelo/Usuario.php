@@ -53,12 +53,25 @@ class Usuario {
             $id = $this->data()->usuario_id;
         }
         // Se intenta actualizar los datos del usuario en la base de datos
-        if (!$this->_db->update('usuarios', $id, $fields)) {
+        if (!$this->_db->update('usuarios','usuario', $id, $fields)) {
             throw new Exception('Ha habido un problema actualizando el usuario.');
         }
         return true;
     }
 
+    public function es_propietario($usuario_id){
+        if (!empty($usuario_id)) {
+            $tabla =  "usuarios";
+            $dato = $this->_db->get($tabla, array('usuario_id', '=', $usuario_id));
+            if ($dato->count() > 0) {
+                return $dato->first()->es_propietario;
+            } else {
+                return false; 
+            }
+        } else {
+            return false;
+        }
+    }
     // Método para buscar un usuario por nombre de usuario o correo electrónico
     public function find($usuario = null) {
         if ($usuario) {

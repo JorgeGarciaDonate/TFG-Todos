@@ -20,8 +20,16 @@ class UsuarioController{
   }
   public function update($datos,$usuario_id){
     $usuario = (new Usuario())->update($datos,$usuario_id);
-    return true;
+    if($usuario){
+      return true;
+    }
+    return false;
   }
+  public function es_propietario($usuario_id) {
+    $usuario = (new Usuario())->es_propietario($usuario_id);
+    return $usuario;
+}
+
      
 }
 if (isset($_POST['botonUpdate'])) {

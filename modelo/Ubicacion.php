@@ -24,7 +24,7 @@ class Ubicacion {
 
     // Método para actualizar los datos de la ubicación
     public function update($fields = array(), $id = null) {       
-        if (!$this->_db->update('usuarios', $id, $fields)) {
+        if (!$this->_db->update('ubicaciones','ubicacion', $id, $fields)) {
             throw new Exception('Ha habido un problema actualizando el usuario.');
         }
         return true;
@@ -44,7 +44,37 @@ class Ubicacion {
             return false;
         }
     }
+     // Método para obtener datos de un ubicacion
+     public function getDatosUbicacion($ubicacion_id) {
+        $tabla = "ubicaciones";
+        $datos = $this->_db->query("SELECT * FROM $tabla WHERE ubicacion_id = $ubicacion_id " );
+        $valores = [];
+        
+        if ($datos) {
+            $valores = $this->arrayDatos($datos->results());
+        } else {
+            throw new Exception("Oops! Something went wrong.");
+        }
+        return $valores;
+    }
     
+    public function arrayDatos($datos){
+        $valores = [];
+        foreach ($datos as $dato) {           
+
+            $valores[] = [
+                'ubicacion_id' => $dato -> ubicacion_id,
+                'calle' => $dato -> calle,
+                'num_calle' => $dato -> num_calle,
+                'zona' => $dato -> zona,
+                'ciudad' => $dato -> ciudad,
+                'cod_postal' => $dato -> cod_postal,
+                'latitud' => $dato -> latitud,
+                'longitud' => $dato -> longitud
+            ];
+        }
+        return $valores;
+    }
 
     // Método para verificar si existe una ubicación
     public function exists() {

@@ -129,7 +129,7 @@ class DB{
     }
 
     // Método para realizar una consulta UPDATE
-    public function update($table, $id, $fields) {
+    public function update($table,$prefijo, $id, $fields) {
         $set = '';
         $x = 1;
 
@@ -141,7 +141,7 @@ class DB{
             $x++;
         }
 
-        $sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";
+        $sql = "UPDATE {$table} SET {$set} WHERE {$prefijo}_id = {$id}";
         if(!$this->query($sql, $fields)->error()) {
             return true;
         }
