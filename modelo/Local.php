@@ -157,7 +157,6 @@ class Local{
         }
     }
 
-<<<<<<< HEAD
     public function getLocalesByUsuario_id($usuario_id) {
         $tabla = "locales";
         $datos = $this->_db->query("SELECT local_id, nombre_local FROM $tabla WHERE usuario_id = $usuario_id " );
@@ -172,13 +171,11 @@ class Local{
         if ($valores) {
             return $valores;
         } else {
-            throw new Exception("Oops! Something went wrong.");
+            return new Exception("Oops! Something went wrong.");
         }
         
         
     }
-=======
->>>>>>> 2ce09a6f6fbaca98f8eab6ef933b4a84d8867bc5
     // Método para obtener datos de un local
     public function getDatoslocal($local_id) {
         $tabla = "locales";
