@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '\DB.php';
-class Local
-{
+class Local{
 
     private $_db, // Objeto de la clase DB
         $_data, // Datos del local
@@ -106,77 +105,45 @@ class Local
             return false;
         }
     }
-
-    // Método para obtener una lista de todos los locales con sus ubicaciones
-    /*    public function allLocales()
-    {
-        $query = "SELECT * 
-              FROM locales l
-              LEFT JOIN ubicaciones u ON l.ubicacion_id = u.ubicacion_id";
-
-        // Se ejecuta la consulta
-        if ($this->_db->query($query)) {
-            $data = [];
-
-            // Iterar sobre los resultados utilizando $this->_db->results()
-            foreach ($this->_db->results() as $result) {
-                $local_id = $result->local_id;
-                $hora_apertura = $result->hora_apertura;
-                $hora_cierre = $result->hora_cierre;
-                $dias_abierto = $result->dias_abierto;
-                $nombre_local = $result->nombre_local;
-                $tipo_local = $result->tipo_local;
-                $ubicacion_id = $result->ubicacion_id;
-                $musica_en_vivo = $result->musica_en_vivo;
-                $descripcion = $result->descripcion;
-                $genero_musical = $result->genero_musical;
-                $edad_recomendada = $result->edad_recomendada;
-                $precio_rango = $result->precio_rango;
-                $usuario_id = $result->usuario_id;
-
-                // Obtener los datos de ubicación
-                $calle = $result->calle;
-                $num_calle = $result->num_calle;
-                $zona = $result->zona;
-                $ciudad = $result->ciudad;
-                $cod_postal = $result->cod_postal;
-                $latitud = $result->latitud;
-                $longitud = $result->longitud;
-
-                // Construir el array de datos para el local, incluyendo los datos de ubicación
-                $data[] = [
-                    'local_id' => $local_id,
-                    'hora_apertura' => $hora_apertura,
-                    'hora_cierre' => $hora_cierre,
-                    'dias_abierto' => $dias_abierto,
-                    'nombre_local' => $nombre_local,
-                    'tipo_local' => $tipo_local,
-                    'ubicacion' => [
-                        'ubicacion_id' => $ubicacion_id,
-                        'calle' => $calle,
-                        'num_calle' => $num_calle,
-                        'zona' => $zona,
-                        'ciudad' => $ciudad,
-                        'cod_postal' => $cod_postal,
-                        'latitud' => $latitud,
-                        'longitud' => $longitud
-                    ],
-                    'musica_en_vivo' => $musica_en_vivo,
-                    'descripcion' => $descripcion,
-                    'genero_musical' => $genero_musical,
-                    'edad_recomendada' => $edad_recomendada,
-                    'precio_rango' => $precio_rango,
-                    'usuario_id' => $usuario_id
-                ];
-            }
-            return $data;
+    // Método para obtener datos de un local
+    public function getDatoslocal($local_id) {
+        $tabla = "locales";
+        $datos = $this->_db->query("SELECT * FROM $tabla WHERE local_id = $local_id " );
+        $valores = [];
+        
+        if ($datos) {
+            $valores = $this->arrayDatos($datos->results());
         } else {
-            // Si ocurre un error al ejecutar la consulta, lanzar una excepción
-            throw new Exception("Error al obtener los locales.");
+            throw new Exception("Oops! Something went wrong.");
         }
-    } */
+        var_dump ($valores);
+        return $valores;
+    }
+    
+    public function arrayDatos($datos){
+        $valores = [];
+        foreach ($datos as $dato) {           
 
+            $valores[] = [
+                'local_id' => $dato -> local_id,
+                'nombre_local' => $dato -> nombre_local,
+                'hora_apertura' => $dato -> hora_apertura,
+                'hora_cierre' => $dato -> hora_cierre,
+                'dias_abierto' => $dato -> dias_abierto,
+                'tipo_local' => $dato -> tipo_local,
+                'musica_en_vivo' => $dato -> musica_en_vivo,
+                'descripcion' => $dato -> descripcion,
+                'genero_musical' => $dato -> genero_musical,
+                'edad_recomendada' => $dato -> edad_recomendada,
+                'precio_rango' => $dato -> precio_rango,
+                'usuario_id' => $dato -> usuario_id,
+                'ubicacion_id' => $dato -> ubicacion_id
+            ];
+        }
+        return $valores;
+    }
 
+    // Método para obtener una lista de todos los locales con sus ubicaciones   
     public function allLocales()
     {
         $query = "SELECT l.*, u.*, f.foto_id, f.nombre_foto
