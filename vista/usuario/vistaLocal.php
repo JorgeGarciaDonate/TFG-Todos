@@ -5,14 +5,20 @@ require_once(ROOT . ".." . DS . ".." . DS . "core" . DS . "init.php");
 
 $usuarioController = new UsuarioController();
 $localController = new LocalController();
-$datos = $localController -> getDatoslocal(81);
+$ubicacionController = new UbicacionController();
+if(!$_SESSION['user']){
+    Redirect::to('../index.php');
+}
+$localesUser = $localController->getLocalesByUsuario_id($_SESSION['user']);
+$local_id = $_GET['local_id'];
+$datos = $localController -> getDatoslocal($local_id);
+
 
 if (!empty($datos)) {
     foreach ($datos as $dato) {
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">
-
 <head>
     <base href="../../">
     <meta charset="utf-8">
@@ -22,7 +28,7 @@ if (!empty($datos)) {
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./assets/img/favicon.png">
     <!-- Page Title  -->
-    <title>Profile | DashLite Admin Template</title>
+    <title>Datos local</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="./assets/css/dashlite.css">
     <link id="skin-default" rel="stylesheet" href="./assets/css/styles.css">
@@ -42,6 +48,7 @@ if (!empty($datos)) {
                 </div>
                 <div class="nk-header-tools">
                     <ul class="nk-quick-nav">
+                        <!-- .dropdown -->
                         <li class="dropdown user-dropdown">
                             <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown">
                                 <div class="user-toggle">
@@ -69,19 +76,26 @@ if (!empty($datos)) {
                                 </div>
                                 <div class="dropdown-inner">
                                     <ul class="link-list">
-                                        <li><a href="./vista/usuario/vistaPerfil.php"><em class="icon bi bi-person"></em><span> Perfil</span></a></li>
-                                        <li><a href="#"><em class="icon bi bi-gear"></em><span>Account Setting</span></a></li>
-                                        <li><a href="#"><em class="icon bi bi-activity"></em><span>Login Activity</span></a></li>
+                                        <li><a href="../vista/usuario/vistaPerfil.php"><span> Perfil</span></a></li>
+                                        <?php if ($usuarioController->es_propietario($_SESSION['user'])): ?>
+                                            <?php foreach ($localesUser as $local): ?>
+                                                <a href="../vista/usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>">
+                                                    <span><?php echo $local['nombre_local']; ?></span>
+                                                </a>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>                                            
+                                        <li><a href="../vista/usuario/vistaFavoritos.php"><span>Favoritos</span></a></li>
+
                                     </ul>
                                 </div>
                                 <div class="dropdown-inner">
                                     <ul class="link-list">
-                                        <li><a href="./registro/logout.php"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                        <li><a href="./vista/registro/logout.php"><em class="icon ni ni-signout"></em><span>Cerrar sesión</span></a></li>
                                     </ul>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
+                        </li><!-- .dropdown -->
+                    </ul><!-- .nk-quick-nav -->
                 </div>
             </div>
         </div>
@@ -109,14 +123,14 @@ if (!empty($datos)) {
                                     <div class="data-head">
                                         <h6 class="overline-title">Datos local</h6>
                                     </div>
-                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit">
                                         <div class="data-col">
                                             <span class="data-label">Nombre</span>
                                             <span class="data-value"><?php echo $dato['nombre_local']; ?></span>
                                         </div>
                                         <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
                                     </div>
-                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit">
                                         <div class="data-col">
                                             <span class="data-label">Tipo de local</span>
                                             <span class="data-value"><?php echo $dato['tipo_local'];?></span>
@@ -130,42 +144,21 @@ if (!empty($datos)) {
                                         </div>
                                         <div class="data-col data-col-end"></div>
                                     </div>
-                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit">
                                         <div class="data-col">
                                             <span class="data-label">Descripción</span>
                                             <span class="data-value text-soft"><?php echo $dato['descripcion'];?></span>
                                         </div>
                                         <div class="data-col data-col-end"></div>
-                                    </div>
-                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
-                                        <div class="data-col">
-                                            <span class="data-label">Días de apertura</span>
-                                            <span class="data-value"><?php echo $dato['dias_abierto'];?></span>
-                                        </div>
-                                        <div class="data-col data-col-end"></div>
-                                    </div>
-                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
-                                        <div class="data-col">
-                                            <span class="data-label">Hora apertura</span>
-                                            <span class="data-value"><?php echo $dato['hora_apertura'];?></span>
-                                        </div>
-                                        <div class="data-col data-col-end"></div>
-                                    </div>
-                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
-                                        <div class="data-col">
-                                            <span class="data-label">Hora cierre</span>
-                                            <span class="data-value"><?php echo $dato['hora_cierre'];?></span>
-                                        </div>
-                                        <div class="data-col data-col-end"></div>
-                                    </div>
-                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit" data-tab-target="#address">
+                                    </div>                                    
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit" data-tab-target="#address">
                                         <div class="data-col">
                                             <span class="data-label">Edad recomendada</span>
                                             <span class="data-value"><?php echo $dato['edad_recomendada'];?></span>
                                         </div>
                                         <div class="data-col data-col-end"></div>
                                     </div>
-                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit" data-tab-target="#address">
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit" data-tab-target="#address">
                                         <div class="data-col">
                                             <span class="data-label">Rango de precio</span>
                                             <span class="data-value"><?php echo $dato['precio_rango'];?></span>
@@ -173,32 +166,76 @@ if (!empty($datos)) {
                                         <div class="data-col data-col-end"></div>
                                     </div>
                                 </div><!-- data-list -->
-                                <!-- <div class="nk-data data-list">
+                                <div class="nk-data data-list">
                                     <div class="data-head">
-                                        <h6 class="overline-title">Preferences</h6>
+                                        <h6 class="overline-title">Horarios</h6>
                                     </div>
-                                    <div class="data-item">
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit">
                                         <div class="data-col">
-                                            <span class="data-label">Language</span>
-                                            <span class="data-value">English (United State)</span>
+                                            <span class="data-label">Días de apertura</span>
+                                            <span class="data-value"><?php echo $dato['dias_abierto'];?></span>
                                         </div>
-                                        <div class="data-col data-col-end"><a href="#" class="link link-primary">Change Language</a></div>
+                                        <div class="data-col data-col-end"></div>
                                     </div>
-                                    <div class="data-item">
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit">
                                         <div class="data-col">
-                                            <span class="data-label">Date Format</span>
-                                            <span class="data-value">M d, YYYY</span>
+                                            <span class="data-label">Hora apertura</span>
+                                            <span class="data-value"><?php echo $dato['hora_apertura'];?></span>
                                         </div>
-                                        <div class="data-col data-col-end"><a href="#" class="link link-primary">Change</a></div>
+                                        <div class="data-col data-col-end"></div>
                                     </div>
-                                    <div class="data-item">
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit">
                                         <div class="data-col">
-                                            <span class="data-label">Timezone</span>
-                                            <span class="data-value">Bangladesh (GMT +6)</span>
+                                            <span class="data-label">Hora cierre</span>
+                                            <span class="data-value"><?php echo $dato['hora_cierre'];?></span>
                                         </div>
-                                        <div class="data-col data-col-end"><a href="#" class="link link-primary">Change</a></div>
+                                        <div class="data-col data-col-end"></div>
                                     </div>
-                                </div> --><!-- data-list -->
+                                    
+                                </div> <!-- data-list -->
+                                <div class="nk-data data-list">
+                                    <?php 
+                                    $datosUbicacion = $ubicacionController -> getDatosUbicacion($dato['ubicacion_id']);
+                                    foreach($datosUbicacion as $datoUbi){ ?>
+                                    <div class="data-head">
+                                        <h6 class="overline-title">Ubicacion</h6>
+                                    </div>
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit">
+                                        <div class="data-col">
+                                            <span class="data-label">Calle</span>
+                                            <span class="data-value"><?php echo $datoUbi['calle'];?></span>
+                                        </div>
+                                        <div class="data-col data-col-end"></div>
+                                    </div>
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit">
+                                        <div class="data-col">
+                                            <span class="data-label">Número de calle</span>
+                                            <span class="data-value"><?php echo $datoUbi['num_calle'];?></span>
+                                        </div>
+                                        <div class="data-col data-col-end"></div>
+                                    </div>
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit">
+                                        <div class="data-col">
+                                            <span class="data-label">Zona</span>
+                                            <span class="data-value"><?php echo $datoUbi['zona'];?></span>
+                                        </div>
+                                        <div class="data-col data-col-end"></div>
+                                    </div>
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit">
+                                        <div class="data-col">
+                                            <span class="data-label">Ciudad</span>
+                                            <span class="data-value"><?php echo $datoUbi['ciudad'];?></span>
+                                        </div>
+                                        <div class="data-col data-col-end"></div>
+                                    </div>
+                                    <div class="data-item" data-bs-toggle="modal" data-bs-target="#datos-edit">
+                                        <div class="data-col">
+                                            <span class="data-label">Código postal</span>
+                                            <span class="data-value"><?php echo $datoUbi['cod_postal'];?></span>
+                                        </div>
+                                        <div class="data-col data-col-end"></div>
+                                    </div>                                                                        
+                                </div> <!-- data-list -->
                             </div><!-- .nk-block -->
                         </div>                                                    
                     </div>
@@ -209,7 +246,7 @@ if (!empty($datos)) {
     <!-- content @e -->                
     
     <!-- @@ Profile Edit Modal @e -->
-    <div class="modal fade" role="dialog" id="profile-edit">
+    <div class="modal fade" role="dialog" id="datos-edit">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
@@ -217,14 +254,17 @@ if (!empty($datos)) {
                     <h5 class="title">Modificar datos local</h5>
                     <ul class="nk-nav nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#personal">Datos</a>
+                            <a class="nav-link active" data-bs-toggle="tab" href="#datos">Datos</a>
                         </li>
-                       <li class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#horarios">Horarios</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="tab" href="#address">Ubicacion</a>
                         </li>
                     </ul><!-- .nav-tabs -->
                     <div class="tab-content">
-                        <div class="tab-pane active" id="personal">
+                        <div class="tab-pane active" id="datos">
                             <div class="row gy-4">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -235,87 +275,187 @@ if (!empty($datos)) {
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="tipo-local">Tipo local</label>
-                                        <input type="text" class="form-control form-control-lg" id="tipo_local" name="tipo_local" value="<?php echo $dato['tipo_local'];?>" placeholder="Enter display name">
+                                        <select class="form-control form-control-lg" id="tipo_local" name="tipo_local">
+                                            <option value="" disabled selected>Seleccione un tipo de local</option>
+                                            <option value="BAR" <?php echo ($dato['tipo_local'] == 'BAR') ? 'selected' : ''; ?>>BAR</option>
+                                            <option value="PUB" <?php echo ($dato['tipo_local'] == 'PUB') ? 'selected' : ''; ?>>PUB</option>
+                                            <option value="DISCOTECA" <?php echo ($dato['tipo_local'] == 'DISCOTECA') ? 'selected' : ''; ?>>DISCOTECA</option>
+                                            <option value="RESTAURANTE" <?php echo ($dato['tipo_local'] == 'RESTAURANTE') ? 'selected' : ''; ?>>RESTAURANTE</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="genero_musical">Género musical</label>
+                                        <div class="checkbox-group" id="genero_musical">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="REGGAETON" id="reggaeton" <?php echo (in_array('REGGAETON', explode(',', $dato['genero_musical']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="reggaeton">REGGAETON</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="TECHNO" id="techno" <?php echo (in_array('TECHNO', explode(',', $dato['genero_musical']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="techno">TECHNO</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="ELECTRÓNICA" id="electronica" <?php echo (in_array('ELECTRÓNICA', explode(',', $dato['genero_musical']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="electronica">ELECTRÓNICA</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="ROCK" id="rock" <?php echo (in_array('ROCK', explode(',', $dato['genero_musical']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="rock">ROCK</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="POP" id="pop" <?php echo (in_array('POP', explode(',', $dato['genero_musical']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="pop">POP</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="JAZZ" id="jazz" <?php echo (in_array('JAZZ', explode(',', $dato['genero_musical']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="jazz">JAZZ</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="precio_rango">Rango de precio</label>
+                                        <select class="form-control form-control-lg" id="precio_rango" name="precio_rango">
+                                            <option value="" disabled selected>Seleccione un rango de precio</option>
+                                            <option value="0-20" <?php echo ($dato['precio_rango'] == '0-20') ? 'selected' : ''; ?>>0-20</option>
+                                            <option value="20-50" <?php echo ($dato['precio_rango'] == '20-50') ? 'selected' : ''; ?>>20-50</option>
+                                            <option value="50+" <?php echo ($dato['precio_rango'] == '50+') ? 'selected' : ''; ?>>50+</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="edad_recomendada">Edad recomendada</label>
+                                        <input type="number" class="form-control form-control-lg" id="edad_recomendada" name="edad_recomendada" value="<?php echo $dato['edad_recomendada']; ?>" placeholder="Ingrese la edad recomendada">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="descripcion">Descripción</label>
-                                        <input type="text" class="form-control form-control-lg" id="descripcion" name="descripcion" value="<?php echo $dato['descripcion'];?>" placeholder="Phone Number">
+                                        <input type="text" class="form-control form-control-lg" id="descripcion" name="descripcion" value="<?php echo $dato['descripcion'];?>" placeholder="Introduce una descripción">
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="birth-day">Date of Birth</label>
-                                        <input type="text" class="form-control form-control-lg date-picker" id="date_birth" name="date_birth" value="<?php $date_birth = $controllerUser->getDateBirthById($_SESSION['user']); echo $date_birth;?>" placeholder="Enter your birth date">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="add">Address</label>
-                                        <input type="text" class="form-control form-control-lg " id="address" name="address" value="<?php $address = $controllerUser->getAddressById($_SESSION['user']); echo $address;?>" placeholder="Enter your address">
-                                    </div>
-                                </div>
-                               <!--  <div class="col-12">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="latest-sale">
-                                        <label class="custom-control-label" for="latest-sale">Use full name to display </label>
-                                    </div>
-                                </div> -->
-                                <div id="id" style="display: none;"><?php echo $_SESSION['user']; ?></div>
+                                </div> 
+                                <div id="local_id" style="display: none;"><?php echo $dato['local_id']; ?></div>                               
                                 <div class="col-12">
                                     <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
                                         <li>
-                                            <button type="button" class="btn btn-lg btn-primary" id="botonUpdate" name="botonUpdate">Update Profile</button>
+                                            <button type="button" class="btn btn-lg btn-primary" id="botonUpdateDatos" name="botonUpdateDatos">Actualizar datos</button>
                                         </li>
                                         <li>
-                                            <a href="view/user/viewProfile.php" class="link link-light">Cancel</a>
+                                            <a href="vista/usuario/vistaLocal.php" class="link link-light">Cancelar</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div><!-- .tab-pane -->                
 
-                        <div class="tab-pane" id="address">
+                        <div class="tab-pane" id="horarios">
                             <div class="row gy-4">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="address-l1">Address Line 1</label>
-                                        <input type="text" class="form-control form-control-lg" id="address-l1" value="2337 Kildeer Drive">
+                                        <label class="form-label" for="dias_abierto">Días abierto</label>
+                                        <div class="checkbox-group" id="dias_abierto">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="LUNES" id="lunes" <?php echo (in_array('LUNES', explode(',', $dato['dias_abierto']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="lunes">LUNES</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="MARTES" id="martes" <?php echo (in_array('MARTES', explode(',', $dato['dias_abierto']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="martes">MARTES</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="MIÉRCOLES" id="miercoles" <?php echo (in_array('MIÉRCOLES', explode(',', $dato['dias_abierto']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="miercoles">MIÉRCOLES</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="JUEVES" id="jueves" <?php echo (in_array('JUEVES', explode(',', $dato['dias_abierto']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="jueves">JUEVES</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="VIERNES" id="viernes" <?php echo (in_array('VIERNES', explode(',', $dato['dias_abierto']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="viernes">VIERNES</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="SÁBADO" id="sabado" <?php echo (in_array('SÁBADO', explode(',', $dato['dias_abierto']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="sabado">SÁBADO</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="DOMINGO" id="domingo" <?php echo (in_array('DOMINGO', explode(',', $dato['dias_abierto']))) ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="domingo">DOMINGO</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="address-l2">Address Line 2</label>
-                                        <input type="text" class="form-control form-control-lg" id="address-l2" value="">
+                                        <label class="form-label" for="horario_apertura">Hora apertura</label>
+                                        <input type="time" class="form-control form-control-lg" id="hora_apertura" name="hora_apertura" value="<?php echo $dato['hora_apertura']; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="address-st">State</label>
-                                        <input type="text" class="form-control form-control-lg" id="address-st" value="Kentucky">
+                                        <label class="form-label" for="horario_cierre">Hora cierre</label>
+                                        <input type="time" class="form-control form-control-lg" id="hora_cierre" name="hora_cierre" value="<?php echo $dato['hora_cierre']; ?>">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="address-county">Country</label>
-                                        <select class="form-select js-select2" id="address-county" data-ui="lg">
-                                            <option>Canada</option>
-                                            <option>United State</option>
-                                            <option>United Kindom</option>
-                                            <option>Australia</option>
-                                            <option>India</option>
-                                            <option>Bangladesh</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                <div id="local_id" style="display: none;"><?php echo $dato['local_id']; ?></div>                               
                                 <div class="col-12">
                                     <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
                                         <li>
-                                            <a href="#" class="btn btn-lg btn-primary" data-bs-dismiss="modal">Update Address</a>
+                                            <a href="#" class="btn btn-lg btn-primary" data-bs-dismiss="modal" id="botonUpdateHorario" name="botonUpdateHorario">Actualizar horarios</a>
                                         </li>
                                         <li>
-                                            <a href="#" data-bs-dismiss="modal" class="link link-light">Cancel</a>
+                                            <a href="vista/usuario/vistaLocal.php" data-bs-dismiss="modal" class="link link-light">Cancelar</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="tab-pane" id="address">
+                            <div class="row gy-4">                               
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="calle">Calle</label>
+                                        <input type="text" class="form-control form-control-lg" id="calle" name="calle" value="<?php echo $datoUbi['calle']; ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="num_calle">Número de calle</label>
+                                        <input type="text" class="form-control form-control-lg" id="num_calle" name="num_calle" value="<?php echo $datoUbi['num_calle']; ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="zona">Zona</label>
+                                        <input type="text" class="form-control form-control-lg" id="zona" name="zona" value="<?php echo $datoUbi['zona']; ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="ciudad">Ciudad</label>
+                                        <input type="text" class="form-control form-control-lg" id="ciudad" name="ciudad" value="<?php echo $datoUbi['ciudad']; ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cod_postal">Código postal</label>
+                                        <input type="text" class="form-control form-control-lg" id="cod_postal" name="cod_postal" value="<?php echo $datoUbi['cod_postal']; ?>">
+                                    </div>
+                                </div>
+                                <div id="ubicacion_id" style="display: none;"><?php echo $datoUbi['ubicacion_id']; ?></div>
+                                <div id="longitud" style="display: none;"><?php echo $datoUbi['longitud']; ?></div>
+                                <div id="latitud" style="display: none;"><?php echo $datoUbi['latitud']; ?></div>
+                                <div class="col-12">
+                                    <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                        <li>
+                                            <a href="#" class="btn btn-lg btn-primary" data-bs-dismiss="modal" id="botonUpdateUbicacion" name="botonUpdateUbicacion">Actualizar ubicacion</a>
+                                        </li>
+                                        <li>
+                                            <a href="vista/usuario/vistaLocal.php" data-bs-dismiss="modal" class="link link-light">Cancelar</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -329,11 +469,12 @@ if (!empty($datos)) {
     <!-- JavaScript -->
     <script src="./assets/js/bundle.js"></script>
     <script src="./assets/js/scripts.js"></script>
-    <script src="./assets/js/form/updateProfile.js"></script>  
+    <script src="./assets/js/form/updateLocal.js"></script>  
 </body>
 
 </html>
 <?php 
+        }
     }
 } else {
     echo "No data found for the user.";

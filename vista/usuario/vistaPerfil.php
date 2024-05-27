@@ -4,6 +4,9 @@ define("ROOT", dirname(__FILE__) . DS);
 require_once(ROOT . ".." . DS . ".." . DS . "core" . DS . "init.php");
 
 $usuarioController = new UsuarioController();
+$localController = new LocalController();
+$localesUser = $localController->getLocalesByUsuario_id($_SESSION['user']);
+
 $datos = $usuarioController->getDatosUsuario($_SESSION['user']);
 
 if (!empty($datos)) {
@@ -36,6 +39,7 @@ if (!empty($datos)) {
                 </div>
                 <div class="nk-header-tools">
                     <ul class="nk-quick-nav">
+                        <!-- .dropdown -->
                         <li class="dropdown user-dropdown">
                             <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown">
                                 <div class="user-toggle">
@@ -44,7 +48,7 @@ if (!empty($datos)) {
                                     </div>
                                     <div class="user-info d-none d-md-block">
                                         <div class="user-name dropdown-indicator">
-                                            <span><?php echo htmlspecialchars($dato['nombre']); ?></span>
+                                            <span><?php echo $usuarioController->getNombreById($_SESSION['user']); ?></span>
                                         </div>
                                     </div>
                                 </div>
@@ -63,19 +67,26 @@ if (!empty($datos)) {
                                 </div>
                                 <div class="dropdown-inner">
                                     <ul class="link-list">
-                                        <li><a href="./vista/usuario/vistaPerfil.php"><em class="icon bi bi-person"></em><span> Perfil</span></a></li>
-                                        <li><a href="#"><em class="icon bi bi-gear"></em><span>Account Setting</span></a></li>
-                                        <li><a href="#"><em class="icon bi bi-activity"></em><span>Login Activity</span></a></li>
+                                        <li><a href="../vista/usuario/vistaPerfil.php"><span> Perfil</span></a></li>
+                                        <?php if ($usuarioController->es_propietario($_SESSION['user'])): ?>
+                                            <?php foreach ($localesUser as $local): ?>
+                                                <a href="../vista/usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>">
+                                                    <span><?php echo $local['nombre_local']; ?></span>
+                                                </a>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>                                            
+                                        <li><a href="../vista/usuario/vistaFavoritos.php"><span>Favoritos</span></a></li>
+
                                     </ul>
                                 </div>
                                 <div class="dropdown-inner">
                                     <ul class="link-list">
-                                        <li><a href="./registro/logout.php"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                        <li><a href="./vista/registro/logout.php"><em class="icon ni ni-signout"></em><span>Cerrar sesión</span></a></li>
                                     </ul>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
+                        </li><!-- .dropdown -->
+                    </ul><!-- .nk-quick-nav -->
                 </div>
             </div>
         </div>

@@ -45,7 +45,9 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
 </head>
 
 <body>
-    <?php if (isset($_SESSION['user']) && $_SESSION['user']) { ?>
+    <?php if (isset($_SESSION['user']) && $_SESSION['user']) {
+        $localesUser = $LocalController->getLocalesByUsuario_id($_SESSION['user']);
+        ?>
         <div class="nk-header nk-header-fixed is-light">
             <div class="container-fluid">
                 <div class="nk-header-wrap">
@@ -87,16 +89,20 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
                                     <div class="dropdown-inner">
                                         <ul class="link-list">
                                             <li><a href="../vista/usuario/vistaPerfil.php"><span> Perfil</span></a></li>
-                                            <li><a href="../vista/usuario/vistaLocal.php"><span>Local</span></a></li>
-                                            <li><a href="#"><em class="icon bi bi-activity"></em><span>Login Activity</span></a>
-                                            </li>
+                                            <?php if ($usuarioController->es_propietario($_SESSION['user'])): ?>
+                                                <?php foreach ($localesUser as $local): ?>
+                                                    <a href="../vista/usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>">
+                                                        <span><?php echo $local['nombre_local']; ?></span>
+                                                    </a>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>                                            
                                             <li><a href="../vista/usuario/vistaFavoritos.php"><span>Favoritos</span></a></li>
 
                                         </ul>
                                     </div>
                                     <div class="dropdown-inner">
                                         <ul class="link-list">
-                                            <li><a href="./registro/logout.php"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                            <li><a href="./registro/logout.php"><em class="icon ni ni-signout"></em><span>Cerrar sesión</span></a></li>
                                         </ul>
                                     </div>
                                 </div>
