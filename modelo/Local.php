@@ -134,6 +134,7 @@ class Local{
                         'genero_musical' => $result->genero_musical,
                         'edad_recomendada' => $result->edad_recomendada,
                         'precio_rango' => $result->precio_rango,
+                        'web' => $result->web,
                         'usuario_id' => $result->usuario_id,
                         'fotos' => []
                     ];
@@ -208,6 +209,7 @@ class Local{
                 'edad_recomendada' => $dato -> edad_recomendada,
                 'precio_rango' => $dato -> precio_rango,
                 'usuario_id' => $dato -> usuario_id,
+                'web' => $dato->web,
                 'ubicacion_id' => $dato -> ubicacion_id
             ];
         }
@@ -252,6 +254,7 @@ class Local{
                         'genero_musical' => $result->genero_musical,
                         'edad_recomendada' => $result->edad_recomendada,
                         'precio_rango' => $result->precio_rango,
+                        'web' => $result->web,
                         'usuario_id' => $result->usuario_id,
                         'fotos' => []
                     ];

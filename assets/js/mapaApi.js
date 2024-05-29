@@ -101,13 +101,18 @@ document.addEventListener('DOMContentLoaded', function () {
             leftColumn.append($('<p>').text('Tipo de música: ' + local.genero_musical));
             leftColumn.append($('<p>').text('Edad media: ' + local.edad_recomendada));
             leftColumn.append($('<p>').text('Precio medio: ' + local.precio_rango + " €"));
-    
+
             var ubicacionContent = $('<div>').addClass('ubicacion-content'); // Nuevo contenedor para los datos de ubicación
             ubicacionContent.append($('<h6>').text('Ubicación:'));
             ubicacionContent.append($('<p>').text('Calle: ' + local.ubicacion.calle + ' ' + local.ubicacion.num_calle));
             ubicacionContent.append($('<p>').text('Ciudad: ' + local.ubicacion.ciudad + ' Zona: ' + local.ubicacion.zona));
             ubicacionContent.append($('<p>').text('Código postal: ' + local.ubicacion.cod_postal));
-    
+                ubicacionContent.append(
+                    $('<a>')
+                      .attr('href', local.web)
+                      .attr('target', '_blank')
+                      .text('Sitio web')
+                );
             localContent.append(leftColumn);
             localContent.append(ubicacionContent); // Agregar el bloque de ubicación
             localItem.append(localContent);
