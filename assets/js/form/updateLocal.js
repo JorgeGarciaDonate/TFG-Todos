@@ -69,42 +69,60 @@ $(document).ready(function() {
         });
     });
 
-    $('#botonUpdateUbicacion').click(function() {
-        var calle = $('#calle').val().trim();
-        var num_calle = $('#num_calle').val().trim();
-        var zona = $('#zona').val().trim();
-        var ciudad = $('#ciudad').val().trim();
-        var cod_postal = $('#cod_postal').val().trim();
-        var ubicacion_id = $('#ubicacion_id').text().trim();
-        var longitud = $('#longitud').text().trim();
-        var latitud = $('#latitud').text().trim();
-        var local_id = $('#local_id').text().trim(); 
+    $(document).ready(function() {
+        $('#botonUpdateUbicacion').click(function() {
+            var calle = $('#calle').val().trim();
+            var num_calle = $('#num_calle').val().trim();
+            var zona = $('#zona').val().trim();
+            var ciudad = $('#ciudad').val().trim();
+            var cod_postal = $('#cod_postal').val().trim();
+            var ubicacion_id = $('#ubicacion_id').text().trim();
+            var local_id = $('#local_id').text().trim(); 
 
-        $.ajax({
-            type: 'POST',
-            url: './controlador/UbicacionController.php',
-            data: {
-                botonUpdateUbicacion: true,
-                calle: calle,
-                num_calle: num_calle,
-                zona: zona,
-                ciudad: ciudad,
-                cod_postal: cod_postal,
-                ubicacion_id: ubicacion_id,
-                longitud: longitud,
-                latitud: latitud,
-                local_id: local_id
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (!response.success) {
-                    $('#error-msg').text('Incorrect data.');
-                } else {
-                    window.location.href = "./vista/usuario/vistaLocal.php?local_id=" + local_id;
-                }
-            },
-            error: function() {
-                $('#error-msg').text('An error occurred on the server.');
+            var direccionCompleta = calle + ' ' + num_calle + ', ' + ciudad + ', ' + cod_postal;
+
+            // Verificar si Leaflet y su módulo de geocodificación están cargados
+            if (typeof L !== 'undefined' && typeof L.Control !== 'undefined' && typeof L.Control.Geocoder !== 'undefined') {
+                // Obtener las coordenadas utilizando Leaflet's geocoding service
+                L.Control.Geocoder.nominatim().geocode(direccionCompleta, function(results) {
+                    if (results.length > 0) {
+                        var latlng = results[0].center;
+                        var latitud = latlng.lat;
+                        var longitud = latlng.lng;
+
+                        $.ajax({
+                            type: 'POST',
+                            url: './controlador/UbicacionController.php',
+                            data: {
+                                botonUpdateUbicacion: true,
+                                calle: calle,
+                                num_calle: num_calle,
+                                zona: zona,
+                                ciudad: ciudad,
+                                cod_postal: cod_postal,
+                                ubicacion_id: ubicacion_id,
+                                longitud: longitud,
+                                latitud: latitud,
+                                local_id: local_id
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (!response.success) {
+                                    $('#error-msg').text('Datos incorrectos.');
+                                } else {
+                                    window.location.href = "./vista/usuario/vistaLocal.php?local_id=" + local_id;
+                                }
+                            },
+                            error: function() {
+                                $('#error-msg').text('Hubo un error en el servidor.');
+                            }
+                        });
+                    } else {
+                        $('#error-msg').text('No se encontraron resultados para la dirección proporcionada.');
+                    }
+                });
+            } else {
+                $('#error-msg').text('Geocoding service no está disponible.');
             }
         });
     });

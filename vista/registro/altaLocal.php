@@ -229,30 +229,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="nk-footer nk-auth-footer-full">
-                        <div class="container wide-lg">
-                            <div class="row g-3">
-                                <div class="col-lg-6 order-lg-last">
-                                    <ul class="nav nav-sm justify-content-center justify-content-lg-end">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Terms & Condition</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Privacy Policy</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Help</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="nk-block-content text-center text-lg-start">
-                                        <p class="text-soft">&copy; 2022 Dashlite. All Rights Reserved.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <!-- wrap @e -->
             </div>
@@ -265,6 +241,18 @@
     <script src="../assets/js/bundle.js"></script>
     <script src="../assets/js/scripts.js"></script>
     <script src="../assets/js/alta.js"></script>
-
+</body>
+<footer>
+    <ul class="Redes">
+        <li>
+            <a href="https://www.instagram.com/cheersy.app/"><img class=""
+                    src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 15.png" alt="logo"></a>
+        </li>
+        <li>
+            <a href="https://www.facebook.com/profile.php?id=61553869796205"><img class=""
+                    src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 16.png" alt="logo"></a>
+        </li>
+    </ul>
+</footer>
 
 </html>

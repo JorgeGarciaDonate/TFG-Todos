@@ -138,12 +138,11 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
         </div>
     <?php } ?>
 
-    <h1 class="h1-index">INICIO</h1>
+    <h1 >INICIO</h1>
 
 
     <div class="container">
-            <h1>Inicio</h1>
-            
+       <!--  <h1>Inicio</h1> -->          
 
 
         <div class="filters">
