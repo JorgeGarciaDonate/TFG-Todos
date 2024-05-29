@@ -22,10 +22,9 @@ require_once(ROOT . ".." . DS . ".." . DS . "core" . DS . "init.php");
     <script src="../../assets/js/MostrarYEliminarFav.js" ></script> 
 </head>
 <body>        
-       
-    
-    <h3>Mis Locales Favoritos</h3>
-    <div id="list-favoritos" ></div>
+      
+    <h1>Mis Locales Favoritos</h1>
+    <div id="list-favoritos" class="favs-container" ></div>
 
     <script src="../../assets/js/bundle.js"></script>
     <script src="../../assets/js/scripts.js"></script>
