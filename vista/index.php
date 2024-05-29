@@ -138,9 +138,14 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
         </div>
     <?php } ?>
 
+    <h1 class="h1-index">INICIO</h1>
+
+
     <div class="container">
             <h1>Inicio</h1>
             
+
+
         <div class="filters">
             <h2>Filtros</h2>
             <div class="filter-item">
@@ -241,14 +246,14 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
                     <option value="5">5</option>
                 </select>
             </div>
-            <button>Aplicar filtros</button>
+            <button class="filters-button">Aplicar filtros</button>
         </div>
 
         <div class="search">
             <div class="search-input" alt="formulario búsqueda">
                 <h2>Introduce la zona/barrio/estación de metro:</h2>
                 <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
-                <button>Buscar</button>
+                <button class="search-button">Buscar</button>
             </div>
 
             <div class="view-toggle">

@@ -36,26 +36,34 @@ function loadFavoritos() {
                     var localContent = $('<div>').addClass('local-content');
                     var leftColumn = $('<div>').addClass('left-column');
                     var rightColumn = $('<div>').addClass('right-column');
-
+            
                     leftColumn.append($('<h4>').text(local.nombre_local));
                     leftColumn.append($('<p>').text('Tipo: ' + local.tipo_local));
                     leftColumn.append($('<p>').text('Descripción: ' + local.descripcion));
-                    leftColumn.append($('<p>').text('Hora de apertura: ' + local.hora_apertura + ' - Hora de cierre: ' + local.hora_cierre));
+                    leftColumn.append($('<p>').text('Hora de apertura: ' + local.hora_apertura));
+                    leftColumn.append($('<p>').text('Hora de cierre: ' + local.hora_cierre));
                     leftColumn.append($('<p>').text('Abierto: ' + local.dias_abierto));
                     leftColumn.append($('<p>').text('Tipo de música: ' + local.genero_musical));
                     leftColumn.append($('<p>').text('Edad media: ' + local.edad_recomendada));
                     leftColumn.append($('<p>').text('Precio medio: ' + local.precio_rango + " €"));
-
-                    rightColumn.append($('<h6>').text('Ubicación:'));
-                    rightColumn.append($('<p>').text('Calle: ' + local.ubicacion.calle + ' ' + local.ubicacion.num_calle));
-                    rightColumn.append($('<p>').text('Ciudad: ' + local.ubicacion.ciudad + ' Zona: ' + local.ubicacion.zona));
-                    rightColumn.append($('<p>').text('Código postal: ' + local.ubicacion.cod_postal));
-
+        
+                    var ubicacionContent = $('<div>').addClass('ubicacion-content'); // Nuevo contenedor para los datos de ubicación
+                    ubicacionContent.append($('<h6>').text('Ubicación:'));
+                    ubicacionContent.append($('<p>').text('Calle: ' + local.ubicacion.calle + ' ' + local.ubicacion.num_calle));
+                    ubicacionContent.append($('<p>').text('Ciudad: ' + local.ubicacion.ciudad + ' Zona: ' + local.ubicacion.zona));
+                    ubicacionContent.append($('<p>').text('Código postal: ' + local.ubicacion.cod_postal));
+                        ubicacionContent.append(
+                            $('<a>')
+                              .attr('href', local.web)
+                              .attr('target', '_blank')
+                              .text('Sitio web')
+                        );
                     localContent.append(leftColumn);
-                    localContent.append(rightColumn);
+                    localContent.append(ubicacionContent); // Agregar el bloque de ubicación
                     localItem.append(localContent);
+                    localItem.append(rightColumn); // Añadir rightColumn al final
 
-                    var removeButton = $('<button>').addClass('remove-favorite').attr('data-local-id', local.local_id).text('Eliminar');
+                    var removeButton = $('<button class="favs-button">').addClass('remove-favorite').attr('data-local-id', local.local_id).text('Eliminar');
                     removeButton.on('click', function() {
                         removeFavorite(local.local_id);
                     });
