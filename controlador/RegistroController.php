@@ -90,48 +90,75 @@ if (isset($_POST['botonCreate'])) {
     }
 }
 
-
 if (isset($_POST['botonAlta'])) {
-    $nombre = $_POST['nombre'];
-    $tipoLocal = $_POST['tipo_local'];
-    $generos = implode(', ', $_POST['generos']); 
-    $precioRango = $_POST['precio_rango'];
-    $horaApertura = $_POST['hora_apertura'];
-    $horaCierre = $_POST['hora_cierre'];
-    $diasApertura = implode(', ', $_POST['dias_apertura']); 
-    $calle = $_POST['calle'];
-    $numero = $_POST['num_calle'];
-    $codigoPostal = $_POST['cod_postal'];
-    $ciudad = $_POST['ciudad'];
-    $barrio = $_POST['barrio'];
-
-    $localmodel = new Local();
-    $ubicacionModel = new Ubicacion();
-    $altaUbicacion = $ubicacionModel -> create(array(
-        'calle' => $calle,
-        'num_calle' => $numero,
-        'cod_postal' => $codigoPostal,
-        'ciudad' => $ciudad,
-        'barrio' => $barrio
-    ));
-    $ubicacionId=$ubicacionModel->getUbicacionId($altaUbicacion);
-    $altaLocalSuccessful = $localmodel->create(array(
-        'nombre' => $nombre,
-        'tipo_local' => $tipoLocal,
-        'generos' => $generos,
-        'precio_rango' => $precioRango,
-        'hora_apertura' => $horaApertura,
-        'hora_cierre' => $horaCierre,
-        'dias_apertura' => $diasApertura,
-        'ubicacion_id' => $ubicacionId      
-    ));
-
-    if ($altaLocalSuccessful && $altaUbicacion) {
-        echo json_encode(array('success' => true));
-    } else {
-        echo json_encode(array('success' => false, 'message' => 'Error creating the local.'));
-    }
-}
+    /* try { */
+        $nombre = $_POST['nombre'];
+        $tipo_local = $_POST['tipo_local'];
+        $generos = implode(', ', $_POST['generos']); 
+        $precio_rango = $_POST['precio_rango'];
+        $hora_apertura = $_POST['hora_apertura'];
+        $hora_cierre = $_POST['hora_cierre'];
+        $diasApertura = implode(', ', $_POST['dias_apertura']); 
+        $calle = $_POST['calle'];
+        $num_calle = $_POST['num_calle'];
+        $cod_postal = $_POST['cod_postal'];
+        $ciudad = $_POST['ciudad'];
+        $barrio = $_POST['barrio'];
+        $latitud = $_POST['latitud'];
+        $longitud = $_POST['longitud'];
+        $usuario_id = $_POST['usuario_id'];
+        $edad_recomendada = $_POST['edad_recomendada'];
+        $musica_en_vivo = $_POST['musica_en_vivo'];
+        $descripcion =$_POST['descripcion'];
 
 
+        // Inserta los datos de la ubicación
+        $ubicacion = new Ubicacion();
+        $altaUbicacion = [
+            'calle' => $calle,
+            'num_calle' => $num_calle,
+            'cod_postal' => $cod_postal,
+            'ciudad' => $ciudad,
+            'zona' => $barrio,
+            'latitud' => $latitud,
+            'longitud' => $longitud
+        ];
+        $ubicacion_id = $ubicacion->create($altaUbicacion);
+
+
+        if ($ubicacion_id) {
+            // Inserta los datos del local con el ubicacion_id
+            $local = new Local();
+            $altaLocal = [
+                'nombre_local' => $nombre,
+                'tipo_local' => $tipo_local,
+                'genero_musical' => $generos,
+                'precio_rango' => $precio_rango,
+                'hora_apertura' => $hora_apertura,
+                'hora_cierre' => $hora_cierre,
+                'dias_abierto' => $diasApertura,
+                'ubicacion_id' => $ubicacion_id,
+                'usuario_id' => $usuario_id,
+                'descripcion' => $descripcion,
+                'musica_en_vivo' => $musica_en_vivo,
+                'edad_recomendada' => $edad_recomendada
+            ];
+            $result = $local->create($altaLocal);
+
+
+            if ($result) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al insertar los datos del local.']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Error al insertar los datos de ubicación.']);
+        }
+    /* } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+    } */
+}/*  else {
+    echo json_encode(['success' => false, 'message' => 'No se ha enviado el formulario correctamente.']);
+} */
 ?>
+

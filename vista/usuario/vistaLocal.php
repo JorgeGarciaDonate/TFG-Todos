@@ -79,13 +79,14 @@ if (!empty($datos)) {
                                         <li><a href="vista/usuario/vistaPerfil.php"><span> Perfil</span></a></li>
                                         <?php if ($usuarioController->es_propietario($_SESSION['user'])): ?>
                                             <?php foreach ($localesUser as $local): ?>
-                                                <a href="vista/usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>">
-                                                    <span><?php echo $local['nombre_local']; ?></span>
-                                                </a>
+                                                <li>
+                                                    <a href="vista/usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>">
+                                                        <span><?php echo $local['nombre_local']; ?></span>
+                                                    </a>
+                                                </li>
                                             <?php endforeach; ?>
                                         <?php endif; ?>                                            
                                         <li><a href="vista/usuario/vistaFavoritos.php"><span>Favoritos</span></a></li>
-
                                     </ul>
                                 </div>
                                 <div class="dropdown-inner">
@@ -345,7 +346,7 @@ if (!empty($datos)) {
                                             <button type="button" class="btn btn-lg btn-primary" id="botonUpdateDatos" name="botonUpdateDatos">Actualizar datos</button>
                                         </li>
                                         <li>
-                                            <a href="vista/usuario/vistaLocal.php" class="link link-light">Cancelar</a>
+                                            <a href="vista/usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>" class="link link-light">Cancelar</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -408,7 +409,7 @@ if (!empty($datos)) {
                                             <a href="#" class="btn btn-lg btn-primary" data-bs-dismiss="modal" id="botonUpdateHorario" name="botonUpdateHorario">Actualizar horarios</a>
                                         </li>
                                         <li>
-                                            <a href="vista/usuario/vistaLocal.php" data-bs-dismiss="modal" class="link link-light">Cancelar</a>
+                                            <a href="vista/usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>" data-bs-dismiss="modal" class="link link-light">Cancelar</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -455,7 +456,7 @@ if (!empty($datos)) {
                                             <a href="#" class="btn btn-lg btn-primary" data-bs-dismiss="modal" id="botonUpdateUbicacion" name="botonUpdateUbicacion">Actualizar ubicacion</a>
                                         </li>
                                         <li>
-                                            <a href="vista/usuario/vistaLocal.php" data-bs-dismiss="modal" class="link link-light">Cancelar</a>
+                                            <a href="vista/usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>" data-bs-dismiss="modal" class="link link-light">Cancelar</a>
                                         </li>
                                     </ul>
                                 </div>

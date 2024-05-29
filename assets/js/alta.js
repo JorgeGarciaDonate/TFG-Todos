@@ -5,14 +5,18 @@ $(document).ready(function() {
         var tipoLocal = $('#tipo_local').val();
         var generos = getSelectedGenres();
         var precioRango = $('#precio_rango').val();
+        var musica_en_vivo = $('#musica_en_vivo').val();
         var horaApertura = $('#hora_apertura').val();
         var horaCierre = $('#hora_cierre').val();
         var diasApertura = getSelectedDays();
+        var descripcion = $('#descripcion').val().trim();
         var calle = $('#calle').val().trim();
-        var numero = $('#num_calle').val().trim();
+        var numero = $('#num_calle').val();
         var codigoPostal = $('#cod_postal').val().trim();
+        var edad_recomendada = $('#edad_recomendada').val();
         var ciudad = $('#ciudad').val().trim();
         var barrio = $('#barrio').val().trim();
+        var usuario_id = $('#usuario_id').val().trim();
 
         $('#nombre').removeClass('error-border');
         $('#calle').removeClass('error-border');
@@ -46,52 +50,85 @@ $(document).ready(function() {
             return false;
         }
 
-        $.ajax({
-            type: 'POST',
-            url: '../controlador/RegistroController.php',
-            data: {
-                nombre: nombre,
-                tipo_local: tipoLocal,
-                generos: generos,
-                precio_rango: precioRango,
-                hora_apertura: horaApertura,
-                hora_cierre: horaCierre,
-                dias_apertura: diasApertura,
-                calle: calle,
-                num_calle: numero,
-                cod_postal: codigoPostal,
-                ciudad: ciudad,
-                barrio: barrio
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    window.location.href = './index.php';
+        var direccionCompleta = calle + ' ' + numero + ', ' + ciudad + ', ' + codigoPostal;
+
+        // Verificar si Leaflet y su módulo de geocodificación están cargados
+        if (typeof L !== 'undefined' && typeof L.Control !== 'undefined' && typeof L.Control.Geocoder !== 'undefined' && typeof L.Control.Geocoder.nominatim === 'function') {
+            // Obtener las coordenadas utilizando Leaflet's geocoding service
+            L.Control.Geocoder.nominatim().geocode(direccionCompleta, function(results) {
+                if (results.length > 0) {
+                    var latlng = results[0].center;
+                    var lat = latlng.lat;
+                    var lon = latlng.lng;
+
+                    // Proceed with AJAX request after getting the location
+                    $.ajax({
+                        type: 'POST',
+                        url: '../controlador/RegistroController.php',
+                        data: {
+                            botonAlta: true,
+                            nombre: nombre,
+                            tipo_local: tipoLocal,
+                            generos: generos,
+                            precio_rango: precioRango,
+                            hora_apertura: horaApertura,
+                            hora_cierre: horaCierre,
+                            dias_apertura: diasApertura,
+                            musica_en_vivo: musica_en_vivo,
+                            edad_recomendada:edad_recomendada,
+                            descripcion: descripcion,
+                            calle: calle,
+                            num_calle: numero,
+                            cod_postal: codigoPostal,
+                            ciudad: ciudad,
+                            barrio: barrio,
+                            latitud: lat,
+                            longitud: lon,
+                            usuario_id :usuario_id
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            console.log(response);
+                            if (response.success) {
+                                window.location.href = '../index.php';
+                            } else {
+                                $('#error-msg').text(response.message);
+                            }
+                        },
+                        error: function() {
+                            $('#error-msg').text('Hubo un error en el servidor.');
+                        }
+                    });
                 } else {
-                    $('#error-msg').text(response.message);
+                    $('#error-msg').text('No se encontraron resultados para la dirección proporcionada.');
                 }
-            },
-            error: function() {
-                $('#error-msg').text('Hubo un error en el servidor.');
-            }
-        });
+            });
+        } else {
+            // Leaflet o su módulo de geocodificación no están disponibles
+            $('#error-msg').text('Error: Leaflet o su módulo de geocodificación no están disponibles.');
+        }
     });
 
     // Función para obtener los géneros musicales seleccionados
     function getSelectedGenres() {
         var selectedGenres = [];
-        $('input[type="checkbox"]:checked').each(function() {
+        $('#reggaeton:checked, #techno:checked, #electronica:checked, #rock:checked, #pop:checked, #jazz:checked').each(function() {
             selectedGenres.push($(this).val());
         });
         return selectedGenres;
-    }
+    } 
+    
 
     // Función para obtener los días de apertura seleccionados
     function getSelectedDays() {
         var selectedDays = [];
-        $('input[type="checkbox"]:checked').each(function() {
-            selectedDays.push($(this).val());
+        $('input[type="checkbox"][id^="lunes"], input[type="checkbox"][id^="martes"], input[type="checkbox"][id^="miercoles"], input[type="checkbox"][id^="jueves"], input[type="checkbox"][id^="viernes"], input[type="checkbox"][id^="sabado"], input[type="checkbox"][id^="domingo"]').each(function() {
+            if ($(this).is(":checked")) {
+                selectedDays.push($(this).val());
+            }
         });
         return selectedDays;
     }
+    
+
 });

@@ -28,7 +28,7 @@ $(document).ready(function() {
                 if (!response.success) {
                     $('#error-msg').text('Incorrect data.');
                 } else {
-                    window.location.href = "./vista/usuario/vistaLocal.php";   
+                    window.location.href = "./vista/usuario/vistaLocal.php?local_id=" + local_id;
                 }
             },
             error: function() {
@@ -60,7 +60,7 @@ $(document).ready(function() {
                 if (!response.success) {
                     $('#error-msg').text('Incorrect data.');
                 } else {
-                    window.location.href = "./vista/usuario/vistaLocal.php";   
+                    window.location.href = "./vista/usuario/vistaLocal.php?local_id=" + local_id;
                 }
             },
             error: function() {
@@ -100,7 +100,7 @@ $(document).ready(function() {
                 if (!response.success) {
                     $('#error-msg').text('Incorrect data.');
                 } else {
-                    window.location.href = "./vista/usuario/vistaLocal.php";   
+                    window.location.href = "./vista/usuario/vistaLocal.php?local_id=" + local_id;
                 }
             },
             error: function() {

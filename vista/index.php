@@ -58,7 +58,7 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
                             </a>
                         </div>
                     </div><!-- .nk-header-news -->
-                    <div class="nk-header-tools">
+                    <div class="nk-header-tools">                        
                         <ul class="nk-quick-nav">
                             <!-- .dropdown -->
                             <li class="dropdown user-dropdown">
@@ -88,16 +88,18 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
                                     </div>
                                     <div class="dropdown-inner">
                                         <ul class="link-list">
-                                            <li><a href="../vista/usuario/vistaPerfil.php"><span> Perfil</span></a></li>
+                                            <li><a href="./usuario/vistaPerfil.php"><span> Perfil</span></a></li>
+                                            <li><a href="./registro/AltaLocal.php"><span> Dar de alta un local</span></a></li>
                                             <?php if ($usuarioController->es_propietario($_SESSION['user'])): ?>
                                                 <?php foreach ($localesUser as $local): ?>
-                                                    <a href="../vista/usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>">
-                                                        <span><?php echo $local['nombre_local']; ?></span>
-                                                    </a>
+                                                    <li>
+                                                        <a href="./usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>">
+                                                            <span><?php echo $local['nombre_local']; ?></span>
+                                                        </a>
+                                                    </li>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>                                            
-                                            <li><a href="../vista/usuario/vistaFavoritos.php"><span>Favoritos</span></a></li>
-
+                                            <li><a href="./usuario/vistaFavoritos.php"><span>Favoritos</span></a></li>
                                         </ul>
                                     </div>
                                     <div class="dropdown-inner">
@@ -136,9 +138,9 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
         </div>
     <?php } ?>
 
-    <h1>Inicio</h1>
     <div class="container">
-
+            <h1>Inicio</h1>
+            
         <div class="filters">
             <h2>Filtros</h2>
             <div class="filter-item">
@@ -248,7 +250,6 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
                 <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
                 <button>Buscar</button>
             </div>
-
 
             <div class="view-toggle">
                 <button id="map-view">Mapa</button>

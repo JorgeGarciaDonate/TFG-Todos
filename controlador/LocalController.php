@@ -17,6 +17,12 @@ require_once(__DIR__ . '/../modelo/Local.php');
   }
   return false;
  }
+ public function create($array){
+    if((new Local())->create(($array))){
+        return true;
+    }
+    return false;
+ }
  public function getLocalesByUsuario_id($usuario_id){
   $locales = (new Local())->getLocalesByUsuario_id($usuario_id);
   if($locales){
@@ -129,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
        }
    }
  }
-
+ 
 if (isset($_POST['botonUpdateDatos'])) {
   $localController = new LocalController();
   $nombre = $_POST['nombre'];

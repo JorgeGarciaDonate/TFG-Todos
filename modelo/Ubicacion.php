@@ -14,12 +14,12 @@ class Ubicacion {
 
     // Método para crear un nuevo usuario
     public function create($fields = array()) {
-        $tabla = "usuarios";
+        $tabla = "ubicaciones";
         // Se intenta insertar los datos del usuario en la base de datos
         if (!$this->_db->insert($tabla, $fields)) {
             throw new Exception('Ha habido un problema en la creación del usuario.');
         }
-        return true;
+        return $this->_db->getPdo()->lastInsertId();
     }
 
     // Método para actualizar los datos de la ubicación
