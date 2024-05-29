@@ -166,6 +166,9 @@ class DB{
     // Método para obtener el número de filas afectadas por la consulta
     public function count() {
         return $this->_count;
-    }       
+    } 
+    public function getPdo() {
+        return $this->_pdo;
+    }        
 }
 ?>

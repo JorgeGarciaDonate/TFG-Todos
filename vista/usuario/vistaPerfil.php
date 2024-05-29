@@ -67,16 +67,17 @@ if (!empty($datos)) {
                                 </div>
                                 <div class="dropdown-inner">
                                     <ul class="link-list">
-                                        <li><a href="../vista/usuario/vistaPerfil.php"><span> Perfil</span></a></li>
+                                        <li><a href="vista/usuario/vistaPerfil.php"><span> Perfil</span></a></li>
                                         <?php if ($usuarioController->es_propietario($_SESSION['user'])): ?>
                                             <?php foreach ($localesUser as $local): ?>
-                                                <a href="../vista/usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>">
-                                                    <span><?php echo $local['nombre_local']; ?></span>
-                                                </a>
+                                                <li>
+                                                    <a href="vista/usuario/vistaLocal.php?local_id=<?php echo $local['local_id']; ?>">
+                                                        <span><?php echo $local['nombre_local']; ?></span>
+                                                    </a>
+                                                </li>
                                             <?php endforeach; ?>
                                         <?php endif; ?>                                            
-                                        <li><a href="../vista/usuario/vistaFavoritos.php"><span>Favoritos</span></a></li>
-
+                                        <li><a href="vista/usuario/vistaFavoritos.php"><span>Favoritos</span></a></li>
                                     </ul>
                                 </div>
                                 <div class="dropdown-inner">
