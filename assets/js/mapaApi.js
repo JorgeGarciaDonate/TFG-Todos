@@ -96,7 +96,8 @@ document.addEventListener('DOMContentLoaded', function () {
             leftColumn.append($('<h4>').text(local.nombre_local));
             leftColumn.append($('<p>').text('Tipo: ' + local.tipo_local));
             leftColumn.append($('<p>').text('Descripción: ' + local.descripcion));
-            leftColumn.append($('<p>').text('Hora de apertura: ' + local.hora_apertura + ' - Hora de cierre: ' + local.hora_cierre));
+            leftColumn.append($('<p>').text('Hora de apertura: ' + local.hora_apertura));
+            leftColumn.append($('<p>').text('Hora de cierre: ' + local.hora_cierre));
             leftColumn.append($('<p>').text('Abierto: ' + local.dias_abierto));
             leftColumn.append($('<p>').text('Tipo de música: ' + local.genero_musical));
             leftColumn.append($('<p>').text('Edad media: ' + local.edad_recomendada));
@@ -119,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
             localItem.append(rightColumn); // Añadir rightColumn al final
     
             if (isLoggedIn) {
-                var saveButton = $('<button>').text('Añadir a favoritos').addClass('save-button').attr('data-local-id', local.local_id);
+                var saveButton = $('<button class="favs-button">').text('Añadir a favoritos').addClass('save-button').attr('data-local-id', local.local_id);
 
                 // Contenedor para el checkbox y el botón de guardar
                 var actionsContainer = $('<div>').addClass('actions-container');

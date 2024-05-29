@@ -34,9 +34,10 @@ h1 {
 }
 
 h2, h3 {
+    font-family: 'Montserrat', sans-serif !important; 
     margin-left: 0em;
-    font-weight: 800;
-    color: #d370d3;
+    font-weight: 500 !important;
+    color: #2b2b2b !important;
 }
 
 p, li {
@@ -129,6 +130,16 @@ footer ul li a {
     cursor: pointer;
 }
 
+.favs-button {
+    margin: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #d370d3;
+    color: #fff;
+    cursor: pointer;
+}
+
 .dropdown-content {
     display: none;
     position: absolute;
@@ -204,10 +215,11 @@ img {
 .local-content p {
     margin: 5px 0;
     color: #333;
-    width: 50%; /* Nuevo ancho para los párrafos */
+    width: 100%; /* Nuevo ancho para los párrafos */
 }
 
 .ubicacion-content {
+   /*  margin-left: 1em; */
     width: 50%; /* Ancho del bloque de ubicación */
 }
 
