@@ -9,6 +9,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    margin-bottom: 1em;
 }
 
 .logo img {
@@ -34,9 +35,9 @@ h1 {
 }
 
 .h1-index {
-    margin-top: 0em;
+    margin-top: 1em;
     margin-left: 0.6em;
-    font-weight: 800;
+    font-weight: 500;
     color: #2b2b2b;
 }
 
