@@ -91,14 +91,14 @@ if (isset($_POST['botonCreate'])) {
 }
 
 if (isset($_POST['botonAlta'])) {
-    /* try { */
+    try {
         $nombre = $_POST['nombre'];
         $tipo_local = $_POST['tipo_local'];
-        $generos = implode(', ', $_POST['generos']); 
+        $generos = implode(', ', json_decode($_POST['generos'], true)); // Decodificar JSON
         $precio_rango = $_POST['precio_rango'];
         $hora_apertura = $_POST['hora_apertura'];
         $hora_cierre = $_POST['hora_cierre'];
-        $diasApertura = implode(', ', $_POST['dias_apertura']); 
+        $diasApertura = implode(', ', json_decode($_POST['dias_apertura'], true)); // Decodificar JSON
         $calle = $_POST['calle'];
         $num_calle = $_POST['num_calle'];
         $cod_postal = $_POST['cod_postal'];
@@ -109,23 +109,28 @@ if (isset($_POST['botonAlta'])) {
         $usuario_id = $_POST['usuario_id'];
         $edad_recomendada = $_POST['edad_recomendada'];
         $musica_en_vivo = $_POST['musica_en_vivo'];
-        $descripcion =$_POST['descripcion'];
-        $foto =$_FILES['foto'];
+        $descripcion = $_POST['descripcion'];
+        $foto = $_FILES['foto'];
         $dni = $_POST['dni'];
         $telefono = $_POST['telefono'];
         $web = $_POST['web'];
-        $uploadDir = 'assets/img/locales'; // Define la carpeta donde se guardarán las imágenes
+        $uploadDir = '../assets/img/locales/'; // Define la carpeta donde se guardarán las imágenes
 
+        // Asegurarse de que el directorio exista
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        // Actualizar usuario
         $usuario = new Usuario();
-        if($usuario_id){
+        if ($usuario_id) {
             $usuarioChanges = [
                 'es_propietario' => 1,
                 'telefono' => $telefono,
                 'dni' => $dni                
             ];
+            $usuarioUpdate = $usuario->update($usuarioChanges, $usuario_id);
         }
-        $usuarioUpdate = $usuario ->update($usuarioChanges,$usuario_id);
-        
 
         // Inserta los datos de la ubicación
         $ubicacion = new Ubicacion();
@@ -139,7 +144,6 @@ if (isset($_POST['botonAlta'])) {
             'longitud' => $longitud
         ];
         $ubicacion_id = $ubicacion->create($altaUbicacion);
-
 
         if ($ubicacion_id) {
             // Inserta los datos del local con el ubicacion_id
@@ -160,23 +164,24 @@ if (isset($_POST['botonAlta'])) {
                 'web' => $web
             ];
             $local_id = $local->create($altaLocal);
+
             if ($foto['error'] == UPLOAD_ERR_OK) {
                 $uploadFile = $uploadDir . basename($foto['name']);
-                
                 if (move_uploaded_file($foto['tmp_name'], $uploadFile)) {
-                    echo "Archivo subido con éxito.\n";
-                    
+                    // Guardar la ruta de la foto en la base de datos
                     $fotoModel = new Foto();
-                    if($foto){
-                        $fotoCreate = [
-                            'nombre_foto' => $foto,
-                            'local_id' => $local_id
-                        ];
-                    }
+                    $fotoCreate = [
+                        'nombre_foto' => basename($foto['name']),
+                        'local_id' => $local_id
+                    ];
                     $result = $fotoModel->create($fotoCreate);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Error al mover el archivo subido.']);
+                    exit;
                 }
-            } 
-            
+            } else {
+                $result = false; // Asegúrate de que $result esté definido en caso de error en la subida de la foto
+            }
 
             if ($result) {
                 echo json_encode(['success' => true]);
@@ -186,11 +191,11 @@ if (isset($_POST['botonAlta'])) {
         } else {
             echo json_encode(['success' => false, 'message' => 'Error al insertar los datos de ubicación.']);
         }
-    /* } catch (Exception $e) {
+    } catch (Exception $e) {
         echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-    } */
-}/*  else {
-    echo json_encode(['success' => false, 'message' => 'No se ha enviado el formulario correctamente.']);
-} */
+    }
+}
+
+
 ?>
 

@@ -1,6 +1,8 @@
+
 $(document).ready(function() {
     $('#altaForm').submit(function(e) {
         e.preventDefault();
+
         var nombre = $('#nombre').val().trim();
         var tipoLocal = $('#tipo_local').val();
         var generos = getSelectedGenres();
@@ -22,10 +24,6 @@ $(document).ready(function() {
         var web = $('#web').val().trim();
         var foto = $('#foto')[0].files[0];
 
-
-
-
-
         $('#nombre').removeClass('error-border');
         $('#calle').removeClass('error-border');
         $('#num_calle').removeClass('error-border');
@@ -33,114 +31,92 @@ $(document).ready(function() {
         $('#ciudad').removeClass('error-border');
         $('#barrio').removeClass('error-border');
 
-        if (nombre === '') {
-            $('#nombre').addClass('error-border');
-            return false;
-        }
-        if (calle === '') {
-            $('#calle').addClass('error-border');
-            return false;
-        }
-        if (numero === '') {
-            $('#num_calle').addClass('error-border');
-            return false;
-        }
-        if (codigoPostal === '') {
-            $('#cod_postal').addClass('error-border');
-            return false;
-        }
-        if (ciudad === '') {
-            $('#ciudad').addClass('error-border');
-            return false;
-        }
-        if (barrio === '') {
-            $('#barrio').addClass('error-border');
+        if (nombre === '' || calle === '' || numero === '' || codigoPostal === '' || ciudad === '' || barrio === '') {
+            if (nombre === '') $('#nombre').addClass('error-border');
+            if (calle === '') $('#calle').addClass('error-border');
+            if (numero === '') $('#num_calle').addClass('error-border');
+            if (codigoPostal === '') $('#cod_postal').addClass('error-border');
+            if (ciudad === '') $('#ciudad').addClass('error-border');
+            if (barrio === '') $('#barrio').addClass('error-border');
             return false;
         }
 
         var direccionCompleta = calle + ' ' + numero + ', ' + ciudad + ', ' + codigoPostal;
 
-        // Verificar si Leaflet y su módulo de geocodificación están cargados
         if (typeof L !== 'undefined' && typeof L.Control !== 'undefined' && typeof L.Control.Geocoder !== 'undefined' && typeof L.Control.Geocoder.nominatim === 'function') {
-            // Obtener las coordenadas utilizando Leaflet's geocoding service
             L.Control.Geocoder.nominatim().geocode(direccionCompleta, function(results) {
                 if (results.length > 0) {
                     var latlng = results[0].center;
                     var lat = latlng.lat;
                     var lon = latlng.lng;
 
-                    // Proceed with AJAX request after getting the location
+                    var formData = new FormData();
+                    formData.append('botonAlta', true);
+                    formData.append('nombre', nombre);
+                    formData.append('tipo_local', tipoLocal);
+                    formData.append('generos', JSON.stringify(generos)); // JSON string
+                    formData.append('precio_rango', precioRango);
+                    formData.append('hora_apertura', horaApertura);
+                    formData.append('hora_cierre', horaCierre);
+                    formData.append('dias_apertura', JSON.stringify(diasApertura)); // JSON string
+                    formData.append('musica_en_vivo', musica_en_vivo);
+                    formData.append('edad_recomendada', edad_recomendada);
+                    formData.append('descripcion', descripcion);
+                    formData.append('calle', calle);
+                    formData.append('num_calle', numero);
+                    formData.append('cod_postal', codigoPostal);
+                    formData.append('ciudad', ciudad);
+                    formData.append('barrio', barrio);
+                    formData.append('latitud', lat);
+                    formData.append('longitud', lon);
+                    formData.append('usuario_id', usuario_id);
+                    formData.append('telefono', telefono);
+                    formData.append('dni', dni);
+                    formData.append('web', web);
+                    formData.append('foto', foto);
+
                     $.ajax({
                         type: 'POST',
                         url: '../controlador/RegistroController.php',
-                        data: {
-                            botonAlta: true,
-                            nombre: nombre,
-                            tipo_local: tipoLocal,
-                            generos: generos,
-                            precio_rango: precioRango,
-                            hora_apertura: horaApertura,
-                            hora_cierre: horaCierre,
-                            dias_apertura: diasApertura,
-                            musica_en_vivo: musica_en_vivo,
-                            edad_recomendada:edad_recomendada,
-                            descripcion: descripcion,
-                            calle: calle,
-                            num_calle: numero,
-                            cod_postal: codigoPostal,
-                            ciudad: ciudad,
-                            barrio: barrio,
-                            latitud: lat,
-                            longitud: lon,
-                            usuario_id :usuario_id,
-                            telefono: telefono,
-                            dni: dni,
-                            web: web,
-                            foto: foto
-                        },
+                        data: formData,
+                        contentType: false,
+                        processData: false,
                         dataType: 'json',
                         success: function(response) {
                             console.log(response);
                             if (response.success) {
                                 window.location.href = '../index.php';
                             } else {
-                                $('#error-msg').text(response.message);
+                                $('#error-message').html(response.message).show();
                             }
                         },
-                        error: function() {
-                            $('#error-msg').text('Hubo un error en el servidor.');
+                        error: function(xhr, status, error) {
+                            console.error('Error en la solicitud AJAX:', status, error);
+                            $('#error-message').html('Error en la solicitud AJAX: ' + status + ' ' + error).show();
                         }
                     });
                 } else {
-                    $('#error-msg').text('No se encontraron resultados para la dirección proporcionada.');
+                    console.error('No se encontraron coordenadas para la dirección.');
                 }
             });
         } else {
-            // Leaflet o su módulo de geocodificación no están disponibles
-            $('#error-msg').text('Error: Leaflet o su módulo de geocodificación no están disponibles.');
+            console.error('L.Control.Geocoder o L.Control.Geocoder.nominatim no está disponible.');
         }
     });
 
-    // Función para obtener los géneros musicales seleccionados
     function getSelectedGenres() {
         var selectedGenres = [];
-        $('#reggaeton:checked, #techno:checked, #electronica:checked, #rock:checked, #pop:checked, #jazz:checked').each(function() {
+        $('input[name="generos[]"]:checked').each(function() {
             selectedGenres.push($(this).val());
         });
         return selectedGenres;
-    } 
-    
+    }
 
-    // Función para obtener los días de apertura seleccionados
     function getSelectedDays() {
         var selectedDays = [];
-        $('input[type="checkbox"][id^="lunes"], input[type="checkbox"][id^="martes"], input[type="checkbox"][id^="miercoles"], input[type="checkbox"][id^="jueves"], input[type="checkbox"][id^="viernes"], input[type="checkbox"][id^="sabado"], input[type="checkbox"][id^="domingo"]').each(function() {
-            if ($(this).is(":checked")) {
-                selectedDays.push($(this).val());
-            }
+        $('input[name="dias_apertura[]"]:checked').each(function() {
+            selectedDays.push($(this).val());
         });
         return selectedDays;
     }
-    
-
 });
