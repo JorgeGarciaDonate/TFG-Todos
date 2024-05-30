@@ -110,6 +110,13 @@ if (isset($_POST['botonAlta'])) {
         $edad_recomendada = $_POST['edad_recomendada'];
         $musica_en_vivo = $_POST['musica_en_vivo'];
         $descripcion =$_POST['descripcion'];
+        $usuario = new Usuario();
+        if($usuario_id){
+            $usuarioChanges = [
+                'es_propietario' => 1
+            ];
+        }
+        $usuarioUpdate = $usuario ->update($usuarioChanges,$usuario_id);
 
 
         // Inserta los datos de la ubicación
