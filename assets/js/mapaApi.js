@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         loadPage(pageNum);
                     });
                     if (pageNum === currentPage) {
-                        pageButton.addClass('active');
+                        pageButton.addClass('paginacioActive');
                     }
                     $('#pagination-container').append(pageButton);
                 })(i);
