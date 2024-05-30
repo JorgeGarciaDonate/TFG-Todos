@@ -45,6 +45,13 @@ class Usuario {
         }
         return true;
     }
+    public function delete($usuario_id){
+        $tabla = "usuarios";
+        if(!$this->_db->delete($tabla,array('usuario_id', '=', $usuario_id))){
+            throw new Exception('Ha habido un problema en el borrado del usuario.');
+        }
+        return true;
+    }
 
     // Método para actualizar los datos de un usuario
     public function update($fields = array(), $id = null) {

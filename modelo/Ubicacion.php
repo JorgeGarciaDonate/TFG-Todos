@@ -21,6 +21,13 @@ class Ubicacion {
         }
         return $this->_db->getPdo()->lastInsertId();
     }
+    public function delete($ubicacion_id){
+        $tabla = "ubicaciones";
+        if(!$this->_db->delete($tabla,array('ubicacion_id', '=', $ubicacion_id))){
+            throw new Exception('Ha habido un problema en el borrado de la ubicacion.');
+        }
+        return true;
+    }
 
     // Método para actualizar los datos de la ubicación
     public function update($fields = array(), $id = null) {       

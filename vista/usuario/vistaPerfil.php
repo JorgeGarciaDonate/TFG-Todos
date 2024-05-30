@@ -104,9 +104,14 @@ if (!empty($datos)) {
                                     <div class="nk-block-head-content">
                                         <h4 class="nk-block-title">Información personal</h4>                                                
                                     </div>
-                                    <div class="nk-block-head-content align-self-start d-lg-none">
-                                        <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em class="icon ni ni-menu-alt-r"></em></a>
-                                    </div>
+                                    <div class="nk-block-head-content">
+                                        <form action="./controlador/UsuarioController.php" method="POST" onsubmit="return confirm('¿Está seguro de que desea eliminar su usuario?');">
+                                            <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['user']?>">
+                                            <button type="submit" name="borrarUsuario" class="btn btn-outline-light bg-white d-none d-sm-inline-flex">
+                                                <em class="icon ni ni-arrow-left"></em><span>Dar de baja usuario</span>
+                                            </button>
+                                        </form>
+                                    </div> 
                                 </div>
                             </div>
                             <div class="nk-block">

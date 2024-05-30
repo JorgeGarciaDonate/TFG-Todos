@@ -29,6 +29,12 @@ class UsuarioController{
     $usuario = (new Usuario())->es_propietario($usuario_id);
     return $usuario;
 }
+public function delete($usuario_id){
+  if((new Usuario())->delete($usuario_id)){
+      return true;
+  }
+  return false;
+}
 
      
 }
@@ -66,5 +72,24 @@ if (isset($_POST['botonUpdate'])) {
       echo json_encode(array('success' => false, 'message' => 'Invalid date format.'));
   }
 }
-
+if (isset($_POST['borrarUsuario'])) {
+  $usuario_id = $_POST['usuario_id'];
+  $usuarioController = new UsuarioController();
+  $localController = new LocalController();
+  $ubicacionController = new UbicacionController();
+  if($usuarioController->es_propietario($usuario_id)){
+    $locales = $localController->getLocalesByUsuario_id($usuario_id);
+    foreach ($locales as $local){
+      $localController->deleteFotos($local['local_id']);
+      $ubicacionController->delete($local['ubicacion_id']);
+      $localController->delete($local['local_id']);
+    }
+  }
+  $delete= $usuarioController->delete($usuario_id);
+  if($delete){
+      header('Location:../vista/registro/logout.php '); 
+      exit;
+  }
+  
+}
 

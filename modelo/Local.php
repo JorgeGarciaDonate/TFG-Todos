@@ -28,6 +28,20 @@ class Local{
         }
         return true;
     }
+    public function delete($local_id){
+        $tabla = "locales";
+        if(!$this->_db->delete($tabla,array('local_id', '=', $local_id))){
+            throw new Exception('Ha habido un problema en el borrado del local.');
+        }
+        return true;
+    }
+    public function deleteFotos($local_id){
+        $tabla = "fotos";
+        if(!$this->_db->delete($tabla,array('local_id', '=', $local_id))){
+            throw new Exception('Ha habido un problema en el borrado de fotos.');
+        }
+        return true;
+    }
 
     // Método para actualizar los datos de un local
     public function update($fields = array(), $local_id = null){
@@ -160,13 +174,14 @@ class Local{
 
     public function getLocalesByUsuario_id($usuario_id) {
         $tabla = "locales";
-        $datos = $this->_db->query("SELECT local_id, nombre_local FROM $tabla WHERE usuario_id = $usuario_id " );
+        $datos = $this->_db->query("SELECT local_id, nombre_local,ubicacion_id FROM $tabla WHERE usuario_id = $usuario_id " );
         $valores = [];
         foreach ($datos->results() as $dato) {           
 
             $valores[] = [
                 'local_id' => $dato -> local_id,
-                'nombre_local' => $dato -> nombre_local
+                'nombre_local' => $dato -> nombre_local,
+                'ubicacion_id'=> $dato-> ubicacion_id
             ];
         }
         if ($valores) {

@@ -118,9 +118,14 @@ if (!empty($datos)) {
                                     <div class="nk-block-head-content">
                                         <h4 class="nk-block-title">Información local</h4>                                                            
                                     </div>
-                                    <div class="nk-block-head-content align-self-start d-lg-none">
-                                        <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em class="icon ni ni-menu-alt-r"></em></a>
-                                    </div>
+                                    <div class="nk-block-head-content">
+                                        <form action="./controlador/LocalController.php" method="POST" onsubmit="return confirm('¿Está seguro de que desea eliminar este local?');">
+                                            <input type="hidden" name="local_id" value="<?php echo $local_id?>">
+                                            <button type="submit" name="borrarLocal" class="btn btn-outline-light bg-white d-none d-sm-inline-flex">
+                                                <em class="icon ni ni-arrow-left"></em><span>Dar de baja local</span>
+                                            </button>
+                                        </form>
+                                    </div> 
                                 </div>
                             </div>
                             <div class="nk-block">

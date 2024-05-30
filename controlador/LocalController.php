@@ -23,6 +23,18 @@ require_once(__DIR__ . '/../modelo/Local.php');
     }
     return false;
  }
+ public function delete($local_id){
+    if((new Local())->delete($local_id)){
+        return true;
+    }
+    return false;
+}
+public function deleteFotos($local_id){
+    if((new Local())->deleteFotos($local_id)){
+        return true;
+    }
+    return false;
+}
  public function getLocalesByUsuario_id($usuario_id){
   $locales = (new Local())->getLocalesByUsuario_id($usuario_id);
   if($locales){
@@ -185,6 +197,16 @@ if (isset($_POST['botonUpdateHorario'])) {
       echo json_encode(['success' => false]);
   }
 
+}
+if (isset($_POST['borrarLocal'])) {
+    $local_id = $_POST['local_id'];
+    $localController = new LocalController();
+    $delete= $localController->delete($local_id);
+    if($delete){
+        header('Location:../index.php '); 
+        exit;
+    }
+    
 }
 
 

@@ -13,6 +13,12 @@ class UbicacionController{
     }
     return false;
   }
+  public function delete($ubicacion_id){
+    if((new Local())->delete($ubicacion_id)){
+        return true;
+    }
+    return false;
+}
 }
 if (isset($_POST['botonUpdateUbicacion'])) {
   $calle = $_POST['calle'];
