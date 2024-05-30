@@ -3,9 +3,7 @@ require_once __DIR__ . '\DB.php';
 class Local{
 
     private $_db, // Objeto de la clase DB
-        $_data, // Datos del local
-        $_sessionName, // Nombre de la sesión
-        $_cookieName; // Nombre de la cookie
+        $_data;
 
 
     // Constructor de la clase
@@ -13,21 +11,19 @@ class Local{
     {
         // Se instancia la clase DB
         $this->_db = DB::getInstance();
-        // Se obtienen el nombre de la sesión y el nombre de la cookie de la configuración
-        $this->_sessionName = Config::get('session/session_name');
-        $this->_cookieName = Config::get('remember/cookie_name');
     }
 
     // Método para crear un nuevo local
     public function create($fields = array())
     {
         $tabla = "locales";
-        // Se intenta insertar los datos del local en la base de datos
         if (!$this->_db->insert($tabla, $fields)) {
             throw new Exception('Ha habido un problema en la creación del local.');
         }
         return $this->_db->getPdo()->lastInsertId();
     }
+
+    //Metodo para borrar un local
     public function delete($local_id){
         $tabla = "locales";
         if(!$this->_db->delete($tabla,array('local_id', '=', $local_id))){
@@ -35,6 +31,8 @@ class Local{
         }
         return true;
     }
+
+    // Metodo para borrar fotos de un local
     public function deleteFotos($local_id){
         $tabla = "fotos";
         if(!$this->_db->delete($tabla,array('local_id', '=', $local_id))){
@@ -45,11 +43,9 @@ class Local{
 
     // Método para actualizar los datos de un local
     public function update($fields = array(), $local_id = null){
-        // Si no se proporciona un ID, se usa el ID del local actual
         if (!$local_id) {
             $local_id = $this->data()->local_id;
         }
-        // Se intenta actualizar los datos del local en la base de datos
         if (!$this->_db->update('locales', 'local', $local_id, $fields)) {
             throw new Exception('Ha habido un problema actualizando el local.');
         }
@@ -57,7 +53,6 @@ class Local{
             return true;
         }
     }
-
 
     // Método para buscar un local por nombre de local 
     public function find($local = null)
@@ -108,11 +103,7 @@ class Local{
             return false;
         }
     }
-    /* public function getTipoLocal(){
-        $tabla = "locales";
-        $tipo_local = $this->_db->query("SELECT tipo_local FROM $tabla");
-        return $tipo_local;
-    } */
+    
     //metodo para obtener la info del local en base a su id
     public function getLocalById($localId){
         if (!empty($localId)) {
@@ -324,14 +315,12 @@ class Local{
     {
         $tabla = "locales";
 
-        // Si no se proporcionan campos de filtrado, se obtienen todos los locales de la base de datos
         if ($fields == NULL) {
             if (!$this->_db->query("SELECT * FROM " . $tabla)) {
                 throw new Exception("No se puede ejecutar la query.");
             }
             return $this->_db->query("SELECT * FROM " . $tabla);
         } else {
-            // Si se proporcionan campos de filtrado, se ejecuta una consulta con estos campos y la ordenación especificada
             if (!$this->_db->getByParams($tabla, $fields, $order)) {
                 throw new Exception("No se puede ejecutar la query.");
             }
@@ -342,7 +331,6 @@ class Local{
     // Método para verificar si existe un local
     public function exists()
     {
-        // Devuelve true si existen datos del local, de lo contrario, devuelve false
         return (!empty($this->_data)) ? true : false;
     }
 

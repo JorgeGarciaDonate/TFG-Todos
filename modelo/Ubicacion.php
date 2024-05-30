@@ -12,12 +12,12 @@ class Ubicacion {
         $this->_db = DB::getInstance();            
     }
 
-    // Método para crear un nuevo usuario
+    // Método para crear una nueva ubicacion
     public function create($fields = array()) {
         $tabla = "ubicaciones";
-        // Se intenta insertar los datos del usuario en la base de datos
+        // Se intenta insertar los datos de la ubicacion en la base de datos
         if (!$this->_db->insert($tabla, $fields)) {
-            throw new Exception('Ha habido un problema en la creación del usuario.');
+            throw new Exception('Ha habido un problema en la creación de la ubicacion.');
         }
         return $this->_db->getPdo()->lastInsertId();
     }
@@ -32,7 +32,7 @@ class Ubicacion {
     // Método para actualizar los datos de la ubicación
     public function update($fields = array(), $id = null) {       
         if (!$this->_db->update('ubicaciones','ubicacion', $id, $fields)) {
-            throw new Exception('Ha habido un problema actualizando el usuario.');
+            throw new Exception('Ha habido un problema actualizando la ubicación.');
         }
         return true;
     }
