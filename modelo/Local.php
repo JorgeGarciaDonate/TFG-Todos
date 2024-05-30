@@ -26,7 +26,7 @@ class Local{
         if (!$this->_db->insert($tabla, $fields)) {
             throw new Exception('Ha habido un problema en la creación del local.');
         }
-        return true;
+        return $this->_db->getPdo()->lastInsertId();
     }
     public function delete($local_id){
         $tabla = "locales";

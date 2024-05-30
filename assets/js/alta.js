@@ -17,6 +17,14 @@ $(document).ready(function() {
         var ciudad = $('#ciudad').val().trim();
         var barrio = $('#barrio').val().trim();
         var usuario_id = $('#usuario_id').val().trim();
+        var dni = $('#dni').val().trim();
+        var telefono = $('#telefono').val().trim();
+        var web = $('#web').val().trim();
+        var foto = $('#foto')[0].files[0];
+
+
+
+
 
         $('#nombre').removeClass('error-border');
         $('#calle').removeClass('error-border');
@@ -84,7 +92,11 @@ $(document).ready(function() {
                             barrio: barrio,
                             latitud: lat,
                             longitud: lon,
-                            usuario_id :usuario_id
+                            usuario_id :usuario_id,
+                            telefono: telefono,
+                            dni: dni,
+                            web: web,
+                            foto: foto
                         },
                         dataType: 'json',
                         success: function(response) {

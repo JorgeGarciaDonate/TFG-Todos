@@ -110,14 +110,22 @@ if (isset($_POST['botonAlta'])) {
         $edad_recomendada = $_POST['edad_recomendada'];
         $musica_en_vivo = $_POST['musica_en_vivo'];
         $descripcion =$_POST['descripcion'];
+        $foto =$_FILES['foto'];
+        $dni = $_POST['dni'];
+        $telefono = $_POST['telefono'];
+        $web = $_POST['web'];
+        $uploadDir = 'assets/img/locales'; // Define la carpeta donde se guardarán las imágenes
+
         $usuario = new Usuario();
         if($usuario_id){
             $usuarioChanges = [
-                'es_propietario' => 1
+                'es_propietario' => 1,
+                'telefono' => $telefono,
+                'dni' => $dni                
             ];
         }
         $usuarioUpdate = $usuario ->update($usuarioChanges,$usuario_id);
-
+        
 
         // Inserta los datos de la ubicación
         $ubicacion = new Ubicacion();
@@ -148,10 +156,27 @@ if (isset($_POST['botonAlta'])) {
                 'usuario_id' => $usuario_id,
                 'descripcion' => $descripcion,
                 'musica_en_vivo' => $musica_en_vivo,
-                'edad_recomendada' => $edad_recomendada
+                'edad_recomendada' => $edad_recomendada,
+                'web' => $web
             ];
-            $result = $local->create($altaLocal);
-
+            $local_id = $local->create($altaLocal);
+            if ($foto['error'] == UPLOAD_ERR_OK) {
+                $uploadFile = $uploadDir . basename($foto['name']);
+                
+                if (move_uploaded_file($foto['tmp_name'], $uploadFile)) {
+                    echo "Archivo subido con éxito.\n";
+                    
+                    $fotoModel = new Foto();
+                    if($foto){
+                        $fotoCreate = [
+                            'nombre_foto' => $foto,
+                            'local_id' => $local_id
+                        ];
+                    }
+                    $result = $fotoModel->create($fotoCreate);
+                }
+            } 
+            
 
             if ($result) {
                 echo json_encode(['success' => true]);
