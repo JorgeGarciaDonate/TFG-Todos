@@ -4,7 +4,9 @@ define("ROOT", dirname(__FILE__) . DS);
 require_once(ROOT . ".." . DS . ".." . DS . "core" . DS . "init.php");
 $LocalController = new LocalController();
 $usuarioController = new UsuarioController();
-
+if(!$_SESSION['user']){
+    Redirect::to('../index.php');
+}
 //obtener id del usuario que ha iniciado sesion para que los favoritos se asocien solo a ese usuario
 
 ?>

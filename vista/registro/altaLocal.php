@@ -3,6 +3,9 @@
    define("ROOT", dirname(__FILE__) . DS);
    require_once (ROOT . ".." . DS . ".." . DS . "core" . DS . "init.php");
     new RegistroController();
+    if(!$_SESSION['user']){
+        Redirect::to('../index.php');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">

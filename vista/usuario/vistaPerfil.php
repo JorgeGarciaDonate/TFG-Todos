@@ -2,7 +2,9 @@
 define("DS", DIRECTORY_SEPARATOR);
 define("ROOT", dirname(__FILE__) . DS);
 require_once(ROOT . ".." . DS . ".." . DS . "core" . DS . "init.php");
-
+if(!$_SESSION['user']){
+    Redirect::to('../index.php');
+}
 $usuarioController = new UsuarioController();
 $localController = new LocalController();
 $localesUser = $localController->getLocalesByUsuario_id($_SESSION['user']);
