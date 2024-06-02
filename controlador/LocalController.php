@@ -210,3 +210,98 @@ if (isset($_POST['borrarLocal'])) {
 }
 
 
+//FUNCION PARA LOS FILTROS
+
+if (isset($_POST['aplicarFiltros']) && $_POST['aplicarFiltros'] === 'true') {
+    // Recibir los filtros del request
+    $hora_apertura = isset($_POST['hora_apertura']) ? $_POST['hora_apertura'] : null;
+    $hora_cierre = isset($_POST['hora_cierre']) ? $_POST['hora_cierre'] : null;
+    $dias_abierto = isset($_POST['dias_abierto']) ? explode(',', $_POST['dias_abierto']) : null;
+    $tipo_local = isset($_POST['tipo_local']) ? $_POST['tipo_local'] : null;
+    $musica_en_vivo = isset($_POST['musica_en_vivo']) ? $_POST['musica_en_vivo'] : false;
+    $genero_musical = isset($_POST['genero_musical']) ? explode(',', $_POST['genero_musical']) : null;
+    $edad_recomendada = isset($_POST['edad_recomendada']) ? $_POST['edad_recomendada'] : null;
+    $precio_rango = isset($_POST['precio_rango']) ? $_POST['precio_rango'] : null;
+
+    // Construir la consulta SQL
+    $query = "SELECT * FROM locales";
+    $conditions = [];
+    $params = [];
+
+    if ($hora_apertura) {
+        $conditions[] = "hora_apertura >= ?";
+        $params[] = $hora_apertura;
+    }
+    if ($hora_cierre) {
+        $conditions[] = "hora_cierre <= ?";
+        $params[] = $hora_cierre;
+    }
+    if (!empty($dias_abierto)) {
+        $dias_abierto_sql = implode("','", $dias_abierto);
+        $conditions[] = "dias_abierto = '$dias_abierto_sql'";
+    }
+    if ($tipo_local) {
+        $conditions[] = "tipo_local = RESTAURANTE";
+        $params[] = $tipo_local;
+    }
+    if ($musica_en_vivo) {
+        $conditions[] = "musica_en_vivo = 1";
+    }
+    if (!empty($genero_musical)) {
+        $genero_musical_sql = implode("','", $genero_musical);
+        $conditions[] = "genero_musical = '$genero_musical_sql'";
+    }
+    if ($edad_recomendada) {
+        $conditions[] = "edad_recomendada <= ?";
+        $params[] = $edad_recomendada;
+    }
+    if ($precio_rango) {
+        if ($precio_rango === '50+') {
+            $conditions[] = "precio_rango = 50+";
+        } else {
+            list($min, $max) = explode('-', $precio_rango);
+            $conditions[] = "precio_rango BETWEEN ? AND ?";
+            $params[] = $min;
+            $params[] = $max;
+        }
+    }
+
+    // Unir condiciones si hay alguna
+    if (count($conditions) > 0) {
+        $query .= " WHERE " . implode(" AND ", $conditions);
+    }
+
+    // Debug: Print the query and parameters
+    error_log("SQL Query: " . $query);
+    error_log("Parameters: " . json_encode($params));
+    echo $query;
+    // Crear instancia de la clase DB y ejecutar la consulta
+    $db = DB::getInstance();
+    $local = new Local();
+    $valores = [];
+
+    // Ejecutar la consulta
+    try {
+        // Assuming $db->query is correctly set up to use prepared statements
+        $stmt = $db->query($query);
+        
+        // Binding parameters dynamically
+        foreach ($params as $index => $param) {
+            $stmt->bindValue($index + 1, $param);
+        }
+
+        // Execute the statement
+        $stmt->execute();
+        $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $valores = $local->arrayDatos($datos);
+
+        if ($valores) {
+            echo json_encode(['success' => true, 'data' => $valores]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'No se encontraron resultados.']);
+        }
+    } catch (Exception $e) {
+        error_log("Database error: " . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error en la consulta a la base de datos.']);
+    }
+}

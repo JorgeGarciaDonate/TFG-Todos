@@ -142,10 +142,10 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
 
 
     <div class="container">
-       <!--  <h1>Inicio</h1> -->          
+       <!--  <h1>Inicio</h1> -->     
 
 
-        <div class="filters">
+       <div class="filters">
             <h2>Filtros</h2>
             <div class="filter-item">
                 <label for="hora_apertura">Hora de Apertura:</label>
@@ -168,7 +168,7 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
                     <label for="martes">Martes</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="miercoles" name="dias_abierto" value="MIERCOLES">
+                    <input type="checkbox" id="miercoles" name="dias_abierto" value="MIÉRCOLES">
                     <label for="miercoles">Miércoles</label>
                 </div>
                 <div>
@@ -180,7 +180,7 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
                     <label for="viernes">Viernes</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="sabado" name="dias_abierto" value="SABADO">
+                    <input type="checkbox" id="sabado" name="dias_abierto" value="SÁBADO">
                     <label for="sabado">Sábado</label>
                 </div>
                 <div>
@@ -210,49 +210,52 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
             </div>
 
             <div class="filter-item">
-                <label for="genero_musical">Género Musical:</label>
-                <select id="genero_musical" name="genero_musical">
-                    <option value="REGGAETON">Reggaeton</option>
-                    <option value="TECHNO">Techno</option>
-                    <option value="ELECTRONICA">Electrónica</option>
-                    <option value="ROCK">Rock</option>
-                    <option value="POP">Pop</option>
-                </select>
+                <label>Género Musical:</label>
+                <div>
+                    <input type="checkbox" id="genero_musical_reggaeton" name="genero_musical" value="REGGAETON">
+                    <label for="genero_musical_reggaeton">Reggaeton</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="genero_musical_techno" name="genero_musical" value="TECHNO">
+                    <label for="genero_musical_techno">Techno</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="genero_musical_electronica" name="genero_musical" value="ELECTRÓNICA">
+                    <label for="genero_musical_electronica">Electrónica</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="genero_musical_rock" name="genero_musical" value="ROCK">
+                    <label for="genero_musical_rock">Rock</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="genero_musical_pop" name="genero_musical" value="POP">
+                    <label for="genero_musical_pop">Pop</label>
+                </div>
             </div>
 
             <div class="filter-item">
                 <label for="edad_recomendada">Edad Recomendada:</label>
                 <input type="number" id="edad_recomendada" name="edad_recomendada" min="0" max="99">
             </div>
-
+            
             <div class="filter-item">
-                <label for="precio_min">Precio Mínimo:</label>
-                <input type="number" id="precio_min" name="precio_min" min="0" step="0.01">
-            </div>
-
-            <div class="filter-item">
-                <label for="precio_max">Precio Máximo:</label>
-                <input type="number" id="precio_max" name="precio_max" min="0" step="0.01">
-            </div>
-
-            <div class="filter-item">
-                <label for="nota">Nota:</label>
-                <select id="nota" name="nota">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                <label for="precio_rango">Rango de Precio:</label>
+                <select id="precio_rango" name="precio_rango">
+                    <option value="0-20">0-20</option>
+                    <option value="20-50">20-50</option>
+                    <option value="50+">50+</option>
                 </select>
             </div>
-            <button class="filters-button">Aplicar filtros</button>
+            
+            <button class="filters-button" id="btnFilters" name="btnFilters">Aplicar filtros</button>
         </div>
+
 
         <div class="search">
             <div class="search-input" alt="formulario búsqueda">
                 <h2>Introduce la zona/barrio/estación de metro:</h2>
                 <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
-                <button class="search-button">Buscar</button>
+                <button class="search-button" id="btnSearch" name="btnSearch" >Buscar</button>
             </div>
 
             <div class="view-toggle">

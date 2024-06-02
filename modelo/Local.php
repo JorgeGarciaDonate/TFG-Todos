@@ -53,6 +53,11 @@ class Local{
             return true;
         }
     }
+    public function getByParams($table, $query) {
+        // Utilizar la consulta SQL pasada como parámetro
+        $stmt = $this->_db->query($query);
+        return $stmt;
+    }
 
     // Método para buscar un local por nombre de local 
     public function find($local = null)
