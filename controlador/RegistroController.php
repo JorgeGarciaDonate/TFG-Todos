@@ -33,6 +33,8 @@ if (isset($_POST['botonLog'])) {
     $nombre_usuario = $_POST['nombre_usuario'];
     $password = $_POST['password'];  
     $password_hash = Hash::make($password); 
+    $controller = new RegistroController();
+    $loginResult = $controller->login($nombre_usuario, $password);
 
     if (empty($nombre_usuario) || empty($password)) {
         echo json_encode(array('success' => false, 'message' => 'Completa todos los campos'));
@@ -45,16 +47,12 @@ if (isset($_POST['botonLog'])) {
     else if (!$controller->find($nombre_usuario)) {
         echo json_encode(array('success' => false, 'message' => 'El nombre de usuario no es correcto.'));
     }
-    else if(!$controller->find($password_hash)){
-        echo json_encode(array('success' => false, 'message' => ' La contraseña no es correcta.'));
-    }
-
-    $controller = new RegistroController();
-    $loginResult = $controller->login($nombre_usuario, $password);
-
-    if ($loginResult === true) {
+    else if ($loginResult === true) {
         echo json_encode(array('success' => true));
-    } 
+    }
+    else {
+        echo json_encode(array('success' => false, 'message' => ' La contraseña no es correcta.'));
+    }     
 }
 
 if (isset($_POST['botonCreate'])) {
