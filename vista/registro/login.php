@@ -57,6 +57,7 @@
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="nombre_usuario" name="nombre_usuario" placeholder="Escribe tu email o usuario">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-username"></div>
                                     </div>
                                     <div class="form-group">
                                         <div class="form-label-group">
@@ -68,8 +69,10 @@
                                                 <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
                                             </a>
                                             <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Escribe tu contraseña">
+                                            <div class="error-msg text-danger" id="error-password"></div>
                                         </div>                                        
                                     </div>
+                                    <div class="error-msg text-danger" id="error-msg"></div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-block " id="botonLog">Login</button>
                                     </div>
@@ -79,42 +82,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="nk-footer nk-auth-footer-full">
-                        <div class="container wide-lg">
-                            <div class="row g-3">
-                                <div class="col-lg-6 order-lg-last">
-                                    <ul class="nav nav-sm justify-content-center justify-content-lg-end">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Terms & Condition</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Privacy Policy</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Help</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="nk-block-content text-center text-lg-start">
-                                        <p class="text-soft">&copy; 2022 Dashlite. All Rights Reserved.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <!-- wrap @e -->
             </div>
-            <!-- content @e -->
         </div>
-        <!-- main @e -->
     </div>
     <!-- app-root @e -->
     <!-- JavaScript -->
     <script src="../assets/js/login.js"></script>    
     <script src="../assets/js/bundle.js"></script>
     <script src="../assets/js/scripts.js"></script>
-    <!-- select region modal -->
 </body>
 </html>

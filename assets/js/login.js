@@ -5,16 +5,18 @@ $(document).ready(function() {
         var nombre_usuario = $('#nombre_usuario').val().trim();
         var password = $('#password').val().trim();
 
-        $('#username').removeClass('error-border');
+        $('#nombre_usuario').removeClass('error-border');
         $('#password').removeClass('error-border');
 
         if (nombre_usuario === '') {
             $('#nombre_usuario').addClass('error-border');
-            return false;
+            $('#error-username').text('El nombre deusuario es obligatorio.');
+            errorMsg = true;
         }
         if (password === '') {
             $('#password').addClass('error-border');
-            return false;
+            $('#error-password').text('La contraseña es obligatorio.');
+            errorMsg = true;
         }
 
         $.ajax({
@@ -27,15 +29,11 @@ $(document).ready(function() {
             },
             dataType: 'json', 
             success: function(response) {
-                //console.log (response);
                 if (response.success) {
                     window.location.href = '../vista/index.php';
                 } else {
-                    $('#error-msg').text('Usuario o contraseña incorrectos.');
+                    $('#error-msg').text(response.message);
                 }
-            },
-            error: function() {
-                $('#error-msg').text('Ha ocurrido un error en el servidor.');
             }
         });
     });

@@ -31,11 +31,22 @@ class RegistroController {
 }
 if (isset($_POST['botonLog'])) {
     $nombre_usuario = $_POST['nombre_usuario'];
-    $password = $_POST['password'];    
+    $password = $_POST['password'];  
+    $password_hash = Hash::make($password); 
 
     if (empty($nombre_usuario) || empty($password)) {
         echo json_encode(array('success' => false, 'message' => 'Completa todos los campos'));
         exit(); 
+    }
+    $controller = new RegistroController();
+    if (!$controller->find($nombre_usuario) && !$controller->find($password_hash)) {
+        echo json_encode(array('success' => false, 'message' => 'El nombre de usuario y la contraseña no son correctos.'));
+    }
+    else if (!$controller->find($nombre_usuario)) {
+        echo json_encode(array('success' => false, 'message' => 'El nombre de usuario no es correcto.'));
+    }
+    else if(!$controller->find($password_hash)){
+        echo json_encode(array('success' => false, 'message' => ' La contraseña no es correcta.'));
     }
 
     $controller = new RegistroController();
@@ -43,9 +54,7 @@ if (isset($_POST['botonLog'])) {
 
     if ($loginResult === true) {
         echo json_encode(array('success' => true));
-    } else {
-        echo json_encode(array('success' => false));
-    }
+    } 
 }
 
 if (isset($_POST['botonCreate'])) {
@@ -56,40 +65,54 @@ if (isset($_POST['botonCreate'])) {
     $apellido = $_POST['apellido'];
     $fecha_de_nacimiento = $_POST['fecha_de_nacimiento'];
 
-    // Cambiar el formato de la fecha de nacimiento de "d/m/Y" a "Y-m-d" para MySQL
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(array('success' => false, 'message' => 'Formato de email invalido'));
+        exit;
+    }
+
+
+    if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/', $password)) {
+        echo json_encode(array('success' => false, 'message' => 'La contraseña debe tener minimo una letra mayúscula, una minúscula y un número.'));
+        exit;
+    }
+
     $fecha_nacimiento_obj = date_create_from_format('d/m/Y', $fecha_de_nacimiento);
     if (!$fecha_nacimiento_obj) {
-        echo json_encode(array('success' => false, 'message' => 'Invalid date of birth format.'));
+        echo json_encode(array('success' => false, 'message' => 'Formato de fecha invalida.'));
         exit;
     }
     $fecha_nacimiento_mysql = $fecha_nacimiento_obj->format('Y-m-d');
+    $hoy = new DateTime();
+    $diff = $hoy->diff($fecha_nacimiento_obj);
+    if ($diff->y < 18) {
+        echo json_encode(array('success' => false, 'message' => 'Debes de ser mayor de edad'));
+        exit;
+    }
 
     $controller = new RegistroController();
-    if($controller->find($email) ){
-        echo json_encode(array('success' => false, 'message' => 'The email already exists.'));
-    } 
-    else if($controller->find($nombre_usuario)){
-        echo json_encode(array('success' => false, 'message' => 'The username already exists.'));
+    if ($controller->find($email)) {
+        echo json_encode(array('success' => false, 'message' => 'El email ya está registrado.'));
+    } else if ($controller->find($nombre_usuario)) {
+        echo json_encode(array('success' => false, 'message' => 'El nombre de usuario ya existe.'));
     } else {
         $userData = array(
-            'nombre'=> $nombre,
+            'nombre' => $nombre,
             'nombre_usuario' => $nombre_usuario,
             'email' => $email,
             'password_hash' => Hash::make($password),
             'apellido' => $apellido,
             'fecha_de_nacimiento' => $fecha_nacimiento_mysql
-        );    
+        );
 
         $sign_up_successful = $controller->createUser($userData);
 
-        if ($sign_up_successful==true) {
+        if ($sign_up_successful == true) {
             echo json_encode(array('success' => true));
         } else {
-            echo json_encode(array('success' => false, 'message' => 'Error creating the user.'));
+            echo json_encode(array('success' => false, 'message' => 'Error en la creación del usuario.'));
         }
     }
 }
-
 if (isset($_POST['botonAlta'])) {
     try {
         $nombre = $_POST['nombre'];
