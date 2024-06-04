@@ -3,6 +3,9 @@
    define("ROOT", dirname(__FILE__) . DS);
    require_once (ROOT . ".." . DS . ".." . DS . "core" . DS . "init.php");
     new RegistroController();
+    if(!$_SESSION['user']){
+        Redirect::to('../index.php');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">
@@ -66,6 +69,18 @@
                                 </div>
                                 <form id="altaForm" action="#" method="post">
                                     <!-- Hoa apertura, cierre, dias abierto, nombre, tipo local, ubicacion, musica en vivo, descripcion, genero musical, edad recomentada, precio_rango,  -->
+                                    <div class="form-group">
+                                        <label class="form-label" for="dni">DNI del propietario</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control form-control-lg" id="dni" placeholder="Introduce tu dni">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="telefono">Teléfono</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control form-control-lg" id="telefono" placeholder="Introduce tu número de telefono">
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label class="form-label" for="nombre">Nombre</label>
                                         <div class="form-control-wrap">
@@ -189,6 +204,18 @@
                                         <label class="form-label" for="descripcion">Descrpicion</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="descripcion" placeholder="Escribe una descripcion">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="web">Web</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control form-control-lg" id="web" placeholder="Escribe una direccion web">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="foto">Foto</label>
+                                        <div class="form-control-wrap">
+                                            <input type="file" class="form-control form-control-lg" id="foto" name="foto" accept="image/*">
                                         </div>
                                     </div>
                                     <div class="form-group">

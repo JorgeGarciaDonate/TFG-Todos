@@ -2,11 +2,11 @@
 require_once __DIR__ . '/../modelo/DB.php';
 class Usuario {
 
-    private $_db, // Objeto de la clase DB
-            $_data, // Datos del usuario
-            $_sessionName, // Nombre de la sesión
-            $_cookieName, // Nombre de la cookie
-            $_isLoggedIn; // Estado de inicio de sesión
+    private $_db, 
+            $_data, 
+            $_sessionName, 
+            $_cookieName, 
+            $_isLoggedIn; 
 
     // Constructor de la clase
     public function __construct($usuario = null) {

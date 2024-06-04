@@ -192,4 +192,54 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+    
 });
+
+// FUNCIÓN PARA LOS FILTROS
+document.getElementById('btnFilters').addEventListener('click', function() {
+    var horaApertura = document.getElementById('hora_apertura').value;
+    var horaCierre = document.getElementById('hora_cierre').value;
+    var diasAbierto = Array.from(document.querySelectorAll('input[name="dias_abierto"]:checked')).map(cb => cb.value);
+    var tipoLocal = document.getElementById('tipo_local').value;
+    var musicaEnVivo = document.getElementById('musica_en_vivo').checked;
+    var generoMusical = Array.from(document.querySelectorAll('input[name="genero_musical"]:checked')).map(cb => cb.value);
+    var edadRecomendada = document.getElementById('edad_recomendada').value;
+    var precioRango = document.getElementById('precio_rango').value;
+
+    var data = new FormData();
+    data.append('hora_apertura', horaApertura);
+    data.append('hora_cierre', horaCierre);
+    data.append('dias_abierto', diasAbierto.join(','));
+    data.append('tipo_local', tipoLocal);
+    data.append('musica_en_vivo', musicaEnVivo);
+    data.append('genero_musical', generoMusical.join(','));
+    data.append('edad_recomendada', edadRecomendada);
+    data.append('precio_rango', precioRango);
+    data.append('aplicarFiltros', 'true');
+
+    fetch('../controlador/LocalController.php', {
+        method: 'POST',
+        body: data
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            console.log('Filtered results:', result.data);
+            // Aquí puedes actualizar la interfaz con los resultados filtrados
+        } else {
+            console.error('Error:', result.message);
+        }
+    })
+    .catch(error => console.error('Fetch error:', error));
+});
+
+/* function renderLocalInList(local) {
+    // Crea un elemento de local en el listado
+    var localItem = $('<div>').addClass('local-item');
+
+    // Agrega el contenido del local al elemento del listado
+    // (similares a las partes del código dentro de loadPage() relacionadas con la creación del localItem)
+
+    // Agrega el elemento del listado al contenedor de listado
+    $('#list-container').append(localItem);
+} */

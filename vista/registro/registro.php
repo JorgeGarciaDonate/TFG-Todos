@@ -49,28 +49,33 @@
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="nombre" placeholder="Escribe tu nombre">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-nombre"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="apellido">Apellidos</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="apellido" placeholder="Escribe tu apellidos">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-apellido"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="fecha_de_nacimiento">Fecha de nacimiento</label>
                                         <input type="text" class="form-control form-control-lg date-picker" id="fecha_de_nacimiento" name="fecha_de_nacimiento" placeholder="Introduce tu fecha de nacimiento">
-                                    </div>                                    
+                                        <div class="error-msg text-danger" id="error-fecha_de_nacimiento"></div>                                   
+                                    </div> 
                                     <div class="form-group">
                                         <label class="form-label" for="nombre_usuario">Usuario</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="nombre_usuario" placeholder="Escribe un nombre de usuario">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-nombre_usuario"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="email">Email</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="email" placeholder="Escribe tu email">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-email"></div>
                                     </div>                                    
                                     <div class="form-group">
                                         <label class="form-label" for="password">Contraseña</label>
@@ -81,7 +86,9 @@
                                             </a>
                                             <input type="password" class="form-control form-control-lg" id="password" placeholder="Escribe tu contraseña">
                                         </div>
-                                    </div>                                    
+                                        <div class="error-msg text-danger" id="error-password"></div>
+                                    </div>
+                                    <div class="error-msg text-danger" id="error-msg"></div>                                    
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-block" id="botonCreate">Registrarse</button>
                                     </div>
@@ -91,38 +98,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="nk-footer nk-auth-footer-full">
-                        <div class="container wide-lg">
-                            <div class="row g-3">
-                                <div class="col-lg-6 order-lg-last">
-                                    <ul class="nav nav-sm justify-content-center justify-content-lg-end">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Terms & Condition</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Privacy Policy</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Help</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="nk-block-content text-center text-lg-start">
-                                        <p class="text-soft">&copy; 2022 Dashlite. All Rights Reserved.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <!-- wrap @e -->
             </div>
-            <!-- content @e -->
         </div>
-        <!-- main @e -->
-    </div>
-    <!-- app-root @e -->
+    </div>>
     <!-- JavaScript -->
     <script src="../assets/js/bundle.js"></script>
     <script src="../assets/js/scripts.js"></script>
