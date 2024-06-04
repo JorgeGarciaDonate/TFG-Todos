@@ -149,12 +149,12 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
             <h2>Filtros</h2>
             <div class="filter-item">
                 <label for="hora_apertura">Hora de Apertura:</label>
-                <input type="text" id="hora_apertura" name="hora_apertura" placeholder="HH:MM">
+                <input type="time" id="hora_apertura" name="hora_apertura" placeholder="HH:MM">
             </div>
 
             <div class="filter-item">
                 <label for="hora_cierre">Hora de Cierre:</label>
-                <input type="text" id="hora_cierre" name="hora_cierre" placeholder="HH:MM">
+                <input type="time" id="hora_cierre" name="hora_cierre" placeholder="HH:MM">
             </div>
 
             <div class="filter-item">
