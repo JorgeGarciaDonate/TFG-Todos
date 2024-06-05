@@ -21,7 +21,9 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
     <link rel="stylesheet" href="../assets/css/dashlite.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha384-DyF04EOve/0wZy8u7x3eYvPDzDW0YrYTd1zBBk0q3TK/VvqKecEK9LU5KG6+dSL2" crossorigin="anonymous">
 
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha384-J2BB9S6qFw4WVgZMzB8Eu5fXjkFHYj6+0QTGfVXW+XnIh+cucXDLmM3r+3OcPsAJ" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../assets/js/mapaApi.js" defer></script>
@@ -31,8 +33,7 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
     <script>var locations = <?php echo json_encode($locales); ?>; </script>
     <script> var data = <?php echo json_encode($data); ?>; </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/lsrc-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lsrc-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
     <script src="../assets/js/jquery-3.6.0.minundle.js"></script>
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/mapaApi.js"></script>

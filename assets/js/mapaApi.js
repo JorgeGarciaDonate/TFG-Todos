@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+
     var map;
     var currentPage = 1;
     var itemsPerPage = 5;
@@ -32,27 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Inicializar el mapa al cargar la página
-    getCurrentPosition();
-
-    document.getElementById('map-view').addEventListener('click', function () {
-        document.getElementById('map').style.display = 'block';
-        document.getElementById('list-container').style.display = 'none';
-        document.getElementById('pagination-container').style.display = 'none';
-        getCurrentPosition();
-    });
-
-    document.getElementById('list-view').addEventListener('click', function () {
-        document.getElementById('map').style.display = 'none';
-        document.getElementById('list-container').style.display = 'block';
-        document.getElementById('pagination-container').style.display = 'block';
-        if (allLocales.length === 0) {
-            loadLocales();
-        } else {
-            loadPage(currentPage);
-        }
-    });
-
     function loadLocales() {
         $.ajax({
             type: 'POST',
@@ -68,7 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
+    
+    
     function loadPage(page) {
         currentPage = page;
         var startIndex = (currentPage - 1) * itemsPerPage;
@@ -139,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         renderPagination();
     }
-
     function renderPagination() {
         $('#pagination-container').empty(); // Limpiar la paginación existente
         var totalPages = Math.ceil(allLocales.length / itemsPerPage);
@@ -172,7 +151,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-    
     function guardarFav(localId) {
         $.ajax({
             type: 'POST',
@@ -192,7 +170,27 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-    
+document.addEventListener('DOMContentLoaded', function () {    
+    // Inicializar el mapa al cargar la página
+    getCurrentPosition();
+
+    document.getElementById('map-view').addEventListener('click', function () {
+        document.getElementById('map').style.display = 'block';
+        document.getElementById('list-container').style.display = 'none';
+        document.getElementById('pagination-container').style.display = 'none';
+        getCurrentPosition();
+    });
+
+    document.getElementById('list-view').addEventListener('click', function () {
+        document.getElementById('map').style.display = 'none';
+        document.getElementById('list-container').style.display = 'block';
+        document.getElementById('pagination-container').style.display = 'block';
+        if (allLocales.length === 0) {
+            loadLocales();
+        } else {
+            loadPage(currentPage);
+        }
+    });
 });
 
 // FUNCIÓN PARA LOS FILTROS
@@ -206,6 +204,16 @@ document.getElementById('btnFilters').addEventListener('click', function() {
     var edadRecomendada = document.getElementById('edad_recomendada').value;
     var precioRango = document.getElementById('precio_rango').value;
 
+    // Verificar si se han seleccionado filtros
+    var filtersSelected = horaApertura || horaCierre || diasAbierto.length > 0 || tipoLocal || musicaEnVivo || generoMusical.length > 0 || edadRecomendada || precioRango;
+
+    if (!filtersSelected) {
+        // Si no se han seleccionado filtros, cargar todos los locales
+        loadLocales();
+        return;
+    }
+
+    // Si se han seleccionado filtros, realizar la solicitud de filtros
     var data = new FormData();
     data.append('hora_apertura', horaApertura);
     data.append('hora_cierre', horaCierre);
@@ -224,22 +232,28 @@ document.getElementById('btnFilters').addEventListener('click', function() {
     .then(response => response.json())
     .then(result => {
         if (result.success) {
-            console.log('Filtered results:', result.data);
-            // Aquí puedes actualizar la interfaz con los resultados filtrados
+            // Asociar la respuesta a la variable allLocales
+            allLocales = result.data;
+            console.log('Filtered results:', allLocales);
+            // Limpiar los marcadores existentes en el mapa
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.Marker) {
+                    map.removeLayer(layer);
+                }
+            });
+            result.data.forEach(function (location) {
+                // Acceder a la primera entrada del array 'ubicacion'
+                var ubicacion = location.ubicacion[0];
+                L.marker([ubicacion.latitud, ubicacion.longitud]).addTo(map)
+                    .bindPopup(location.nombre_local);
+            });
+            
+            // Limpiar la lista de locales actual
+            $('#list-container').empty();
+            loadPage(currentPage);
         } else {
             console.error('Error:', result.message);
         }
     })
     .catch(error => console.error('Fetch error:', error));
 });
-
-/* function renderLocalInList(local) {
-    // Crea un elemento de local en el listado
-    var localItem = $('<div>').addClass('local-item');
-
-    // Agrega el contenido del local al elemento del listado
-    // (similares a las partes del código dentro de loadPage() relacionadas con la creación del localItem)
-
-    // Agrega el elemento del listado al contenedor de listado
-    $('#list-container').append(localItem);
-} */

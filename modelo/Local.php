@@ -205,8 +205,11 @@ class Local{
     
     public function arrayDatos($datos){
         $valores = [];
+        $ubicacion = new Ubicacion();
+        $foto = new Foto();
         foreach ($datos as $dato) {           
-
+            $datosUbi= $ubicacion->getDatosUbicacion($dato -> ubicacion_id);
+            $fotoLoc =$foto->getDatosFotos($dato -> local_id);
             $valores[] = [
                 'local_id' => $dato -> local_id,
                 'nombre_local' => $dato -> nombre_local,
@@ -221,7 +224,8 @@ class Local{
                 'precio_rango' => $dato -> precio_rango,
                 'usuario_id' => $dato -> usuario_id,
                 'web' => $dato->web,
-                'ubicacion_id' => $dato -> ubicacion_id
+                'ubicacion' => $datosUbi,
+                'fotos' => $fotoLoc
             ];
         }
         return $valores;

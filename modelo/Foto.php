@@ -35,7 +35,18 @@ class Foto {
         return true;
     }
 
-    
+    public function getDatosFotos($local_id) {
+        $tabla = "fotos";
+        $datos = $this->_db->query("SELECT * FROM $tabla WHERE local_id = $local_id " );
+        $valores = [];
+        
+        if ($datos) {
+            $valores = $this->arrayDatos($datos->results());
+        } else {
+            throw new Exception("Oops! Something went wrong.");
+        }
+        return $valores;
+    }
     public function arrayDatos($datos){
         $valores = [];
         foreach ($datos as $dato) {           

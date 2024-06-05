@@ -1,99 +1,99 @@
 <?php
 require_once(__DIR__ . '/../modelo/Local.php');
 
- class LocalController{
+class LocalController{
 
- public function allLocales(){
-    $listLocales=(new Local())->allLocales();
-    return $listLocales;
- }
- public function getDatoslocal($local_id){
-    $datos = (new Local())->getDatoslocal($local_id);
-    return $datos; 
- }
- public function update($array,$local_id){
-  if((new Local())->update($array,$local_id)){
-    return true;
-  }
-  return false;
- }
- public function create($array){
-    if((new Local())->create(($array))){
+    public function allLocales(){
+        $listLocales=(new Local())->allLocales();
+        return $listLocales;
+    }
+    public function getDatoslocal($local_id){
+        $datos = (new Local())->getDatoslocal($local_id);
+        return $datos; 
+    }
+    public function update($array,$local_id){
+    if((new Local())->update($array,$local_id)){
         return true;
     }
     return false;
- }
- public function delete($local_id){
-    if((new Local())->delete($local_id)){
-        return true;
+    }
+    public function create($array){
+        if((new Local())->create(($array))){
+            return true;
+        }
+        return false;
+    }
+    public function delete($local_id){
+        if((new Local())->delete($local_id)){
+            return true;
+        }
+        return false;
+    }
+    public function deleteFotos($local_id){
+        if((new Local())->deleteFotos($local_id)){
+            return true;
+        }
+        return false;
+    }
+    public function getLocalesByUsuario_id($usuario_id){
+    $locales = (new Local())->getLocalesByUsuario_id($usuario_id);
+    if($locales){
+        return $locales;
     }
     return false;
-}
-public function deleteFotos($local_id){
-    if((new Local())->deleteFotos($local_id)){
-        return true;
     }
-    return false;
-}
- public function getLocalesByUsuario_id($usuario_id){
-  $locales = (new Local())->getLocalesByUsuario_id($usuario_id);
-  if($locales){
-    return $locales;
-  }
-  return false;
- }
 
- public function coordLocales(){
-   $coordLocales=(new Local())->coordenadasLocales();
-   return $coordLocales;
- }
+    public function coordLocales(){
+    $coordLocales=(new Local())->coordenadasLocales();
+    return $coordLocales;
+    }
 
- public function getLocalById($localId) {
-   $local = (new Local())->getLocalById($localId);
-   
-   if ($local !== false) {
-       return (array) $local; // Convertir el objeto a array asociativo
-   } else {
-       return false;
-   }
- }
+    public function getLocalById($localId) {
+    $local = (new Local())->getLocalById($localId);
+    
+    if ($local !== false) {
+        return (array) $local; // Convertir el objeto a array asociativo
+    } else {
+        return false;
+    }
+    }
 
- public function getFavoritos($userId) {
-   if (isset($_COOKIE['favorites_' . $userId])) {
-       return json_decode($_COOKIE['favorites_' . $userId], true);
-   } else {
-       return [];
-   }
- }
+    public function getFavoritos($userId) {
+    if (isset($_COOKIE['favorites_' . $userId])) {
+        return json_decode($_COOKIE['favorites_' . $userId], true);
+    } else {
+        return [];
+    }
+    }
 
- // Establecer los favoritos del usuario en las cookies
- public function setFavoritos($userId, $favoritos) {
-   setcookie('favorites_' . $userId, json_encode($favoritos), time() + (60 * 60 * 24 * 30), "/");
- }
+    // Establecer los favoritos del usuario en las cookies
+    public function setFavoritos($userId, $favoritos) {
+    setcookie('favorites_' . $userId, json_encode($favoritos), time() + (60 * 60 * 24 * 30), "/");
+    }
 
- // Añadir local a favoritos
- public function addFavorito($userId, $localId) {
-   $favoritos = $this->getFavoritos($userId);
-   if (!in_array($localId, $favoritos)) {
-       $favoritos[] = $localId;
-       $this->setFavoritos($userId, $favoritos);
-       return true;
-   } else {
-       return false;
-   }
- }
+    // Añadir local a favoritos
+    public function addFavorito($userId, $localId) {
+    $favoritos = $this->getFavoritos($userId);
+    if (!in_array($localId, $favoritos)) {
+        $favoritos[] = $localId;
+        $this->setFavoritos($userId, $favoritos);
+        return true;
+    } else {
+        return false;
+    }
+    }
 
- // Eliminar local de favoritos
- public function removeFavorito($userId, $localId) {
-   $favoritos = $this->getFavoritos($userId);
-   if (($key = array_search($localId, $favoritos)) !== false) {
-       unset($favoritos[$key]);
-       $this->setFavoritos($userId, array_values($favoritos));
-       return true;
-   } else {
-       return false;
-   }
- }
+    // Eliminar local de favoritos
+    public function removeFavorito($userId, $localId) {
+    $favoritos = $this->getFavoritos($userId);
+    if (($key = array_search($localId, $favoritos)) !== false) {
+        unset($favoritos[$key]);
+        $this->setFavoritos($userId, array_values($favoritos));
+        return true;
+    } else {
+        return false;
+    }
+    }
  
 }
 
@@ -222,47 +222,61 @@ if (isset($_POST['aplicarFiltros']) && $_POST['aplicarFiltros'] === 'true') {
     $genero_musical = isset($_POST['genero_musical']) ? explode(',', $_POST['genero_musical']) : null;
     $edad_recomendada = isset($_POST['edad_recomendada']) ? $_POST['edad_recomendada'] : null;
     $precio_rango = isset($_POST['precio_rango']) ? $_POST['precio_rango'] : null;
-
+    
     // Construir la consulta SQL
     $query = "SELECT * FROM locales";
     $conditions = [];
     $params = [];
+    
+
+    
 
     if ($hora_apertura) {
-        $conditions[] = "hora_apertura >= ?";
+        $conditions[] = "hora_apertura >= '$hora_apertura:00'";
         $params[] = $hora_apertura;
     }
     if ($hora_cierre) {
-        $conditions[] = "hora_cierre <= ?";
+        $conditions[] = "hora_cierre <= '$hora_cierre:00'";
         $params[] = $hora_cierre;
     }
-    if (!empty($dias_abierto)) {
-        $dias_abierto_sql = implode("','", $dias_abierto);
-        $conditions[] = "dias_abierto = '$dias_abierto_sql'";
-    }
+    if ($dias_abierto) {
+        if ($dias_abierto[0] === '') {
+        }
+        else {
+            $dias_abierto_sql = implode("','", $dias_abierto);
+            $conditions[] = "dias_abierto = ('$dias_abierto_sql')";
+        }
+    } 
+     
     if ($tipo_local) {
-        $conditions[] = "tipo_local = RESTAURANTE";
-        $params[] = $tipo_local;
+        $conditions[] = "tipo_local = '$tipo_local'";
     }
     if ($musica_en_vivo) {
-        $conditions[] = "musica_en_vivo = 1";
+        if($musica_en_vivo === true){
+            $conditions[] = "musica_en_vivo = 1";
+        }
+        else if($musica_en_vivo === false){
+            $conditions[] = "musica_en_vivo = 0";
+        }
+
     }
-    if (!empty($genero_musical)) {
-        $genero_musical_sql = implode("','", $genero_musical);
-        $conditions[] = "genero_musical = '$genero_musical_sql'";
+    if ($genero_musical) {
+        if ($genero_musical[0] === '') {
+        } else {
+            $genero_musical_sql = implode("','", $genero_musical);
+            $conditions[] = "genero_musical = ('$genero_musical_sql')";
+        }
     }
     if ($edad_recomendada) {
-        $conditions[] = "edad_recomendada <= ?";
-        $params[] = $edad_recomendada;
+        $conditions[] = "edad_recomendada <= '$edad_recomendada'";
     }
     if ($precio_rango) {
         if ($precio_rango === '50+') {
-            $conditions[] = "precio_rango = 50+";
-        } else {
-            list($min, $max) = explode('-', $precio_rango);
-            $conditions[] = "precio_rango BETWEEN ? AND ?";
-            $params[] = $min;
-            $params[] = $max;
+            $conditions[] = "precio_rango = '50+'";
+        } else if($precio_rango === '20-50') {
+            $conditions[] = "precio_rango = '20-50'";
+        }else if($precio_rango === '0-20'){
+            $conditions[] = "precio_rango = '0-20'";
         }
     }
 
@@ -271,30 +285,17 @@ if (isset($_POST['aplicarFiltros']) && $_POST['aplicarFiltros'] === 'true') {
         $query .= " WHERE " . implode(" AND ", $conditions);
     }
 
-    // Debug: Print the query and parameters
-    error_log("SQL Query: " . $query);
-    error_log("Parameters: " . json_encode($params));
-    echo $query;
-    // Crear instancia de la clase DB y ejecutar la consulta
+
     $db = DB::getInstance();
     $local = new Local();
     $valores = [];
 
     // Ejecutar la consulta
     try {
-        // Assuming $db->query is correctly set up to use prepared statements
-        $stmt = $db->query($query);
-        
-        // Binding parameters dynamically
-        foreach ($params as $index => $param) {
-            $stmt->bindValue($index + 1, $param);
+        $datos = $db->query($query);
+        if($datos){
+            $valores = $local->arrayDatos($datos->results());
         }
-
-        // Execute the statement
-        $stmt->execute();
-        $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $valores = $local->arrayDatos($datos);
-
         if ($valores) {
             echo json_encode(['success' => true, 'data' => $valores]);
         } else {
@@ -304,4 +305,4 @@ if (isset($_POST['aplicarFiltros']) && $_POST['aplicarFiltros'] === 'true') {
         error_log("Database error: " . $e->getMessage());
         echo json_encode(['success' => false, 'message' => 'Error en la consulta a la base de datos.']);
     }
-}
+} 
