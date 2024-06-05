@@ -140,7 +140,7 @@ footer ul li a {
 
 .favs-container{
    /*  display: flex; */
-    margin: 20px;
+    margin: 10em;
     justify-content: flex-end;
 }
 
