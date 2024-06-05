@@ -254,10 +254,11 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
 
         <div class="search">
             <div class="search-input" alt="formulario búsqueda">
-                <h2>Introduce la zona/barrio/estación de metro:</h2>
-                <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
-                <button class="search-button" id="btnSearch" name="btnSearch" >Buscar</button>
+                <h2>Busca una zona o una calle:</h2>
+                <input type="text" id="search-input" aria-label="Buscar zona o calle">
+                <button class="search-button" id="btnSearch" name="btnSearch">Buscar</button>
             </div>
+
 
             <div class="view-toggle">
                 <button id="map-view">Mapa</button>

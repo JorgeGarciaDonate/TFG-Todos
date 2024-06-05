@@ -257,3 +257,48 @@ document.getElementById('btnFilters').addEventListener('click', function() {
     })
     .catch(error => console.error('Fetch error:', error));
 });
+
+
+document.getElementById('btnSearch').addEventListener('click', function() {
+    var searchQuery = document.getElementById('search-input').value;
+
+    if (!searchQuery) {
+        loadLocales();
+        return;
+    }
+    var data = new FormData();
+    data.append('searchQuery', searchQuery);
+    data.append('aplicarBusqueda', 'true');
+
+    fetch('../controlador/LocalController.php', {
+        method: 'POST',
+        body: data
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            console.log(result.data);
+            // Asociar la respuesta a la variable allLocales
+            allLocales = result.data;
+            console.log('Search results:', allLocales);
+            // Limpiar los marcadores existentes en el mapa
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.Marker) {
+                    map.removeLayer(layer);
+                }
+            });
+            result.data.forEach(function (location) {
+                var ubicacion = location.ubicacion;
+                L.marker([ubicacion.latitud, ubicacion.longitud]).addTo(map)
+                    .bindPopup(location.nombre_local);
+            });
+            
+            // Limpiar la lista de locales actual
+            $('#list-container').empty();
+            loadPage(currentPage);
+        } else {
+            console.error('Error:', result.message);
+        }
+    })
+    .catch(error => console.error('Fetch error:', error));
+});

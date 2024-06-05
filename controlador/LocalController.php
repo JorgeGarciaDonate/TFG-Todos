@@ -306,3 +306,32 @@ if (isset($_POST['aplicarFiltros']) && $_POST['aplicarFiltros'] === 'true') {
         echo json_encode(['success' => false, 'message' => 'Error en la consulta a la base de datos.']);
     }
 } 
+if (isset($_POST['aplicarBusqueda']) && $_POST['aplicarBusqueda'] === 'true') {
+    // Recibir el término de búsqueda del request
+    $searchQuery = isset($_POST['searchQuery']) ? $_POST['searchQuery'] : null;
+    // Construir la consulta SQL para la búsqueda
+    $query = "SELECT * FROM locales l 
+              JOIN ubicaciones u ON l.ubicacion_id = u.ubicacion_id
+              WHERE u.calle LIKE '$searchQuery'
+              OR u.zona LIKE '$searchQuery'";
+    $db = DB::getInstance();
+    $local = new Local();
+    $valores = [];
+
+    // Ejecutar la consulta
+    try {
+        $datos = $db->query($query);
+        if($datos){
+            $valores = $local->array_datos($datos->results());
+        }
+
+        if ($valores) {
+            echo json_encode(['success' => true, 'data' => $valores]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'No se encontraron resultados.']);
+        }
+    } catch (Exception $e) {
+        error_log("Database error: " . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error en la consulta a la base de datos.']);
+    }
+}
