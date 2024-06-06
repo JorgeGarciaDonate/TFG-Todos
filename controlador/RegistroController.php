@@ -115,11 +115,11 @@ if (isset($_POST['botonAlta'])) {
     try {
         $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
         $tipo_local = isset($_POST['tipo_local']) ? $_POST['tipo_local'] : '';
-        $generos = isset($_POST['genero_musical']) && is_array($_POST['genero_musical']) ? implode(', ', $_POST['genero_musical']) : '';
+        $generos = isset($_POST['generos']) ? json_decode($_POST['generos'], true) : [];
         $precio_rango = isset($_POST['precio_rango']) ? $_POST['precio_rango'] : '';
         $hora_apertura = isset($_POST['hora_apertura']) ? $_POST['hora_apertura'] : '';
         $hora_cierre = isset($_POST['hora_cierre']) ? $_POST['hora_cierre'] : '';
-        $diasApertura = isset($_POST['dias_abierto']) && is_array($_POST['dias_abierto']) ? implode(', ', $_POST['dias_abierto']) : '';
+        $diasApertura = isset($_POST['dias_apertura']) ? json_decode($_POST['dias_apertura'], true) : [];
         $calle = isset($_POST['calle']) ? trim($_POST['calle']) : '';
         $num_calle = isset($_POST['num_calle']) ? $_POST['num_calle'] : '';
         $cod_postal = isset($_POST['cod_postal']) ? $_POST['cod_postal'] : '';
@@ -137,6 +137,9 @@ if (isset($_POST['botonAlta'])) {
         $longitud = isset($_POST['longitud']) ? $_POST['longitud'] : '';
         $uploadDir = '../assets/img/locales/'; // Define la carpeta donde se guardarán las imágenes
         $foto = isset($_FILES['foto']) ? $_FILES['foto'] : null;
+
+        $generos = implode(', ', $generos);
+        $diasApertura = implode(', ', $diasApertura);
 
         // Asegurarse de que el directorio exista
         if (!is_dir($uploadDir)) {
