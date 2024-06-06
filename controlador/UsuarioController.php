@@ -77,29 +77,29 @@ if (isset($_POST['borrarUsuario'])) {
   $usuarioController = new UsuarioController();
   $localController = new LocalController();
   $ubicacionController = new UbicacionController();
-  if($usuarioController->es_propietario($usuario_id)){
-    $locales = $localController->getLocalesByUsuario_id($usuario_id);
-    foreach ($locales as $local){
-      if($localController->deleteFotos($local['local_id'])){
-        if($localController->delete($local['local_id'])){
-          if($ubicacionController->delete($local['ubicacion_id'])){
-          $delete= $usuarioController->delete($usuario_id);
-          if($delete){
-              header('Location:../vista/registro/logout.php '); 
-              exit;
+  
+  if ($usuarioController->es_propietario($usuario_id)) {
+      $locales = $localController->getLocalesByUsuario_id($usuario_id);
+      foreach ($locales as $local) {
+          $local_id = $local['local_id'];
+          $ubicacion_id = $local['ubicacion_id'];
+          
+          if ($localController->deleteFotos($local_id)) {
+              if ($localController->delete($local_id)) {
+                  if ($ubicacionController->delete($ubicacion_id)) {
+                      if ($usuarioController->delete($usuario_id)) {
+                          header('Location:../vista/registro/logout.php');
+                          exit;
+                      }
+                  }
+              }
           }
-         }
-
-        }
       }
-      
-    }
   }
-  $delete= $usuarioController->delete($usuario_id);
-  if($delete){
-      header('Location:../vista/registro/logout.php '); 
+  if ($usuarioController->delete($usuario_id)) {
+      header('Location:../vista/registro/logout.php');
       exit;
   }
-  
 }
+
 
