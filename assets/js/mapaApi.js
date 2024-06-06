@@ -241,8 +241,7 @@ document.getElementById('btnFilters').addEventListener('click', function() {
                 }
             });
             result.data.forEach(function (location) {
-                // Acceder a la primera entrada del array 'ubicacion'
-                var ubicacion = location.ubicacion[0];
+                var ubicacion = location.ubicacion;
                 L.marker([ubicacion.latitud, ubicacion.longitud]).addTo(map)
                     .bindPopup(location.nombre_local);
             });
