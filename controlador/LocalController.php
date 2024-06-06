@@ -226,7 +226,10 @@ if (isset($_POST['aplicarFiltros']) && $_POST['aplicarFiltros'] === 'true') {
     $precio_rango = isset($_POST['precio_rango']) ? $_POST['precio_rango'] : null;
     
     // Construir la consulta SQL
-    $query = "SELECT * FROM locales";
+    $query = "SELECT l.*, u.*, f.foto_id, f.nombre_foto
+              FROM locales l
+              LEFT JOIN ubicaciones u ON l.ubicacion_id = u.ubicacion_id
+              LEFT JOIN fotos f ON l.local_id = f.local_id";
     $conditions = [];
     $params = [];
     
@@ -305,7 +308,7 @@ if (isset($_POST['aplicarFiltros']) && $_POST['aplicarFiltros'] === 'true') {
     try {
         $datos = $db->query($query);
         if($datos){
-            $valores = $local->arrayDatos($datos->results());
+            $valores = $local->array_datos($datos->results());
         }
         if ($valores) {
             echo json_encode(['success' => true, 'data' => $valores]);
