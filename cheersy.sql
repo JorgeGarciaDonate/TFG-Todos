@@ -1,3 +1,5 @@
+DROP DATABASE cheersy;
+
 CREATE DATABASE cheersy;
 
 USE cheersy;
@@ -81,8 +83,7 @@ INSERT INTO `fotos` (`foto_id`, `local_id`, `nombre_foto`) VALUES
 (37, 37, 'Peyote San'),
 (38, 38, 'Peyote San'),
 (39, 39, 'Habanera'),
-(40, 40, 'Pointer Madrid'),
-(43, 126, 'Captura de pantalla (1).png');
+(40, 40, 'Pointer Madrid');
 
 -- --------------------------------------------------------
 
@@ -151,8 +152,8 @@ INSERT INTO `locales` (`local_id`, `hora_apertura`, `hora_cierre`, `dias_abierto
 (37, '13:00:00', '02:30:00', 'SÁBADO, DOMINGO', 'Peyote San', 'DISCOTECA', 35, 0, NULL, 'REGGAETON', 38, '0-20', 'https://larrumba.com/', 29),
 (38, '17:00:00', '02:30:00', 'TODOS', 'La Lianta', 'BAR', 36, 0, NULL, 'POP, JAZZ', 28, '0-20', 'https://grupolalala.com/locales/cervecerias/la-lianta-ponzano', 8),
 (39, '13:00:00', '02:30:00', 'SÁBADO, DOMINGO', 'Habanera', 'RESTAURANTE', 37, 0, NULL, 'JAZZ, POP, TECHO', 30, '0-20', 'https://larrumba.com/restaurantes/habanera/', 29),
-(40, '20:00:00', '02:30:00', 'TODOS', 'Pointer Madrid', 'RESTAURANTE', 38, 0, NULL, 'REGGAETON', 23, '0-20', 'https://www.pointermadrid.com/', 30),
-(126, '06:59:00', '06:59:00', 'MIÉRCOLES,JUEVES', 'Enrique', 'BAR', 45, 1, 'maravillosos', 'ELECTRÓNICA,ROCK', 0, '0-20', 'https://www.jamesjoycemadrid.com/', 1);
+(40, '20:00:00', '02:30:00', 'TODOS', 'Pointer Madrid', 'RESTAURANTE', 38, 0, NULL, 'REGGAETON', 23, '0-20', 'https://www.pointermadrid.com/', 30);
+
 
 -- --------------------------------------------------------
 
