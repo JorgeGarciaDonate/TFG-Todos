@@ -107,32 +107,30 @@
                                     </div> 
                                     <div class="form-group">
                                         <label class="form-label">Género músical</label>
-                                        <div class="form-control-wrap">
-                                            <div class="checkbox-list" id="genero_musical">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="reggaeton" value="REGGAETON">
-                                                    <label class="custom-control-label" for="reggaeton">Reggaeton</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="techno" value="TECHNO">
-                                                    <label class="custom-control-label" for="techno">Techno</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="electronica" value="ELECTRÓNICA">
-                                                    <label class="custom-control-label" for="electronica">Electrónica</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="rock" value="ROCK">
-                                                    <label class="custom-control-label" for="rock">Rock</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="pop" value="POP">
-                                                    <label class="custom-control-label" for="pop">Pop</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="jazz" value="JAZZ">
-                                                    <label class="custom-control-label" for="jazz">Jazz</label>
-                                                </div>                                               
+                                        <div class="checkbox-group" id="genero_musical">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="REGGAETON" id="reggaeton" >
+                                                <label class="form-check-label" for="reggaeton">REGGAETON</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="TECHNO" id="techno" >
+                                                <label class="form-check-label" for="techno">TECHNO</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="ELECTRÓNICA" id="electronica"  >
+                                                <label class="form-check-label" for="electronica">ELECTRÓNICA</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="ROCK" id="rock" >
+                                                <label class="form-check-label" for="rock">ROCK</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="POP" id="pop" >
+                                                <label class="form-check-label" for="pop">POP</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="genero_musical[]" value="JAZZ" id="jazz" >
+                                                <label class="form-check-label" for="jazz">JAZZ</label>
                                             </div>
                                         </div>
                                         <div class="error-msg text-danger" id="error-genero"></div>
@@ -173,34 +171,34 @@
                                     <div class="form-group">
                                         <label class="form-label">Días de apertura</label>
                                         <div class="form-control-wrap">
-                                            <div class="checkbox-list" id="dias_abierto">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="lunes" value="LUNES">
-                                                    <label class="custom-control-label" for="lunes">Lunes</label>
+                                            <div class="checkbox-group" id="dias_abierto">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="LUNES" id="lunes" >
+                                                    <label class="form-check-label" for="lunes">LUNES</label>
                                                 </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="martes" value="MARTES">
-                                                    <label class="custom-control-label" for="martes">Martes</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="MARTES" id="martes" >
+                                                    <label class="form-check-label" for="martes">MARTES</label>
                                                 </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="miercoles" value="MIÉRCOLES">
-                                                    <label class="custom-control-label" for="miercoles">Miércoles</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="MIÉRCOLES" id="miercoles" >
+                                                    <label class="form-check-label" for="miercoles">MIÉRCOLES</label>
                                                 </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="jueves" value="JUEVES">
-                                                    <label class="custom-control-label" for="jueves">Jueves</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="JUEVES" id="jueves" >
+                                                    <label class="form-check-label" for="jueves">JUEVES</label>
                                                 </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="viernes" value="VIERNES">
-                                                    <label class="custom-control-label" for="viernes">Viernes</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="VIERNES" id="viernes" >
+                                                    <label class="form-check-label" for="viernes">VIERNES</label>
                                                 </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="sabado" value="SÁBADO">
-                                                    <label class="custom-control-label" for="sabado">Sábado</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="SÁBADO" id="sabado" >
+                                                    <label class="form-check-label" for="sabado">SÁBADO</label>
                                                 </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="domingo" value="DOMINGO">
-                                                    <label class="custom-control-label" for="domingo">Domingo</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="dias_abierto[]" value="DOMINGO" id="domingo" >
+                                                    <label class="form-check-label" for="domingo">DOMINGO</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -270,7 +268,7 @@
                                         <div class="error-msg text-danger" id="error-barrio"></div>
                                     </div>
                                     <input type="hidden" id="usuario_id" value="<?php echo $_SESSION['user']; ?>">
-                                    <div class="error-msg text-danger" id="error-msg"></div>
+                                    <div class="error-msg text-danger" id="error-message"></div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-block" id="altaForm" name="botonAlta">Registrarse</button>
                                     </div>

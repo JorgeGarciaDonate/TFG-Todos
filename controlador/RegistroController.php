@@ -113,27 +113,25 @@ if (isset($_POST['botonCreate'])) {
 }
 if (isset($_POST['botonAlta'])) {
     try {
-        $nombre = $_POST['nombre'];
+        $nombre = trim($_POST['nombre']);
         $tipo_local = $_POST['tipo_local'];
-        $generos = implode(', ', json_decode($_POST['generos'], true)); // Decodificar JSON
+        $generos = implode(', ', $_POST['genero_musical']); // Los valores ya son un array
         $precio_rango = $_POST['precio_rango'];
         $hora_apertura = $_POST['hora_apertura'];
         $hora_cierre = $_POST['hora_cierre'];
-        $diasApertura = implode(', ', json_decode($_POST['dias_apertura'], true)); // Decodificar JSON
-        $calle = $_POST['calle'];
+        $diasApertura = implode(', ', $_POST['dias_abierto']); // Los valores ya son un array
+        $calle = trim($_POST['calle']);
         $num_calle = $_POST['num_calle'];
         $cod_postal = $_POST['cod_postal'];
-        $ciudad = $_POST['ciudad'];
-        $barrio = $_POST['barrio'];
-        $latitud = $_POST['latitud'];
-        $longitud = $_POST['longitud'];
+        $ciudad = trim($_POST['ciudad']);
+        $barrio = trim($_POST['barrio']);
         $usuario_id = $_POST['usuario_id'];
         $edad_recomendada = $_POST['edad_recomendada'];
         $musica_en_vivo = $_POST['musica_en_vivo'];
-        $descripcion = $_POST['descripcion'];
-        $foto = $_FILES['foto'];
-        $dni = $_POST['dni'];
-        $telefono = $_POST['telefono'];
+        $descripcion = trim($_POST['descripcion']);
+        $web = trim($_POST['web']);
+        $dni = trim($_POST['dni']);
+        $telefono = trim($_POST['telefono']);
         $web = $_POST['web'];
         $uploadDir = '../assets/img/locales/'; // Define la carpeta donde se guardarán las imágenes
 

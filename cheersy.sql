@@ -1,30 +1,31 @@
-CREATE DATABASE cheersy;
-
-USE cheersy;
-
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3307
--- Tiempo de generación: 24-04-2024 a las 11:57:23
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 06-06-2024 a las 16:03:29
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Versión de PHP: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+--
 -- Base de datos: `cheersy`
+--
 
 -- --------------------------------------------------------
 
+--
 -- Estructura de tabla para la tabla `fotos`
+--
 
 CREATE TABLE `fotos` (
   `foto_id` int(11) NOT NULL,
@@ -32,73 +33,128 @@ CREATE TABLE `fotos` (
   `nombre_foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `fotos`
+--
+
+INSERT INTO `fotos` (`foto_id`, `local_id`, `nombre_foto`) VALUES
+(1, 1, 'Bonded'),
+(2, 2, 'Panthera'),
+(3, 3, 'Maddock'),
+(4, 4, 'Fitz Club'),
+(5, 5, 'Kapital'),
+(6, 6, 'Vandido'),
+(7, 7, 'Joy Eslava'),
+(8, 8, 'Medias Puri'),
+(9, 9, 'Uñas Chung Lee'),
+(10, 10, 'Moreira Beach'),
+(11, 11, 'Teatro Barceló'),
+(12, 12, 'Marusha'),
+(13, 13, 'Muy Bendito'),
+(14, 14, 'La Fonda Lironda'),
+(15, 15, 'Salvaje Bless'),
+(16, 16, 'LAB The Club'),
+(17, 17, 'Punch Room'),
+(18, 18, 'Opium Madrid'),
+(19, 19, 'Nômâda'),
+(20, 20, 'Îstar Club'),
+(21, 21, 'Marabú'),
+(22, 22, 'Panda Club'),
+(23, 23, 'QuintoElemento'),
+(24, 24, 'La Bresh Madrid'),
+(25, 25, 'Pömpa Retiro'),
+(26, 26, 'Lula Club'),
+(27, 27, 'El Club de los Famosos'),
+(28, 28, 'Harrison 1933'),
+(29, 29, 'Sala Siroco'),
+(30, 30, 'Toni2 Piano Bar'),
+(31, 31, 'El Amante'),
+(32, 32, 'Liberty Supper Club'),
+(33, 33, 'Mamá No Lo Sabe'),
+(34, 34, 'B12 The Bar Lab'),
+(35, 35, 'The Jungle Jazz Club'),
+(36, 36, 'Bárbara Ann'),
+(37, 37, 'Peyote San'),
+(38, 38, 'Peyote San'),
+(39, 39, 'Habanera'),
+(40, 40, 'Pointer Madrid'),
+(43, 126, 'Captura de pantalla (1).png');
+
 -- --------------------------------------------------------
 
+--
 -- Estructura de tabla para la tabla `locales`
+--
 
 CREATE TABLE `locales` (
   `local_id` int(11) NOT NULL,
   `hora_apertura` time DEFAULT NULL,
   `hora_cierre` time DEFAULT NULL,
-  `dias_abierto` enum('LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO','DOMINGO','TODOS') DEFAULT NULL,
+  `dias_abierto` varchar(255) DEFAULT NULL,
   `nombre_local` varchar(100) DEFAULT NULL,
   `tipo_local` enum('BAR','PUB','DISCOTECA','RESTAURANTE') DEFAULT NULL,
   `ubicacion_id` int(11) DEFAULT NULL,
   `musica_en_vivo` tinyint(1) DEFAULT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
-  `genero_musical` enum('REGGAETON','TECHNO','ELECTRÓNICA','ROCK','POP','JAZZ') DEFAULT NULL,
+  `genero_musical` varchar(255) DEFAULT NULL,
   `edad_recomendada` tinyint(3) UNSIGNED DEFAULT NULL,
   `precio_rango` enum('0-20','20-50','50+') DEFAULT NULL,
   `web` varchar(500) DEFAULT NULL,
   `usuario_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
 -- Volcado de datos para la tabla `locales`
-INSERT INTO `locales` (`local_id`, `hora_apertura`, `hora_cierre`, `dias_abierto`, `nombre_local`, `tipo_local`, `ubicacion_id`, `musica_en_vivo`, `descripcion`, `genero_musical`, `edad_recomendada`, `precio_rango`, `web`,  `usuario_id`) VALUES
-(1, '18:00:00', '06:00:00', '(SÁBADO, DOMINGO)', 'Bonded', 'PUB', 1, 0, NULL, 'REGGAETON', 25, '20-50', 'https://www.instagram.com/bonded.club/?hl=es', 1),
-(2, '20:00:00', '03:00:00', 'SÁBADO', 'Panthera', 'PUB', 2, 0, NULL, 'TECHNO', 26, '50+', 'https://www.pantheramadrid.com/', 2),
-(3, '12:00:00', '02:00:00', 'MARTES, JUEVES, VIERNES', 'Maddock', 'RESTAURANTE', 3, 0, NULL, 'REGGAETON', 25, '20-50', 'http://maddock.restaurant/', 3),
-(4, '00:00:00', '06:00:00', 'MARTES', 'Fitz Club', 'DISCOTECA', 4, 1, NULL, 'JAZZ', 27, '20-50', 'https://fitzclubmadrid.com/', 1),
-(5, '23:00:00', '06:00:00', 'MIÉRCOLES, JUEVES, VIERNES, SÁBADO', 'Kapital', 'DISCOTECA', 5, 0, NULL, 'REGGAETON', 22, '0-20', 'https://teatrokapital.com/', 4),
-(6, '00:00:00', '06:00:00', 'MIÉRCOLES', 'Vandido', 'DISCOTECA', 6, 0, NULL, 'REGGAETON', 28, '20-50', 'https://vandidoclub.com/', 1),
-(7, '12:00:00', '06:00:00', 'SÁBADO', 'Joy Eslava', 'DISCOTECA', 7, 0, NULL, 'REGGAETON', 23, '0-20', 'https://teatroeslava.com/', 5),
-(8, '00:00:00', '06:00:00', 'VIERNES', 'Medias Puri', 'DISCOTECA', 8, 1, NULL, 'POP', 28, '20-50', 'https://mediaspuri.com/', 6),
-(9, '23:30:00', '05:30:00', 'VIERNES', 'Uñas Chung Lee', 'DISCOTECA', 9, 1, NULL, 'POP', 27, '20-50', 'https://unaschunglee.com/', 6),
-(10, '12:00:00', '03:00:00', 'LUNES', 'Moreira Beach', 'PUB', 10, 0, NULL, 'POP', 26, '20-50', 'https://www.instagram.com/moreirabeachoasiz/?hl=es', 7),
-(11, '00:00:00', '06:00:00', 'LUNES', 'Teatro Barceló', 'DISCOTECA', 11, 0, NULL, 'REGGAETON', 25, '20-50', 'https://teatrobarcelo.com/', 5),
-(12, '23:30:00', '06:00:00', 'JUEVES', 'Marusha', 'PUB', 12, 0, NULL, 'REGGAETON', 37, '20-50', 'https://www.instagram.com/marusha_society/?hl=es', 8),
-(13, '23:30:00', '06:00:00', 'JUEVES', 'Muy Bendito', 'PUB', 12, 0, NULL, 'REGGAETON', 38, '50+', 'https://www.instagram.com/benditoclub_madrid/', 8),
-(14, '13:00:00', '02:30:00', 'DOMINGO', 'La Fonda Lironda', 'BAR', 13, 1, NULL, 'POP', 41, '50+', 'https://grupocarbon.es/restaurantes/fonda-lironda/', 9),
-(15, '13:00:00', '00:00:00', 'VIERNES', 'Salvaje Bless', 'RESTAURANTE', 14, 1, NULL, 'REGGAETON', 40, '50+', 'https://www.blesscollectionhotels.com/es/madrid/bless-hotel-madrid/gastronomia/salvaje', 10),
-(16, '00:00:00', '06:00:00', 'JUEVES', 'LAB The Club', 'PUB', 15, 0, NULL, 'REGGAETON', 24, '20-50', 'https://www.labtheclub.com/', 11),
-(17, '20:00:00', '02:00:00', 'MIÉRCOLES', 'Punch Room', 'BAR', 16, 0, NULL, 'ELECTRÓNICA', 29, '0-20', 'https://www.editionhotels.com/es/madrid/restaurants-and-bars/punch-room/', 12),
-(18, '00:00:00', '06:00:00', 'SÁBADO', 'Opium Madrid', 'DISCOTECA', 17, 0, NULL, '', 30, '0-20', 'https://opiummadrid.com/', 13),
-(19, '20:00:00', '02:00:00', 'MARTES', 'Nômâda', 'RESTAURANTE', 18, 1, NULL, 'POP', 33, '50+', 'https://www.nomadamadrid.es/', 14),
-(20, '00:30:00', '06:00:00', 'MARTES', 'Îstar Club', 'PUB', 19, 0, NULL, 'ELECTRÓNICA', 30, '0-20', 'https://istarmadrid.com/', 15),
-(21, '18:00:00', '06:00:00', 'MIÉRCOLES', 'Marabú', 'RESTAURANTE', 20, 1, NULL, 'REGGAETON', 33, '20-50', 'https://marabuponzano.es/', 33),
-(22, '00:00:00', '06:00:00', 'MIÉRCOLES', 'Panda Club', 'PUB', 21, 0, NULL, 'REGGAETON', 30, '0-20', 'https://pandamadrid.com/club/', 17),
-(23, '13:00:00', '02:00:00', 'DOMINGO', 'QuintoElemento', 'RESTAURANTE', 22, 1, NULL, 'POP', 41, '50+', 'https://quintoelementorestaurante.com/', 4),
-(24, '00:30:00', '06:00:00', 'VIERNES', 'La Bresh Madrid', 'DISCOTECA', 23, 1, NULL, 'REGGAETON', 28, '20-50', 'https://www.fiestabresh.com/', 18),
-(25, '18:00:00', '02:00:00', 'SÁBADO', 'Pompä Retiro', 'BAR', 24, 0, NULL, 'REGGAETON', 33, '20-50', 'https://floridapark.es/', 19),
-(26, '00:00:00', '06:00:00', 'VIERNES', 'Lula Club', 'DISCOTECA', 25, 0, NULL, '', 35, '20-50', 'https://lula.club/', 20),
-(27, '21:00:00', '06:00:00', 'JUEVES', 'El Club de los Famosos', 'DISCOTECA', 26, 0, NULL, 'REGGAETON', 33, '0-20', 'https://www.gabana.es/', 21),
-(28, '17:00:00', '04:00:00', 'SÁBADO', 'Harrison 1933', 'BAR', 27, 1, NULL, 'JAZZ', 40, '0-20', 'https://larrumba.com/restaurantes/harrison/', 22),
-(29, '21:00:00', '06:00:00', '', 'Sala Siroco', 'DISCOTECA', 28, 0, NULL, 'POP', 29, '20-50', 'https://siroco.es/', 23),
-(30, '23:30:00', '05:30:00', 'DOMINGO', 'Toni2 Piano Bar', 'BAR', 29, 0, NULL, 'POP', 40, '0-20', 'https://toni2.es/', 24),
-(31, '23:00:00', '05:30:00', 'LUNES', 'El Amante', 'PUB', 30, 0, NULL, 'ELECTRÓNICA', 31, '0-20', 'https://www.instagram.com/elamantebarclub/?hl=es', 25),
-(32, '21:00:00', '05:00:00', 'JUEVES', 'Liberty Supper Club', 'PUB', 39, 0, NULL, 'REGGAETON', 26, '0-20', 'https://libertysupperclub.com/', 16),
-(33, '23:30:00', '03:30:00', 'JUEVES', 'Mamá No Lo Sabe', 'PUB', 31, 0, NULL, 'POP', 35, '0-20', 'https://www.instagram.com/mamanolosabe_madrid/?hl=es', 26),
-(34, '23:00:00', '06:00:00', 'JUEVES', 'B12 The Bar Lab', 'BAR', 32, 0, NULL, 'REGGAETON', 20, '0-20', 'https://www.b12madrid.com/', 27),
-(35, '19:00:00', '04:00:00', 'VIERNES', 'The Jungle Jazz Club', 'PUB', 33, 0, NULL, 'JAZZ', 40, '0-20', 'https://www.thejunglejazzclub.com/', 28),
-(36, '19:00:00', '03:30:00', 'VIERNES', 'Bárbara Ann', 'BAR', 34, 0, NULL, 'POP', 37, '0-20', 'https://barbaraann.es/?utm_source=google_business_profile&utm_medium=gbp_view_website', 32),
-(37, '13:00:00', '02:30:00', 'SÁBADO', 'Peyote San', 'DISCOTECA', 35, 0, NULL, 'REGGAETON', 38, '0-20', 'https://larrumba.com/', 29),
-(38, '17:00:00', '02:30:00', 'VIERNES', 'La Lianta', 'BAR', 36, 0, NULL, '', 28, '0-20', 'https://grupolalala.com/locales/cervecerias/la-lianta-ponzano', 8),
-(39, '13:00:00', '02:30:00', 'SÁBADO', 'Habanera', 'RESTAURANTE', 37, 0, NULL, '', 30, '0-20', 'https://larrumba.com/restaurantes/habanera/', 29),
-(40, '20:00:00', '02:30:00', 'VIERNES', 'Pointer Madrid', 'RESTAURANTE', 38, 0, NULL, 'REGGAETON', 23, '0-20', 'https://www.pointermadrid.com/', 30);
+--
+
+INSERT INTO `locales` (`local_id`, `hora_apertura`, `hora_cierre`, `dias_abierto`, `nombre_local`, `tipo_local`, `ubicacion_id`, `musica_en_vivo`, `descripcion`, `genero_musical`, `edad_recomendada`, `precio_rango`, `web`, `usuario_id`) VALUES
+(1, '18:00:00', '06:00:00', 'MARTES, JUEVES ,VIERNES', 'Bonded', 'PUB', 1, 0, NULL, 'REGGAETON', 25, '20-50', 'https://www.instagram.com/bonded.club/?hl=es', 1),
+(2, '20:00:00', '03:00:00', 'SÁBADO, DOMINGO', 'Panthera', 'PUB', 2, 0, NULL, 'TECHNO', 26, '50+', 'https://www.pantheramadrid.com/', 2),
+(3, '12:00:00', '02:00:00', 'SÁBADO, DOMIGO', 'Maddock', 'RESTAURANTE', 3, 0, NULL, 'REGGAETON,TECHNO', 25, '20-50', 'http://maddock.restaurant/', 3),
+(4, '00:00:00', '06:00:00', 'JUEVES, VIERNES, SÁBADO', 'Fitz Club', 'DISCOTECA', 4, 1, NULL, 'JAZZ, POP', 27, '20-50', 'https://fitzclubmadrid.com/', 1),
+(5, '23:00:00', '06:00:00', 'TODOS', 'Kapital', 'DISCOTECA', 5, 0, NULL, 'REGGAETON, ELECTRÓNICA', 22, '0-20', 'https://teatrokapital.com/', 4),
+(6, '00:00:00', '06:00:00', 'JUEVES, VIERNES', 'Vandido', 'DISCOTECA', 6, 0, NULL, 'REGGAETON', 28, '20-50', 'https://vandidoclub.com/', 1),
+(7, '12:00:00', '06:00:00', 'SÁBADO, MIÉRCOLES, VIERNES', 'Joy Eslava', 'DISCOTECA', 7, 0, NULL, 'REGGAETON', 23, '0-20', 'https://teatroeslava.com/', 5),
+(8, '00:00:00', '06:00:00', 'VIERNES, SÁBADO', 'Medias Puri', 'DISCOTECA', 8, 1, NULL, 'POP, JAZZ', 28, '20-50', 'https://mediaspuri.com/', 6),
+(9, '23:30:00', '05:30:00', 'LUNES, MIERCÓLES, VIERNES', 'Uñas Chung Lee', 'DISCOTECA', 9, 1, NULL, 'POP, REGGAETON', 27, '20-50', 'https://unaschunglee.com/', 6),
+(10, '12:00:00', '03:00:00', 'MARTES, JUEVES, VIERNES, SÁBADO', 'Moreira Beach', 'PUB', 10, 0, NULL, 'POP', 26, '20-50', 'https://www.instagram.com/moreirabeachoasiz/?hl=es', 7),
+(11, '00:00:00', '06:00:00', 'TODOS', 'Teatro Barceló', 'DISCOTECA', 11, 0, NULL, 'REGGAETON', 25, '20-50', 'https://teatrobarcelo.com/', 5),
+(12, '23:30:00', '06:00:00', 'JUEVES, VIERNES', 'Marusha', 'PUB', 12, 0, NULL, 'REGGAETON', 37, '20-50', 'https://www.instagram.com/marusha_society/?hl=es', 8),
+(13, '23:30:00', '06:00:00', 'JUEVES, DOMINGO', 'Muy Bendito', 'PUB', 12, 0, NULL, 'REGGAETON', 38, '50+', 'https://www.instagram.com/benditoclub_madrid/', 8),
+(14, '13:00:00', '02:30:00', 'TODOS', 'La Fonda Lironda', 'BAR', 13, 1, NULL, 'POP', 41, '50+', 'https://grupocarbon.es/restaurantes/fonda-lironda/', 9),
+(15, '13:00:00', '00:00:00', 'VIERNES, SÁBADO, DOMINGO', 'Salvaje Bless', 'RESTAURANTE', 14, 1, NULL, 'REGGAETON, ELECTRÓNICA', 40, '50+', 'https://www.blesscollectionhotels.com/es/madrid/bless-hotel-madrid/gastronomia/salvaje', 10),
+(16, '00:00:00', '06:00:00', 'JUEVES, SÁBADO, DOMINGO', 'LAB The Club', 'PUB', 15, 0, NULL, 'REGGAETON', 24, '20-50', 'https://www.labtheclub.com/', 11),
+(17, '20:00:00', '02:00:00', 'MIÉRCOLES, JUEVES, VIERNES', 'Punch Room', 'BAR', 16, 0, NULL, 'ELECTRÓNICA', 29, '0-20', 'https://www.editionhotels.com/es/madrid/restaurants-and-bars/punch-room/', 12),
+(18, '00:00:00', '06:00:00', 'SÁBADO, DOMINGO', 'Opium Madrid', 'DISCOTECA', 17, 0, NULL, 'TECHNO, REGGAETON', 30, '0-20', 'https://opiummadrid.com/', 13),
+(19, '20:00:00', '02:00:00', 'MARTES, VIERNES, SÁBADO', 'Nômâda', 'RESTAURANTE', 18, 1, NULL, 'POP, JAZZ', 33, '50+', 'https://www.nomadamadrid.es/', 14),
+(20, '00:30:00', '06:00:00', 'MARTES, SÁBADO, DOMINGO', 'Îstar Club', 'PUB', 19, 0, NULL, 'ELECTRÓNICA', 30, '0-20', 'https://istarmadrid.com/', 15),
+(21, '18:00:00', '06:00:00', 'MIÉRCOLES, JUEVES, SÁBADO', 'Marabú', 'RESTAURANTE', 20, 1, NULL, 'REGGAETON', 33, '20-50', 'https://marabuponzano.es/', 33),
+(22, '00:00:00', '06:00:00', 'MIÉRCOLES, JUEVES, SÁBADO, DOMINGO', 'Panda Club', 'PUB', 21, 0, NULL, 'REGGAETON', 30, '0-20', 'https://pandamadrid.com/club/', 17),
+(23, '13:00:00', '02:00:00', 'LUNES, MARTES, DOMINGO', 'QuintoElemento', 'RESTAURANTE', 22, 1, NULL, 'POP', 41, '50+', 'https://quintoelementorestaurante.com/', 4),
+(24, '00:30:00', '06:00:00', 'VIERNES, SÁBADO', 'La Bresh Madrid', 'DISCOTECA', 23, 1, NULL, 'REGGAETON', 28, '20-50', 'https://www.fiestabresh.com/', 18),
+(25, '18:00:00', '02:00:00', 'LUNES, SÁBADO', 'Pompä Retiro', 'BAR', 24, 0, NULL, 'REGGAETON', 33, '20-50', 'https://floridapark.es/', 19),
+(26, '00:00:00', '06:00:00', 'VIERNES, SÁBADO', 'Lula Club', 'DISCOTECA', 25, 0, NULL, 'REGGAETON, TECHNO, POP', 35, '20-50', 'https://lula.club/', 20),
+(27, '21:00:00', '06:00:00', 'JUEVES, VIERNES', 'El Club de los Famosos', 'DISCOTECA', 26, 0, NULL, 'REGGAETON', 33, '0-20', 'https://www.gabana.es/', 21),
+(28, '17:00:00', '04:00:00', 'SÁBADO, DOMINGO', 'Harrison 1933', 'BAR', 27, 1, NULL, 'JAZZ', 40, '0-20', 'https://larrumba.com/restaurantes/harrison/', 22),
+(29, '21:00:00', '06:00:00', 'TODOS', 'Sala Siroco', 'DISCOTECA', 28, 0, NULL, 'POP', 29, '20-50', 'https://siroco.es/', 23),
+(30, '23:30:00', '05:30:00', 'TODOS', 'Toni2 Piano Bar', 'BAR', 29, 0, NULL, 'POP', 40, '0-20', 'https://toni2.es/', 24),
+(31, '23:00:00', '05:30:00', 'LUNES, JUEVES, SÁBADO, DOMINGO', 'El Amante', 'PUB', 30, 0, NULL, 'ELECTRÓNICA', 31, '0-20', 'https://www.instagram.com/elamantebarclub/?hl=es', 25),
+(32, '21:00:00', '05:00:00', 'JUEVES, VIERNES', 'Liberty Supper Club', 'PUB', 39, 0, NULL, 'REGGAETON', 26, '0-20', 'https://libertysupperclub.com/', 16),
+(33, '23:30:00', '03:30:00', 'JUEVES, VIERNES', 'Mamá No Lo Sabe', 'PUB', 31, 0, NULL, 'POP', 35, '0-20', 'https://www.instagram.com/mamanolosabe_madrid/?hl=es', 26),
+(34, '23:00:00', '06:00:00', 'JUEVES, VIERNES, SÁBADO', 'B12 The Bar Lab', 'BAR', 32, 0, NULL, 'REGGAETON', 20, '0-20', 'https://www.b12madrid.com/', 27),
+(35, '19:00:00', '04:00:00', 'VIERNES, SÁBADO', 'The Jungle Jazz Club', 'PUB', 33, 0, NULL, 'JAZZ', 40, '0-20', 'https://www.thejunglejazzclub.com/', 28),
+(36, '19:00:00', '03:30:00', 'VIERNES, SÁBADO, DOMINGO', 'Bárbara Ann', 'BAR', 34, 0, NULL, 'POP', 37, '0-20', 'https://barbaraann.es/?utm_source=google_business_profile&utm_medium=gbp_view_website', 32),
+(37, '13:00:00', '02:30:00', 'SÁBADO, DOMINGO', 'Peyote San', 'DISCOTECA', 35, 0, NULL, 'REGGAETON', 38, '0-20', 'https://larrumba.com/', 29),
+(38, '17:00:00', '02:30:00', 'TODOS', 'La Lianta', 'BAR', 36, 0, NULL, 'POP, JAZZ', 28, '0-20', 'https://grupolalala.com/locales/cervecerias/la-lianta-ponzano', 8),
+(39, '13:00:00', '02:30:00', 'SÁBADO, DOMINGO', 'Habanera', 'RESTAURANTE', 37, 0, NULL, 'JAZZ, POP, TECHO', 30, '0-20', 'https://larrumba.com/restaurantes/habanera/', 29),
+(40, '20:00:00', '02:30:00', 'TODOS', 'Pointer Madrid', 'RESTAURANTE', 38, 0, NULL, 'REGGAETON', 23, '0-20', 'https://www.pointermadrid.com/', 30),
+(126, '06:59:00', '06:59:00', 'MIÉRCOLES,JUEVES', 'Enrique', 'BAR', 45, 1, 'maravillosos', 'ELECTRÓNICA,ROCK', 0, '0-20', 'https://www.jamesjoycemadrid.com/', 1);
 
 -- --------------------------------------------------------
 
+--
 -- Estructura de tabla para la tabla `ubicaciones`
+--
 
 CREATE TABLE `ubicaciones` (
   `ubicacion_id` int(11) NOT NULL,
@@ -111,7 +167,9 @@ CREATE TABLE `ubicaciones` (
   `longitud` decimal(10,6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
 -- Volcado de datos para la tabla `ubicaciones`
+--
 
 INSERT INTO `ubicaciones` (`ubicacion_id`, `calle`, `num_calle`, `zona`, `ciudad`, `cod_postal`, `latitud`, `longitud`) VALUES
 (1, 'Calle Miguel Ángel', '9', 'Chamberí', 'Madrid', '28010', 40.435731, -3.691698),
@@ -152,11 +210,18 @@ INSERT INTO `ubicaciones` (`ubicacion_id`, `calle`, `num_calle`, `zona`, `ciudad
 (36, 'Calle Santa Teresa', '8', 'Alamgro', 'Madrid', '28004', 40.415739, -3.707459),
 (37, 'Calle Marqués de la Ensenada', '16', 'Chamberí', 'Madrid', '28004', 40.421665, -3.701522),
 (38, 'Calle de Ponzano', '10', 'Justicia', 'Madrid', '28010', 40.434047, -3.699858),
-(39, 'Calle Génova', '28', 'Justicia', 'Madrid', '28004', 40.426429, -3.694229);
+(39, 'Calle Génova', '28', 'Justicia', 'Madrid', '28004', 40.426429, -3.694229),
+(41, 'Calle de serrano', '10', 'Salamanca', 'Madrid', '28001', 40.427869, -3.687388),
+(42, 'Calle de serrano', '10', 'Salamanca', 'Madrid', '28001', 40.427869, -3.687388),
+(43, 'Calle de serrano', '10', 'Salamanca', 'Madrid', '28001', 40.427869, -3.687388),
+(44, 'Calle de serrano', '29', 'Salamanca', 'Madrid', '28001', 40.427869, -3.687388),
+(45, 'Calle de serrano', '29', 'Salamanca', 'Madrid', '28001', 40.427869, -3.687388);
 
 -- --------------------------------------------------------
 
+--
 -- Estructura de tabla para la tabla `usuarios`
+--
 
 CREATE TABLE `usuarios` (
   `usuario_id` int(11) NOT NULL,
@@ -172,10 +237,12 @@ CREATE TABLE `usuarios` (
   `dni` varchar(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
 -- Volcado de datos para la tabla `usuarios`
+--
 
 INSERT INTO `usuarios` (`usuario_id`, `nombre`, `apellido`, `email`, `fecha_de_nacimiento`, `telefono`, `nombre_usuario`, `password_hash`, `password_salt`, `es_propietario`, `dni`) VALUES
-(1, 'Alberto', 'Hidalgo', 'alberto.hidalgo@gmail.com', '1987-04-15', '611234567', 'albertohidalgo', '0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e', '', 1, '98765432B'),
+(1, 'Alberto', 'Hidalgo', 'alberto.hidalgo@gmail.com', '1987-04-15', 'undefined', 'albertohidalgo', '0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e', '', 1, 'undefined'),
 (2, 'Enrique', 'Sierra', 'kikesierra@yahoo.com', '1986-08-22', '622345678', 'kikesierra', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '', 1, '87654321C'),
 (3, 'Mario', 'Gutierrez', 'mariogutierrez@gmail.com', '1985-11-28', '633456789', 'mario.gutierrez', '65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5', '', 1, '23456789D'),
 (4, 'Nacho', 'Gonzalez', 'nachogonzalez@gmail.com', '1984-02-01', '644567890', 'nachogonzalez', '6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090', '', 1, '34567890E'),
@@ -212,7 +279,9 @@ INSERT INTO `usuarios` (`usuario_id`, `nombre`, `apellido`, `email`, `fecha_de_n
 
 -- --------------------------------------------------------
 
+--
 -- Estructura de tabla para la tabla `valoraciones`
+--
 
 CREATE TABLE `valoraciones` (
   `valoracion_id` int(11) NOT NULL,
@@ -223,127 +292,103 @@ CREATE TABLE `valoraciones` (
   `fecha` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
 -- Índices para tablas volcadas
+--
 
-INSERT INTO `fotos` (`foto_id`, `local_id`, `nombre_foto`) VALUES
-(1, 1,  'Bonded'),
-(2, 2,  'Panthera'),
-(3, 3,  'Maddock'),
-(4, 4,  'Fitz Club'),
-(5, 5,  'Kapital'),
-(6, 6,  'Vandido'),
-(7, 7,  'Joy Eslava'),
-(8, 8,  'Medias Puri'),
-(9, 9,  'Uñas Chung Lee'),
-(10, 10,  'Moreira Beach'),
-(11, 11,  'Teatro Barceló'),
-(12, 12,  'Marusha'),
-(13, 13,  'Muy Bendito'),
-(14, 14,  'La Fonda Lironda'),
-(15, 15,  'Salvaje Bless'),
-(16, 16,  'LAB The Club'),
-(17, 17,  'Punch Room'),
-(18, 18,  'Opium Madrid'),
-(19, 19,  'Nômâda'),
-(20, 20,  'Îstar Club'),
-(21, 21,  'Marabú'),
-(22, 22,  'Panda Club'),
-(23, 23,  'QuintoElemento'),
-(24, 24,  'La Bresh Madrid'),
-(25, 25,  'Pömpa Retiro'),
-(26, 26,  'Lula Club'),
-(27, 27,  'El Club de los Famosos'),
-(28, 28,  'Harrison 1933'),
-(29, 29,  'Sala Siroco'),
-(30, 30,  'Toni2 Piano Bar'),
-(31, 31,  'El Amante'),
-(32, 32,  'Liberty Supper Club'),
-(33, 33,  'Mamá No Lo Sabe'),
-(34, 34,  'B12 The Bar Lab'),
-(35, 35,  'The Jungle Jazz Club'),
-(36, 36,  'Bárbara Ann'),
-(37, 37,  'Peyote San'),
-(38, 38,  'Peyote San'),
-(39, 39,  'Habanera'),
-(40, 40,  'Pointer Madrid');
-
-
+--
 -- Indices de la tabla `fotos`
-
+--
 ALTER TABLE `fotos`
   ADD PRIMARY KEY (`foto_id`),
   ADD KEY `local_id` (`local_id`);
 
+--
 -- Indices de la tabla `locales`
-
+--
 ALTER TABLE `locales`
   ADD PRIMARY KEY (`local_id`),
   ADD KEY `ubicacion_id` (`ubicacion_id`),
   ADD KEY `usuario_id` (`usuario_id`);
 
+--
 -- Indices de la tabla `ubicaciones`
-
+--
 ALTER TABLE `ubicaciones`
   ADD PRIMARY KEY (`ubicacion_id`),
   ADD KEY `idx_latitud_longitud` (`latitud`,`longitud`);
 
+--
 -- Indices de la tabla `usuarios`
-
+--
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`usuario_id`),
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `nombre_usuario` (`nombre_usuario`),
   ADD KEY `idx_email` (`email`);
 
+--
 -- Indices de la tabla `valoraciones`
-
+--
 ALTER TABLE `valoraciones`
   ADD PRIMARY KEY (`valoracion_id`),
   ADD KEY `usuario_id` (`usuario_id`),
   ADD KEY `local_id` (`local_id`);
 
+--
 -- AUTO_INCREMENT de las tablas volcadas
+--
 
+--
 -- AUTO_INCREMENT de la tabla `fotos`
-
+--
 ALTER TABLE `fotos`
-  MODIFY `foto_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `foto_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
+--
 -- AUTO_INCREMENT de la tabla `locales`
-
+--
 ALTER TABLE `locales`
-  MODIFY `local_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `local_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
+--
 -- AUTO_INCREMENT de la tabla `ubicaciones`
-
+--
 ALTER TABLE `ubicaciones`
-  MODIFY `ubicacion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `ubicacion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
+--
 -- AUTO_INCREMENT de la tabla `usuarios`
-
+--
 ALTER TABLE `usuarios`
-  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
+--
 -- AUTO_INCREMENT de la tabla `valoraciones`
-
+--
 ALTER TABLE `valoraciones`
   MODIFY `valoracion_id` int(11) NOT NULL AUTO_INCREMENT;
 
+--
 -- Restricciones para tablas volcadas
+--
 
+--
 -- Filtros para la tabla `fotos`
-
+--
 ALTER TABLE `fotos`
   ADD CONSTRAINT `fotos_ibfk_1` FOREIGN KEY (`local_id`) REFERENCES `locales` (`local_id`);
 
+--
 -- Filtros para la tabla `locales`
-
+--
 ALTER TABLE `locales`
   ADD CONSTRAINT `locales_ibfk_1` FOREIGN KEY (`ubicacion_id`) REFERENCES `ubicaciones` (`ubicacion_id`),
   ADD CONSTRAINT `locales_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`);
 
+--
 -- Filtros para la tabla `valoraciones`
-
+--
 ALTER TABLE `valoraciones`
   ADD CONSTRAINT `valoraciones_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
   ADD CONSTRAINT `valoraciones_ibfk_2` FOREIGN KEY (`local_id`) REFERENCES `locales` (`local_id`);
