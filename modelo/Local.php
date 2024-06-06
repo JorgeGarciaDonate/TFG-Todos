@@ -205,8 +205,11 @@ class Local{
     
     public function arrayDatos($datos){
         $valores = [];
+        $ubicacion = new Ubicacion();
+        $foto = new Foto();
         foreach ($datos as $dato) {           
-
+            $datosUbi= $ubicacion->getDatosUbicacion($dato -> ubicacion_id);
+            $fotoLoc =$foto->getDatosFotos($dato -> local_id);
             $valores[] = [
                 'local_id' => $dato -> local_id,
                 'nombre_local' => $dato -> nombre_local,
@@ -221,7 +224,42 @@ class Local{
                 'precio_rango' => $dato -> precio_rango,
                 'usuario_id' => $dato -> usuario_id,
                 'web' => $dato->web,
-                'ubicacion_id' => $dato -> ubicacion_id
+                'ubicacion' => $datosUbi,
+                'fotos' => $fotoLoc
+            ];
+        }
+        return $valores;
+    }
+    public function array_datos($datos){
+        $valores = [];
+        $foto = new Foto();
+        foreach ($datos as $dato) {           
+            $fotoLoc =$foto->getDatosFotos($dato -> local_id);
+            $valores[] = [
+                'local_id' => $dato->local_id,
+                'hora_apertura' => $dato->hora_apertura,
+                'hora_cierre' => $dato->hora_cierre,
+                'dias_abierto' => $dato->dias_abierto,
+                'nombre_local' => $dato->nombre_local,
+                'tipo_local' => $dato->tipo_local,
+                'ubicacion' => [
+                    'ubicacion_id' => $dato->ubicacion_id,
+                    'calle' => $dato->calle,
+                    'num_calle' => $dato->num_calle,
+                    'zona' => $dato->zona,
+                    'ciudad' => $dato->ciudad,
+                    'cod_postal' => $dato->cod_postal,
+                    'latitud' => $dato->latitud,
+                    'longitud' => $dato->longitud
+                ],
+                'musica_en_vivo' => $dato->musica_en_vivo,
+                'descripcion' => $dato->descripcion,
+                'genero_musical' => $dato->genero_musical,
+                'edad_recomendada' => $dato->edad_recomendada,
+                'precio_rango' => $dato->precio_rango,
+                'web' => $dato->web,
+                'usuario_id' => $dato->usuario_id,                
+                'fotos' => $fotoLoc
             ];
         }
         return $valores;

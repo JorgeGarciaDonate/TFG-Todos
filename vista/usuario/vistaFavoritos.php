@@ -96,8 +96,8 @@ if(!$_SESSION['user']){
             </div><!-- .container-fluid -->
         </div>
     <?php } ?>
+    <h1 class="h1-index">Mis Locales Favoritos</h1>
     <div class="container">
-        <h1>Mis Locales Favoritos</h1>
     </div> 
         <div id="list-favoritos" class="favs-container" ></div>
 

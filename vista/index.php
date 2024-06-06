@@ -21,7 +21,9 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
     <link rel="stylesheet" href="../assets/css/dashlite.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha384-DyF04EOve/0wZy8u7x3eYvPDzDW0YrYTd1zBBk0q3TK/VvqKecEK9LU5KG6+dSL2" crossorigin="anonymous">
 
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha384-J2BB9S6qFw4WVgZMzB8Eu5fXjkFHYj6+0QTGfVXW+XnIh+cucXDLmM3r+3OcPsAJ" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../assets/js/mapaApi.js" defer></script>
@@ -31,8 +33,7 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
     <script>var locations = <?php echo json_encode($locales); ?>; </script>
     <script> var data = <?php echo json_encode($data); ?>; </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/lsrc-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lsrc-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
     <script src="../assets/js/jquery-3.6.0.minundle.js"></script>
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/mapaApi.js"></script>
@@ -149,12 +150,12 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
             <h2>Filtros</h2>
             <div class="filter-item">
                 <label for="hora_apertura">Hora de Apertura:</label>
-                <input type="text" id="hora_apertura" name="hora_apertura" placeholder="HH:MM">
+                <input type="time" id="hora_apertura" name="hora_apertura" placeholder="HH:MM">
             </div>
 
             <div class="filter-item">
                 <label for="hora_cierre">Hora de Cierre:</label>
-                <input type="text" id="hora_cierre" name="hora_cierre" placeholder="HH:MM">
+                <input type="time" id="hora_cierre" name="hora_cierre" placeholder="HH:MM">
             </div>
 
             <div class="filter-item">
@@ -253,10 +254,11 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
 
         <div class="search">
             <div class="search-input" alt="formulario búsqueda">
-                <h2>Introduce la zona/barrio/estación de metro:</h2>
-                <input type="text" id="search-input" aria-label="Buscar zona/barrio/estación de metro">
-                <button class="search-button" id="btnSearch" name="btnSearch" >Buscar</button>
+                <h2>Busca una zona o una calle:</h2>
+                <input type="text" id="search-input" aria-label="Buscar zona o calle">
+                <button class="search-button" id="btnSearch" name="btnSearch">Buscar</button>
             </div>
+
 
             <div class="view-toggle">
                 <button id="map-view">Mapa</button>
