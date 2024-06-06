@@ -201,10 +201,12 @@ if (isset($_POST['botonUpdateHorario'])) {
 if (isset($_POST['borrarLocal'])) {
     $local_id = $_POST['local_id'];
     $localController = new LocalController();
-    $delete= $localController->delete($local_id);
-    if($delete){
-        header('Location:../index.php '); 
-        exit;
+    if($localController->deleteFotos($local_id)){
+        $delete= $localController->delete($local_id);
+        if($delete){
+            header('Location:../index.php '); 
+            exit;
+        }
     }
     
 }
@@ -243,8 +245,13 @@ if (isset($_POST['aplicarFiltros']) && $_POST['aplicarFiltros'] === 'true') {
         if ($dias_abierto[0] === '') {
         }
         else {
-            $dias_abierto_sql = implode("','", $dias_abierto);
-            $conditions[] = "dias_abierto = ('$dias_abierto_sql')";
+            $dias_abierto_conditions = [];
+            foreach ($dias_abierto as $dia) {
+                $dias_abierto_conditions[] = "FIND_IN_SET('$dia', dias_abierto)";
+            }
+            // Une las condiciones con OR para buscar cualquiera de los días
+            $dias_abierto_sql = implode(" OR ", $dias_abierto_conditions);
+            $conditions[] = "($dias_abierto_sql)";
         }
     } 
      
@@ -263,8 +270,12 @@ if (isset($_POST['aplicarFiltros']) && $_POST['aplicarFiltros'] === 'true') {
     if ($genero_musical) {
         if ($genero_musical[0] === '') {
         } else {
-            $genero_musical_sql = implode("','", $genero_musical);
-            $conditions[] = "genero_musical = ('$genero_musical_sql')";
+            $genero_musical_conditions = [];
+            foreach ($genero_musical as $genero) {
+                $genero_musical_conditions[] = "FIND_IN_SET('$genero', genero_musical)";
+            }
+            $genero_musical_sql = implode(" OR ", $genero_musical_conditions);
+            $conditions[] = "($genero_musical_sql)";
         }
     }
     if ($edad_recomendada) {
@@ -284,7 +295,7 @@ if (isset($_POST['aplicarFiltros']) && $_POST['aplicarFiltros'] === 'true') {
     if (count($conditions) > 0) {
         $query .= " WHERE " . implode(" AND ", $conditions);
     }
-
+    //echo $query;
 
     $db = DB::getInstance();
     $local = new Local();

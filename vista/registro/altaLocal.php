@@ -2,6 +2,7 @@
    define("DS", DIRECTORY_SEPARATOR);
    define("ROOT", dirname(__FILE__) . DS);
    require_once (ROOT . ".." . DS . ".." . DS . "core" . DS . "init.php");
+   $usuarioController = new UsuarioController();
     new RegistroController();
     if(!$_SESSION['user']){
         Redirect::to('../index.php');
@@ -68,24 +69,28 @@
                                     </div>
                                 </div>
                                 <form id="altaForm" action="#" method="post">
-                                    <!-- Hoa apertura, cierre, dias abierto, nombre, tipo local, ubicacion, musica en vivo, descripcion, genero musical, edad recomentada, precio_rango,  -->
+                                    <?php if (!$usuarioController->es_propietario($_SESSION['user'])){ ?>
                                     <div class="form-group">
                                         <label class="form-label" for="dni">DNI del propietario</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="dni" placeholder="Introduce tu dni">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-dni"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="telefono">Teléfono</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="telefono" placeholder="Introduce tu número de telefono">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-telefono"></div>
                                     </div>
+                                    <?php } ?>
                                     <div class="form-group">
                                         <label class="form-label" for="nombre">Nombre</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="nombre" placeholder="Introduce el nombre del local">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-nombre"></div>
                                     </div>
                                     
                                     <div class="form-group">
@@ -98,11 +103,12 @@
                                                 <option value="RESTAURANTE">RESTAURANTE</option>
                                             </select>
                                         </div>
+                                        <div class="error-msg text-danger" id="error-local"></div>
                                     </div> 
                                     <div class="form-group">
                                         <label class="form-label">Género músical</label>
                                         <div class="form-control-wrap">
-                                            <div class="checkbox-list">
+                                            <div class="checkbox-list" id="genero_musical">
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="reggaeton" value="REGGAETON">
                                                     <label class="custom-control-label" for="reggaeton">Reggaeton</label>
@@ -129,6 +135,7 @@
                                                 </div>                                               
                                             </div>
                                         </div>
+                                        <div class="error-msg text-danger" id="error-genero"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="musica_en_vivo">Musica en vivo</label>
@@ -138,6 +145,7 @@
                                                 <option value="0">No</option>
                                             </select>
                                         </div>
+                                        <div class="error-msg text-danger" id="error-musica"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="precio_rango">Rango de precio</label>
@@ -148,21 +156,24 @@
                                                 <option value="50+">50+</option>
                                             </select>
                                         </div>
+                                        <div class="error-msg text-danger" id="error-precio"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="hora_apertura">Hora apertura</label>
                                         <div class="form-control-wrap">
-                                            <input type="time" id="hora_apertura" name="hora_apertura" min="00:00" max="23:59" required>
+                                            <input type="time" id="hora_apertura" name="hora_apertura" min="00:00" max="23:59" >
                                         </div>
+                                        <div class="error-msg text-danger" id="error-horaap"></div>
                                         <label class="form-label" for="hora_cierre">Hora cierre</label>
                                         <div class="form-control-wrap">
-                                            <input type="time" id="hora_cierre" name="hora_cierre" min="00:00" max="23:59" required>
+                                            <input type="time" id="hora_cierre" name="hora_cierre" min="00:00" max="23:59" >
                                         </div>
+                                        <div class="error-msg text-danger" id="error-horaci"></div>
                                     </div>                                                                                                          
                                     <div class="form-group">
                                         <label class="form-label">Días de apertura</label>
                                         <div class="form-control-wrap">
-                                            <div class="checkbox-list">
+                                            <div class="checkbox-list" id="dias_abierto">
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="lunes" value="LUNES">
                                                     <label class="custom-control-label" for="lunes">Lunes</label>
@@ -193,62 +204,73 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="error-msg text-danger" id="error-dias"></div>
                                     </div>   
                                     <div class="form-group">
                                         <label class="form-label" for="edad_recomendada">Edad recomendada</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="edad_recomendada" placeholder="Escribe la edad recomendad">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-edad"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="descripcion">Descrpicion</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="descripcion" placeholder="Escribe una descripcion">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-desc"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="web">Web</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="web" placeholder="Escribe una direccion web">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-web"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="foto">Foto</label>
                                         <div class="form-control-wrap">
                                             <input type="file" class="form-control form-control-lg" id="foto" name="foto" accept="image/*">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-web"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="calle">Calle</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="calle" placeholder="Escribe la calle">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-calle"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="num_calle">Número</label>
                                         <div class="form-control-wrap">
                                             <input type="number" class="form-control form-control-lg" id="num_calle" min="1" step="1">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-num"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="cod_postal">Código Postal</label>
                                         <div class="form-control-wrap">
                                             <input type="number" class="form-control form-control-lg" id="cod_postal" min="1" step="1">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-cod"></div>
                                     </div>    
                                     <div class="form-group">
                                         <label class="form-label" for="ciudad">Ciudad</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="ciudad" placeholder="Escribe la ciudad">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-ciudad"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="barrio">Barrio</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control form-control-lg" id="barrio" placeholder="Escribe la barrio">
                                         </div>
+                                        <div class="error-msg text-danger" id="error-barrio"></div>
                                     </div>
                                     <input type="hidden" id="usuario_id" value="<?php echo $_SESSION['user']; ?>">
+                                    <div class="error-msg text-danger" id="error-msg"></div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-block" id="altaForm" name="botonAlta">Registrarse</button>
                                     </div>

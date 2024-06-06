@@ -232,6 +232,10 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
                     <input type="checkbox" id="genero_musical_pop" name="genero_musical" value="POP">
                     <label for="genero_musical_pop">Pop</label>
                 </div>
+                <div>
+                    <input type="checkbox" id="genero_musical_pop" name="genero_musical" value="JAZZ">
+                    <label for="genero_musical_pop">Jazz</label>
+                </div>
             </div>
 
             <div class="filter-item">

@@ -1,4 +1,4 @@
-
+ 
 $(document).ready(function() {
     $('#altaForm').submit(function(e) {
         e.preventDefault();
@@ -19,25 +19,74 @@ $(document).ready(function() {
         var ciudad = $('#ciudad').val().trim();
         var barrio = $('#barrio').val().trim();
         var usuario_id = $('#usuario_id').val().trim();
-        var dni = $('#dni').val().trim();
-        var telefono = $('#telefono').val().trim();
+        var dni = $('#dni').val();
+        var telefono = $('#telefono').val();
         var web = $('#web').val().trim();
         var foto = $('#foto')[0].files[0];
 
-        $('#nombre').removeClass('error-border');
-        $('#calle').removeClass('error-border');
-        $('#num_calle').removeClass('error-border');
-        $('#cod_postal').removeClass('error-border');
-        $('#ciudad').removeClass('error-border');
-        $('#barrio').removeClass('error-border');
+        $('.error-message').text('');
 
-        if (nombre === '' || calle === '' || numero === '' || codigoPostal === '' || ciudad === '' || barrio === '') {
-            if (nombre === '') $('#nombre').addClass('error-border');
-            if (calle === '') $('#calle').addClass('error-border');
-            if (numero === '') $('#num_calle').addClass('error-border');
-            if (codigoPostal === '') $('#cod_postal').addClass('error-border');
-            if (ciudad === '') $('#ciudad').addClass('error-border');
-            if (barrio === '') $('#barrio').addClass('error-border');
+        // Validaciones
+        var valid = true;
+        if (nombre === '') {
+            $('#error-nombre').text('Introduce un nombre de local.');
+            valid = false;
+        }
+        if (tipoLocal === '') {
+            $('#error-local').text('Seleccione un tipo de local.');
+            valid = false;
+        }
+        if (generos.length === 0) {
+            $('#error-genero').text('Seleccione un género musical.');
+            valid = false;
+        }
+        if (precioRango === '') {
+            $('#error-precio').text('Seleccione un rango de precio.');
+            valid = false;
+        }
+        if (horaApertura === '' || horaCierre === '') {
+            $('#error-horaap').text('Seleccione una hora válida.');
+            $('#error-horaci').text('Seleccione una hora válida.');
+            valid = false;
+        }
+        if (diasApertura.length === 0) {
+            $('#error-dias').text('Seleccione los días de apertura.');
+            valid = false;
+        }
+        if (descripcion.length < 10) {
+            $('#error-desc').text('Escribe una descripción.');
+            valid = false;
+        }
+        if (calle === '') {
+            $('#error-calle').text('Introduce una calle.');
+            valid = false;
+        }
+        if (numero === '') {
+            $('#error-num').text('Introduce un número.');
+            valid = false;
+        }
+        if (codigoPostal === '' || !/^\d+$/.test(codigoPostal)) {
+            $('#error-cod').text('Introduce un código postal válido.');
+            valid = false;
+        }
+        if (ciudad === '') {
+            $('#error-ciudad').text('Introduce una ciudad.');
+            valid = false;
+        }
+        if (barrio === '') {
+            $('#error-barrio').text('Introduce un barrio.');
+            valid = false;
+        }
+        if (telefono === '' || !/^\d+$/.test(telefono)) {
+            $('#error-tel').text('Campo vacío u incorrecto.');
+            valid = false;
+        }
+        if (web !== '' && !/^https?:\/\/[^\s]+$/.test(web)) {
+            $('#error-web').text('Introduce una dirección web válida.');
+            valid = false;
+        }
+
+        if (!valid) {
             return false;
         }
 
@@ -120,3 +169,5 @@ $(document).ready(function() {
         return selectedDays;
     }
 });
+ 
+

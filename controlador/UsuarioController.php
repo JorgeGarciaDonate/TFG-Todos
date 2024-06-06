@@ -80,9 +80,19 @@ if (isset($_POST['borrarUsuario'])) {
   if($usuarioController->es_propietario($usuario_id)){
     $locales = $localController->getLocalesByUsuario_id($usuario_id);
     foreach ($locales as $local){
-      $localController->deleteFotos($local['local_id']);
-      $ubicacionController->delete($local['ubicacion_id']);
-      $localController->delete($local['local_id']);
+      if($localController->deleteFotos($local['local_id'])){
+        if($localController->delete($local['local_id'])){
+          if($ubicacionController->delete($local['ubicacion_id'])){
+          $delete= $usuarioController->delete($usuario_id);
+          if($delete){
+              header('Location:../vista/registro/logout.php '); 
+              exit;
+          }
+         }
+
+        }
+      }
+      
     }
   }
   $delete= $usuarioController->delete($usuario_id);

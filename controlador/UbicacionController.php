@@ -14,7 +14,7 @@ class UbicacionController{
     return false;
   }
   public function delete($ubicacion_id){
-    if((new Local())->delete($ubicacion_id)){
+    if((new Ubicacion())->delete($ubicacion_id)){
         return true;
     }
     return false;

@@ -55,11 +55,11 @@ CREATE TABLE `locales` (
 
 -- Volcado de datos para la tabla `locales`
 INSERT INTO `locales` (`local_id`, `hora_apertura`, `hora_cierre`, `dias_abierto`, `nombre_local`, `tipo_local`, `ubicacion_id`, `musica_en_vivo`, `descripcion`, `genero_musical`, `edad_recomendada`, `precio_rango`, `web`,  `usuario_id`) VALUES
-(1, '18:00:00', '06:00:00', 'SÁBADO', 'Bonded', 'PUB', 1, 0, NULL, 'REGGAETON', 25, '20-50', 'https://www.instagram.com/bonded.club/?hl=es', 1),
+(1, '18:00:00', '06:00:00', '(SÁBADO, DOMINGO)', 'Bonded', 'PUB', 1, 0, NULL, 'REGGAETON', 25, '20-50', 'https://www.instagram.com/bonded.club/?hl=es', 1),
 (2, '20:00:00', '03:00:00', 'SÁBADO', 'Panthera', 'PUB', 2, 0, NULL, 'TECHNO', 26, '50+', 'https://www.pantheramadrid.com/', 2),
-(3, '12:00:00', '02:00:00', 'MARTES', 'Maddock', 'RESTAURANTE', 3, 0, NULL, 'REGGAETON', 25, '20-50', 'http://maddock.restaurant/', 3),
+(3, '12:00:00', '02:00:00', 'MARTES, JUEVES, VIERNES', 'Maddock', 'RESTAURANTE', 3, 0, NULL, 'REGGAETON', 25, '20-50', 'http://maddock.restaurant/', 3),
 (4, '00:00:00', '06:00:00', 'MARTES', 'Fitz Club', 'DISCOTECA', 4, 1, NULL, 'JAZZ', 27, '20-50', 'https://fitzclubmadrid.com/', 1),
-(5, '23:00:00', '06:00:00', 'MIÉRCOLES', 'Kapital', 'DISCOTECA', 5, 0, NULL, 'REGGAETON', 22, '0-20', 'https://teatrokapital.com/', 4),
+(5, '23:00:00', '06:00:00', 'MIÉRCOLES, JUEVES, VIERNES, SÁBADO', 'Kapital', 'DISCOTECA', 5, 0, NULL, 'REGGAETON', 22, '0-20', 'https://teatrokapital.com/', 4),
 (6, '00:00:00', '06:00:00', 'MIÉRCOLES', 'Vandido', 'DISCOTECA', 6, 0, NULL, 'REGGAETON', 28, '20-50', 'https://vandidoclub.com/', 1),
 (7, '12:00:00', '06:00:00', 'SÁBADO', 'Joy Eslava', 'DISCOTECA', 7, 0, NULL, 'REGGAETON', 23, '0-20', 'https://teatroeslava.com/', 5),
 (8, '00:00:00', '06:00:00', 'VIERNES', 'Medias Puri', 'DISCOTECA', 8, 1, NULL, 'POP', 28, '20-50', 'https://mediaspuri.com/', 6),

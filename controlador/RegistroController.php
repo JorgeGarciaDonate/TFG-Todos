@@ -137,6 +137,7 @@ if (isset($_POST['botonAlta'])) {
         $web = $_POST['web'];
         $uploadDir = '../assets/img/locales/'; // Define la carpeta donde se guardarán las imágenes
 
+        echo $diasApertura;
         // Asegurarse de que el directorio exista
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);

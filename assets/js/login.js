@@ -5,8 +5,8 @@ $(document).ready(function() {
         var nombre_usuario = $('#nombre_usuario').val().trim();
         var password = $('#password').val().trim();
 
-        $('#nombre_usuario').removeClass('error-border');
-        $('#password').removeClass('error-border');
+        $('#error-username').text('');
+        $('#error-password').text('');
 
         if (nombre_usuario === '') {
             $('#nombre_usuario').addClass('error-border');

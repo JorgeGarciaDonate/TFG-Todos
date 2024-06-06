@@ -223,6 +223,7 @@ class Local{
                 'edad_recomendada' => $dato -> edad_recomendada,
                 'precio_rango' => $dato -> precio_rango,
                 'usuario_id' => $dato -> usuario_id,
+                'ubicacion_id' => $dato -> ubicacion_id,
                 'web' => $dato->web,
                 'ubicacion' => $datosUbi,
                 'fotos' => $fotoLoc

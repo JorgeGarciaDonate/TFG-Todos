@@ -48,7 +48,6 @@
         });
     }
     
-    
     function loadPage(page) {
         currentPage = page;
         var startIndex = (currentPage - 1) * itemsPerPage;

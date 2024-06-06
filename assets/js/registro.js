@@ -1,63 +1,4 @@
-/* $(document).ready(function() {
-    $('#registerForm').submit(function(e) {
-        e.preventDefault();
-        var nombre = $('#nombre').val().trim();
-        var apellido = $('#apellido').val().trim();
-        var email = $('#email').val().trim();
-        var fecha_de_nacimiento = $('#fecha_de_nacimiento').val().trim();
-        var password = $('#password').val().trim();
-        var nombre_usuario = $('#nombre_usuario').val().trim();
 
-        var partes_fecha = fecha_de_nacimiento.split('/');
-        var fecha_nueva = partes_fecha[1] + '/' + partes_fecha[0] + '/' + partes_fecha[2];
-
-        $('#apellido').removeClass('error-border');
-        $('#email').removeClass('error-border');
-        $('#password').removeClass('error-border');
-        $('#nombre_usuario').removeClass('error-border');
-
-        if (apellido === '') {
-            $('#apellido').addClass('error-border');
-            return false;
-        }
-        if (email === '') {
-            $('#email').addClass('error-border');
-            return false;
-        }
-        if (password === '') {
-            $('#password').addClass('error-border');
-            return false;
-        }
-        
-
-        $.ajax({
-            type: 'POST',
-            url: '../controlador/RegistroController.php', 
-            data: {
-                botonCreate: true,
-                nombre: nombre,
-                apellido: apellido,
-                email: email,
-                fecha_de_nacimiento: fecha_nueva, 
-                password: password,
-                nombre_usuario: nombre_usuario,
-                role: 'user'
-            },
-            dataType: 'json', 
-            success: function(response) {
-                if (response.success) {
-                    window.location.href = './registro/login.php'; 
-                } else {
-                    $('#error-msg').text(response.message);
-                }
-            },
-            error: function() {
-                $('#error-msg').text('There was an error in the server.');
-            }
-        });
-    });    
-});
- */
 $(document).ready(function() {
     $('#fecha_de_nacimiento').datepicker({
         dateFormat: 'dd/mm/yy',
@@ -82,13 +23,12 @@ $(document).ready(function() {
         var partes_fecha = fecha_de_nacimiento.split('/');
         var fecha_nueva = partes_fecha[1] + '/' + partes_fecha[0] + '/' + partes_fecha[2];
 
-        $('#apellido').removeClass('error-border');
-        $('#email').removeClass('error-border');
-        $('#password').removeClass('error-border');
-        $('#nombre_usuario').removeClass('error-border');
-        $('#fecha_de_nacimiento').removeClass('error-border');
-
-        $('.error-msg').text(''); // Clear previous error messages
+        $('#error-nombre').text('');
+        $('#error-apellido').text('');
+        $('#error-email').text('');
+        $('#error-password').text('');
+        $('#error-fecha_de_nacimiento').text('');        
+        $('.error-msg').text(''); 
 
         var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -132,7 +72,6 @@ $(document).ready(function() {
             return false;
         }
 
-        // AJAX call to check if email or username already exists
         $.ajax({
             type: 'POST',
             url: '../controlador/RegistroController.php', 
