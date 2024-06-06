@@ -352,3 +352,46 @@ img {
         font-size: 0.7em; /* reducimos el tamaño de la fuente */
     }
 }
+
+/* Para pantallas de hasta 768px (tabletas) */
+@media (max-width: 768px) {
+    .local-item {
+        flex-direction: column; /* Cambiamos la dirección del flexbox a columna */
+        margin : 0;
+    }
+
+    .fotos-container {
+        width: 100%; 
+        height: auto;
+    }
+
+    .view-toggle {
+        flex-direction: row; /* Cambiamos la dirección del flexbox a fila */
+        justify-content: space-between; /* Alineamos los elementos al inicio y final de la fila */
+    }
+
+    .map-view, .list-view {
+        width: auto; 
+    }
+
+    .map-view {
+        margin-right: 5px; /* Añadimos un margen derecho al botón de mapa */
+    }
+
+    .search {
+        flex-direction: row; /* Cambiamos la dirección del flexbox a fila */
+        align-items: center; /* Alineamos los elementos al centro */
+    }
+
+    .search-input input {
+        width: 60%;
+    }
+
+    .search-button {
+        width: 30%;
+        font-size: 0.8em; /*ajustar el tamaño de la fuente para que quepa en el botón */
+    }
+    .favs-container {
+        margin: 0.5em 0; 
+    }
+}
