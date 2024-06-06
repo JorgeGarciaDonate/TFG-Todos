@@ -1,4 +1,4 @@
-/* 
+
 $(document).ready(function() {
     $('#altaForm').submit(function(e) {
         e.preventDefault();
@@ -19,8 +19,12 @@ $(document).ready(function() {
         var ciudad = $('#ciudad').val().trim();
         var barrio = $('#barrio').val().trim();
         var usuario_id = $('#usuario_id').val().trim();
-        var dni = $('#dni').val().trim();
-        var telefono = $('#telefono').val().trim();
+        var dniVisible = $('#dni').is(':visible');
+        var telefonoVisible = $('#telefono').is(':visible');
+        
+        // Variables para los valores de los campos
+        var dni = dniVisible ? $('#dni').val().trim() : null;
+        var telefono = telefonoVisible ? $('#telefono').val().trim() : null;
         var web = $('#web').val().trim();
         var foto = $('#foto')[0].files[0];
 
@@ -106,7 +110,7 @@ $(document).ready(function() {
 
     function getSelectedGenres() {
         var selectedGenres = [];
-        $('input[name="generos[]"]:checked').each(function() {
+        $('input[name="genero_musical[]"]:checked').each(function() {
             selectedGenres.push($(this).val());
         });
         return selectedGenres;
@@ -114,14 +118,13 @@ $(document).ready(function() {
 
     function getSelectedDays() {
         var selectedDays = [];
-        $('input[name="dias_apertura[]"]:checked').each(function() {
+        $('input[name="dias_abierto[]"]:checked').each(function() {
             selectedDays.push($(this).val());
         });
         return selectedDays;
     }
 });
- */
-$(document).ready(function() {
+/* $(document).ready(function() {
     $('#altaForm').submit(function(e) {
         e.preventDefault();
 
@@ -244,14 +247,35 @@ $(document).ready(function() {
 
                     
 
-                    var formData = new FormData(this);
-
                     $.ajax({
                         type: 'POST',
                         url: '../controlador/RegistroController.php',
-                        data: formData,
-                        contentType: false, // Importante para enviar archivos
-                        processData: false, // Importante para enviar archivos
+                        data: {
+                            botonAlta: true,
+                            nombre: nombre,
+                            tipo_local: tipoLocal,
+                            generos: generos,
+                            precio_rango: precioRango,
+                            hora_apertura: horaApertura,
+                            hora_cierre: horaCierre,
+                            dias_apertura: diasApertura,
+                            musica_en_vivo: musica_en_vivo,
+                            descripcion: descripcion,
+                            calle: calle,
+                            num_calle: numero,
+                            cod_postal: codigoPostal,
+                            ciudad: ciudad,
+                            barrio: barrio,
+                            latitud: latitud,
+                            longitud: longitud,
+                            usuario_id: usuario_id,
+                            // Verificar si el teléfono tiene un valor antes de agregarlo
+                            telefono: telefono !== '' ? telefono : undefined,
+                            // Verificar si el DNI tiene un valor antes de agregarlo
+                            dni: dni !== '' ? dni : undefined,
+                            web: web,
+                            foto: foto
+                        },
                         dataType: 'json',
                         success: function(response) {
                             console.log(response);
@@ -277,3 +301,4 @@ $(document).ready(function() {
 
 });
 
+ */

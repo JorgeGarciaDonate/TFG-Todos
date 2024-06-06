@@ -113,44 +113,48 @@ if (isset($_POST['botonCreate'])) {
 }
 if (isset($_POST['botonAlta'])) {
     try {
-        $nombre = trim($_POST['nombre']);
-        $tipo_local = $_POST['tipo_local'];
-        $generos = implode(', ', $_POST['genero_musical']); // Los valores ya son un array
-        $precio_rango = $_POST['precio_rango'];
-        $hora_apertura = $_POST['hora_apertura'];
-        $hora_cierre = $_POST['hora_cierre'];
-        $diasApertura = implode(', ', $_POST['dias_abierto']); // Los valores ya son un array
-        $calle = trim($_POST['calle']);
-        $num_calle = $_POST['num_calle'];
-        $cod_postal = $_POST['cod_postal'];
-        $ciudad = trim($_POST['ciudad']);
-        $barrio = trim($_POST['barrio']);
-        $usuario_id = $_POST['usuario_id'];
-        $edad_recomendada = $_POST['edad_recomendada'];
-        $musica_en_vivo = $_POST['musica_en_vivo'];
-        $descripcion = trim($_POST['descripcion']);
-        $web = trim($_POST['web']);
-        $dni = trim($_POST['dni']);
-        $telefono = trim($_POST['telefono']);
-        $web = $_POST['web'];
+        $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
+        $tipo_local = isset($_POST['tipo_local']) ? $_POST['tipo_local'] : '';
+        $generos = isset($_POST['genero_musical']) && is_array($_POST['genero_musical']) ? implode(', ', $_POST['genero_musical']) : '';
+        $precio_rango = isset($_POST['precio_rango']) ? $_POST['precio_rango'] : '';
+        $hora_apertura = isset($_POST['hora_apertura']) ? $_POST['hora_apertura'] : '';
+        $hora_cierre = isset($_POST['hora_cierre']) ? $_POST['hora_cierre'] : '';
+        $diasApertura = isset($_POST['dias_abierto']) && is_array($_POST['dias_abierto']) ? implode(', ', $_POST['dias_abierto']) : '';
+        $calle = isset($_POST['calle']) ? trim($_POST['calle']) : '';
+        $num_calle = isset($_POST['num_calle']) ? $_POST['num_calle'] : '';
+        $cod_postal = isset($_POST['cod_postal']) ? $_POST['cod_postal'] : '';
+        $ciudad = isset($_POST['ciudad']) ? trim($_POST['ciudad']) : '';
+        $barrio = isset($_POST['barrio']) ? trim($_POST['barrio']) : '';
+        $usuario_id = isset($_POST['usuario_id']) ? $_POST['usuario_id'] : '';
+        $edad_recomendada = isset($_POST['edad_recomendada']) ? $_POST['edad_recomendada'] : '';
+        $musica_en_vivo = isset($_POST['musica_en_vivo']) ? $_POST['musica_en_vivo'] : '';
+        $descripcion = isset($_POST['descripcion']) ? trim($_POST['descripcion']) : '';
+        $web = isset($_POST['web']) ? trim($_POST['web']) : '';
+        $dni = isset($_POST['dni']) ? trim($_POST['dni']) : '';
+        $telefono = isset($_POST['telefono']) ? trim($_POST['telefono']) : '';
+        $web = isset($_POST['web']) ? $_POST['web'] : '';
+        $latitud = isset($_POST['latitud']) ? $_POST['latitud'] : '';
+        $longitud = isset($_POST['longitud']) ? $_POST['longitud'] : '';
         $uploadDir = '../assets/img/locales/'; // Define la carpeta donde se guardarán las imágenes
+        $foto = isset($_FILES['foto']) ? $_FILES['foto'] : null;
 
-        echo $diasApertura;
         // Asegurarse de que el directorio exista
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-
-        // Actualizar usuario
-        $usuario = new Usuario();
-        if ($usuario_id) {
-            $usuarioChanges = [
-                'es_propietario' => 1,
-                'telefono' => $telefono,
-                'dni' => $dni                
-            ];
-            $usuarioUpdate = $usuario->update($usuarioChanges, $usuario_id);
+        if($dni && $telefono){
+            // Actualizar usuario
+            $usuario = new Usuario();
+            if ($usuario_id) {
+                $usuarioChanges = [
+                    'es_propietario' => 1,
+                    'telefono' => $telefono,
+                    'dni' => $dni                
+                ];
+                $usuarioUpdate = $usuario->update($usuarioChanges, $usuario_id);
+            }
         }
+        
 
         // Inserta los datos de la ubicación
         $ubicacion = new Ubicacion();
@@ -185,8 +189,13 @@ if (isset($_POST['botonAlta'])) {
             ];
             $local_id = $local->create($altaLocal);
 
-            if ($foto['error'] == UPLOAD_ERR_OK) {
-                $uploadFile = $uploadDir . basename($foto['name']);
+            if ($local_id) {
+                // Guardar la imagen
+                $uploadDir = '../assets/img/locales/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+                $uploadFile = $uploadDir. basename($foto['name']);
                 if (move_uploaded_file($foto['tmp_name'], $uploadFile)) {
                     // Guardar la ruta de la foto en la base de datos
                     $fotoModel = new Foto();
@@ -196,26 +205,25 @@ if (isset($_POST['botonAlta'])) {
                     ];
                     $result = $fotoModel->create($fotoCreate);
                 } else {
-                    echo json_encode(['success' => false, 'message' => 'Error al mover el archivo subido.']);
+                    echo json_encode(['success' => false, 'essage' => 'Error al mover el archivo subido.']);
                     exit;
                 }
-            } else {
-                $result = false; // Asegúrate de que $result esté definido en caso de error en la subida de la foto
-            }
 
-            if ($result) {
-                echo json_encode(['success' => true]);
+                if ($result) {
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['success' => false, 'essage' => 'Error al insertar los datos del local.']);
+                }
             } else {
-                echo json_encode(['success' => false, 'message' => 'Error al insertar los datos del local.']);
+                echo json_encode(['success' => false, 'essage' => 'Error al insertar los datos del local.']);
             }
         } else {
-            echo json_encode(['success' => false, 'message' => 'Error al insertar los datos de ubicación.']);
+            echo json_encode(['success' => false, 'essage' => 'Error al insertar los datos de ubicación.']);
         }
     } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+        echo json_encode(['success' => false, 'essage' => 'Error: '. $e->getMessage()]);
     }
 }
-
 
 ?>
 
