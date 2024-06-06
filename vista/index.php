@@ -159,7 +159,7 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
             </div>
 
             <div class="filter-item">
-                <label>Días Abierto:</label>
+                <label for="dias_abierto">Días Abierto:</label>
                 <div>
                     <input type="checkbox" id="lunes" name="dias_abierto" value="LUNES">
                     <label for="lunes">Lunes</label>
@@ -205,7 +205,7 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
             </div>
 
             <div class="filter-item">
-                <label for="musica_en_vivo">Música en Vivo:</label>
+                <label for="musica">Música en Vivo:</label>
                 <input type="checkbox" id="musica_en_vivo" name="musica_en_vivo" value="true">
                 <label for="musica_en_vivo">Sí</label>
             </div>
@@ -234,7 +234,7 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
                 </div>
                 <div>
                     <input type="checkbox" id="genero_musical_pop" name="genero_musical" value="JAZZ">
-                    <label for="genero_musical_pop">Jazz</label>
+                    <label for="genero_musical_jazz">Jazz</label>
                 </div>
             </div>
 
@@ -283,11 +283,11 @@ $isLoggedIn = isset($_SESSION['user']) ? 'true' : 'false';
     <ul class="Redes">
         <li>
             <a href="https://www.instagram.com/cheersy.app/"><img class=""
-                    src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 15.png" alt="logo"></a>
+                    src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 15.png" alt="logo_instagram"></a>
         </li>
         <li>
             <a href="https://www.facebook.com/profile.php?id=61553869796205"><img class=""
-                    src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 16.png" alt="logo"></a>
+                    src="../assets/img/png/RRSS/Logo-Iconos_Mesa de trabajo 1 copia 16.png" alt="logo_facebook"></a>
         </li>
     </ul>
 </footer>
