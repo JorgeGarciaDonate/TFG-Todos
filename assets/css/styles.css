@@ -276,3 +276,79 @@ img {
     background-color: #d370d3;
 }
 
+/*pantalla de hasta 480px */
+@media (max-width: 480px) {
+    header {
+        flex-direction: column;
+        padding: 5px 10px;
+    }
+
+    .logo img {
+        max-height: 3em;
+    }
+
+    .profile-button img {
+        width: 5em;
+    }
+
+    h1, .h1-index, h2, h3 {
+        margin-left: 0.3em;
+        font-size: 1.2em;
+    }
+
+    .search-input input {
+        width: 60%;
+    }
+
+    .search-button {
+        width: 30%;
+        font-size: 0.8em; /*ajustar el tamaño de la fuente para que quepa en el botón */
+    }
+    
+    .view-toggle {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .view-toggle button, .filters-button, .pagination-button {
+        width: 45%;
+        padding: 8px;
+        margin: 0 5px;
+        font-size: 0.8em;
+    }
+
+    .favs-button {
+        width: 100%; 
+        margin: 0.5em 0; 
+        margin-left: auto; 
+        margin-right: auto; 
+    }
+
+    .map {
+        height: 300px;
+    }
+
+    .local-item {
+        flex-direction: column; /* Cambiamos la dirección del flexbox a columna */
+    }
+
+    .fotos-container {
+        width: 100%; 
+        height: auto;
+    }
+
+    .favs-container {
+        margin: 0.5em 0; 
+    }
+
+    .local-content {
+        width: 100%;
+    }
+    
+    .pagination-button {
+        padding: 3px 6px; /* reducimos el padding */
+        font-size: 0.7em; /* reducimos el tamaño de la fuente */
+    }
+}
