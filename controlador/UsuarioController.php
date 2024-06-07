@@ -98,8 +98,6 @@ if (isset($_POST['borrarUsuario'])) {
               }
           }
       }
-
-      // Attempt to delete the user
       if ($usuarioController->delete($usuario_id)) {
           header('Location:../vista/registro/logout.php');
           exit;
@@ -107,7 +105,6 @@ if (isset($_POST['borrarUsuario'])) {
           throw new Exception("Error deleting user");
       }
   } catch (Exception $e) {
-      // Handle error (you can log the error or display an appropriate message)
       echo "Error: " . $e->getMessage();
   }
 }
