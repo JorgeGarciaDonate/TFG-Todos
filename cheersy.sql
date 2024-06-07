@@ -1,5 +1,3 @@
-DROP DATABASE cheersy;
-
 CREATE DATABASE cheersy;
 
 USE cheersy;
