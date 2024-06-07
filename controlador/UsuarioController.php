@@ -78,27 +78,37 @@ if (isset($_POST['borrarUsuario'])) {
   $localController = new LocalController();
   $ubicacionController = new UbicacionController();
   
-  if ($usuarioController->es_propietario($usuario_id)) {
-      $locales = $localController->getLocalesByUsuario_id($usuario_id);
-      foreach ($locales as $local) {
-          $local_id = $local['local_id'];
-          $ubicacion_id = $local['ubicacion_id'];
-          
-          if ($localController->deleteFotos($local_id)) {
-              if ($localController->delete($local_id)) {
-                  if ($ubicacionController->delete($ubicacion_id)) {
-                      if ($usuarioController->delete($usuario_id)) {
-                          header('Location:../vista/registro/logout.php');
-                          exit;
+  try {
+      if ($usuarioController->es_propietario($usuario_id)) {
+          $locales = $localController->getLocalesByUsuario_id($usuario_id);
+          foreach ($locales as $local) {
+              $local_id = $local['local_id'];
+              $ubicacion_id = $local['ubicacion_id'];
+              
+              if ($localController->deleteFotos($local_id)) {
+                  if ($localController->delete($local_id)) {
+                      if (!$ubicacionController->delete($ubicacion_id)) {
+                          throw new Exception("Error deleting location");
                       }
+                  } else {
+                      throw new Exception("Error deleting local");
                   }
+              } else {
+                  throw new Exception("Error deleting photos");
               }
           }
       }
-  }
-  if ($usuarioController->delete($usuario_id)) {
-      header('Location:../vista/registro/logout.php');
-      exit;
+
+      // Attempt to delete the user
+      if ($usuarioController->delete($usuario_id)) {
+          header('Location:../vista/registro/logout.php');
+          exit;
+      } else {
+          throw new Exception("Error deleting user");
+      }
+  } catch (Exception $e) {
+      // Handle error (you can log the error or display an appropriate message)
+      echo "Error: " . $e->getMessage();
   }
 }
 
